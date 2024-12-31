@@ -1,1 +1,1 @@
-# studyGPT
+study companion for last minute learners
