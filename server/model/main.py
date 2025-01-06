@@ -1,5 +1,5 @@
-from .core.qa_generator import QAGenerator
-from .utils.formatters import format_qa_pairs
+from server.model.core.qa_generator import QAGenerator
+from server.model.utils.formatters import format_qa_pairs
 
 def generate_questions(pdf_path):
     #create qa generator instance
@@ -10,5 +10,5 @@ def generate_questions(pdf_path):
     return format_qa_pairs(qa_pairs)
 
 if __name__ == "__main__":
-    result = generate_questions("path/to/your/pdf")
+    result = generate_questions("server/model/mod1.pdf")
     print(result)
