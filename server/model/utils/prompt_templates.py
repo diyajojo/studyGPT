@@ -1,4 +1,8 @@
 from langchain.prompts import PromptTemplate
+<<<<<<< HEAD
+=======
+
+>>>>>>> 65c765503655557d72571c2ad8e833d9412a8989
 class QAPrompts:
     SYLLABUS_PROMPT = PromptTemplate(
         input_variables=["topic"],

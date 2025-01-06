@@ -52,4 +52,7 @@ typing-inspect==0.9.0
 typing_extensions==4.12.2
 urllib3==2.3.0
 yarl==1.18.3
+<<<<<<< HEAD
 langchain>=0.0.27
+=======
+>>>>>>> 65c765503655557d72571c2ad8e833d9412a8989
