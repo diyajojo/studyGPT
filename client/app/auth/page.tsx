@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Book } from 'lucide-react';
@@ -9,15 +8,59 @@ import { Separator } from '../components/ui/separator';
 import { supabase } from '../utils/supabase';
 import { useState } from 'react';
 
-// ... existing code ...
+
 
 const SignUp = () => {
   const router = useRouter();
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [fullName, setFullName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  const handleEmailAuth = async () => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (error) 
+      {
+        console.log('Failed to authenticate with email:', error.message);
+      }
+       else if (data?.user)
+      {
+        console.log('User authenticated with email:', data.user);
+      }
+    } 
+    catch (error) 
+    {
+      console.log("Authentication process failed");
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+       // redirectTo: `${window.location.origin}/user`,
+      }
+    });
+    
+    if(error) 
+    {
+      console.log("user not authenticated with google");
+    } 
+    else 
+    {
+      console.log("user authenticated with google");
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleEmailAuth();
+  };
 
   const handleHomeClick = () => {
     router.push('/');
@@ -83,8 +126,7 @@ const SignUp = () => {
                 </div>
               </div>
 
-              <form  className="space-y-4">
-                {/* Full Name Field */}
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="group">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Full Name
@@ -152,7 +194,7 @@ const SignUp = () => {
 
                 {/* Submit Button */}
                 <Button 
-                  type="submit"
+                   type="submit"
                   className="w-full h-12 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                   style={{ 
                     backgroundColor: "rgba(255, 140, 90, 1)",
@@ -170,8 +212,8 @@ const SignUp = () => {
                 <Separator className="flex-grow" />
               </div>
 
-              {/* Google Auth Button */}
               <Button 
+              onClick={handleGoogleAuth}
                 className="w-full h-12 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all duration-300"
                 variant="outline"
                 disabled={loading}
