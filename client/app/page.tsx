@@ -4,26 +4,16 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import FeatureCard from './components/featurecard';
 import { Book } from 'lucide-react';
-import { useState } from 'react';
 
 const Home = () => {
   const router = useRouter();
-  const [isSignupHighlighted, setIsSignupHighlighted] = useState(false);
-
-  const handleGetStartedClick = () => {
-    setIsSignupHighlighted(true);
-    // Reset the effect after 5 seconds
-    setTimeout(() => {
-      setIsSignupHighlighted(false);
-    }, 5000);
-  };
 
   const handleSignupClick = () => {
-    router.push('/signup');
+    router.push('/auth');
   }
 
   const primaryColor = "rgba(255, 140, 90, 1)";
-  const backgroundColor = "rgba(18, 87, 116, 1)"; // Background color
+  const backgroundColor = "rgba(18, 87, 116, 1)";
 
   return (
     <main
@@ -51,35 +41,20 @@ const Home = () => {
             <Book className="h-6 w-6 text-gray-800" />
             <div className="text-2xl font-bold">
               <span className="font-montserrat text-white">Study</span>
-              <span className="font-montserrat" style={{ color: backgroundColor }}>GPT</span> {/* Apply background color here */}
+              <span className="font-montserrat" style={{ color: backgroundColor }}>GPT</span>
             </div>
           </div>
         </div>
         <div className="w-1/2 h-full bg-white flex items-center justify-end pr-8">
-          <div className={`relative ${isSignupHighlighted ? 'animate-bounce' : ''}`}>
-            <button
-              onClick={handleSignupClick}
-              className={`text-white px-8 py-2 transition-all duration-300 font-semibold rounded-lg relative
-                ${isSignupHighlighted ? 'transform scale-110 shadow-2xl' : ''}`}
-              style={{
-                backgroundColor: primaryColor,
-              }}
-            >
-              Sign up
-            </button>
-            {/* Animated ring effect */}
-            <div className={`absolute inset-0 rounded-lg transition-all duration-300
-              ${isSignupHighlighted ? 'animate-ping opacity-75 scale-110' : 'opacity-0'}`}
-              style={{
-                background: primaryColor,
-                filter: 'blur(8px)',
-              }}
-            />
-            {/* Pulsing ring */}
-            {isSignupHighlighted && (
-              <div className="absolute -inset-4 rounded-xl bg-orange-300 opacity-20 animate-pulse" />
-            )}
-          </div>
+          <button
+            onClick={handleSignupClick}
+            className="text-white px-8 py-2 transition-all duration-300 font-semibold rounded-lg"
+            style={{
+              backgroundColor: primaryColor,
+            }}
+          >
+            Sign up
+          </button>
         </div>
       </nav>
 
@@ -91,18 +66,6 @@ const Home = () => {
         <p className="text-xl text-white mb-16 max-w-2xl font-medium leading-relaxed">
           Transform your study routine with personalized learning schedules, smart analysis, and integrated calendar management
         </p>
-
-        <button
-          onClick={handleGetStartedClick}
-          className="text-white font-semibold rounded-full transition-all duration-300 hover:shadow-xl transform hover:scale-105"
-          style={{
-            backgroundColor: primaryColor,
-            padding: "16px 32px",
-            fontSize: "1.25rem",
-          }}
-        >
-          Get Started
-        </button>
 
         {/* Feature Cards Component */}
         <div className="mt-16">
