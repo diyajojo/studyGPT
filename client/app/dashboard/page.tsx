@@ -6,6 +6,8 @@ import { Card, CardHeader, CardContent, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button';
 import {Book} from 'lucide-react';
 import { supabase } from '../utils/supabase';
+import { User } from '@supabase/supabase-js';
+
 
 const Dashboard = () => {
   const router = useRouter();
@@ -16,7 +18,7 @@ const Dashboard = () => {
     year: '',
     branch: '',
   });
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState<null | User>(null);
 
   useEffect(() => {
     checkUser();
