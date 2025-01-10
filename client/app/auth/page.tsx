@@ -12,6 +12,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
+
   const handleGoogleAuth = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -20,9 +21,12 @@ const SignUp = () => {
       }
     });
 
-    if (error) {
+    if (error)
+    {
       console.log("user not authenticated with google");
-    } else {
+    } 
+    else
+    {
       console.log("user authenticated with google");
     }
   };

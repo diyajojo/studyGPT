@@ -28,9 +28,9 @@ const UserPage = () => {
       
       if (user) {
         const { data: profile } = await supabase
-          .from('userprofiles')
+          .from('profiles')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('id', user.id)
           .single();
 
         setProfile(profile);

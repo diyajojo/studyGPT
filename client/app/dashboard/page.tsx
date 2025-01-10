@@ -32,9 +32,9 @@ const Dashboard = () => {
       {
         setCurrentUser(user);
         const { data: profile } = await supabase
-          .from('userprofiles')
+          .from('profiles')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('id', user.id)
           .single();
 
         if (profile)
@@ -66,10 +66,10 @@ const Dashboard = () => {
 
     try {
       const { error } = await supabase
-        .from('userprofiles')
+        .from('profiles')
         .insert([
           {
-            user_id: currentUser.id,
+            id: currentUser.id,
             full_name: formData.full_name,
             college_name: formData.college_name,
             year: formData.year,
