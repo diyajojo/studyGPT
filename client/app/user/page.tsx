@@ -2,11 +2,12 @@
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../utils/supabase';
-import { Upload, Book ,X} from 'lucide-react';
+import { Upload, Book, X } from 'lucide-react';
+import {useRouter} from 'next/navigation';
 
-// Define types
+// Update types to handle multiple files
 type SelectedFiles = {
-  syllabus: File[];  // Changed to File[] for multiple files
+  syllabus: File[];
   pyq: File[];
   notes: File[];
 };
@@ -17,10 +18,14 @@ type UploadType = {
   desc: string;
 };
 
-const User = () => {
+const UserPage = () => {
+
+  const router = useRouter();
+
   const [profile, setProfile] = useState<{ full_name: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [subject, setSubject] = useState<string>(''); // Added subject state
+  const [subject, setSubject] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [uploadLoading, setUploadLoading] = useState<Record<keyof SelectedFiles, boolean>>({
     syllabus: false,
     pyq: false,
@@ -28,16 +33,16 @@ const User = () => {
   });
   const [activeStep, setActiveStep] = useState<number>(0);
   const [selectedFiles, setSelectedFiles] = useState<SelectedFiles>({
-    syllabus: [],  // Changed to empty arrays
+    syllabus: [],
     pyq: [],
     notes: []
   });
 
-const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElement | null>> = {
-  syllabus: useRef<HTMLInputElement | null>(null),
-  pyq: useRef<HTMLInputElement | null>(null),
-  notes: useRef<HTMLInputElement | null>(null)
-};
+  const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElement | null>> = {
+    syllabus: useRef<HTMLInputElement | null>(null),
+    pyq: useRef<HTMLInputElement | null>(null),
+    notes: useRef<HTMLInputElement | null>(null)
+  };
 
   useEffect(() => {
     fetchProfile();
@@ -61,111 +66,102 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
     }
   };
 
-  const handleFileRemove = (type: keyof SelectedFiles, index: number) => {
+  const handleButtonClick=()=>{
+    router.push("/schedule");
+  }
+
+  const uploadToSupabase = async (file: File, type: keyof SelectedFiles) => {
+    if (!subject.trim()) {
+      alert('Please enter a subject before uploading files');
+      return;
+    }
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) throw new Error('No user found');
+
+      setUploadLoading(prev => ({ ...prev, [type]: true }));
+
+      const timestamp = new Date().getTime();
+      const fileName = `${user.id}/${subject}/${type}/${timestamp}-${file.name}`;
+
+      const { error } = await supabase.storage
+        .from('study_materials')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (error) throw error;
+
+      return true;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      return false;
+    }
+  };
+
+  const handleFileSelect = async (type: keyof SelectedFiles, event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+      
+      // Add new files to existing array
+      setSelectedFiles(prev => ({
+        ...prev,
+        [type]: [...prev[type], ...fileArray]
+      }));
+
+      // Upload each file
+      let successCount = 0;
+      for (const file of fileArray) {
+        const success = await uploadToSupabase(file, type);
+        if (success) successCount++;
+      }
+
+      // Show upload results
+      //if (successCount === fileArray.length) {
+       // alert(`All ${fileArray.length} files uploaded successfully!`);
+     // } else {
+       // alert(`${successCount} out of ${fileArray.length} files uploaded successfully.`);
+     // }
+      
+      setUploadLoading(prev => ({ ...prev, [type]: false }));
+    }
+  }; 
+
+  const handleUploadClick = (type: keyof SelectedFiles) => {
+    if (!subject.trim()) {
+      setErrorMessage('Please enter a subject before uploading files');
+      return;
+    }
+    setErrorMessage(null); // Clear error message if subject is valid
+    if (fileInputRefs[type].current) {
+      fileInputRefs[type].current.click();
+    }
+};
+
+  const handleDeleteFile = (type: keyof SelectedFiles, index: number) => {
     setSelectedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index)
     }));
   };
 
-  // Add handleUploadAll function
-  const handleUploadAll = async () => {
-    if (!subject.trim()) {
-      alert('Please enter a subject name first');
-      return;
-    }
-
-    try {
-      // Upload files for each type
-      for (const type of Object.keys(selectedFiles) as Array<keyof SelectedFiles>) {
-        if (selectedFiles[type].length > 0) {
-          await uploadToSupabase(selectedFiles[type], type);
-        }
-      }
-
-      // Clear all selected files after successful upload
-      setSelectedFiles({
-        syllabus: [],
-        pyq: [],
-        notes: []
-      });
-
-      alert('All files uploaded successfully!');
-    } catch (error) {
-      console.error('Error uploading files:', error);
-      alert('Error uploading some files. Please try again.');
-    }
-  };
-
-  const uploadToSupabase = async (files: File[], type: keyof SelectedFiles) => {
-    if (!subject.trim()) {
-      alert('Please enter a subject name first');
-      return;
-    }
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('No user found');
-
-      setUploadLoading(prev => ({ ...prev, [type]: true }));
-
-      // Upload each file
-      for (const file of files) {
-        const timestamp = new Date().getTime();
-        // Modified path to include subject
-        const fileName = `${user.id}/${subject}/${type}/${timestamp}-${file.name}`;
-
-        const { error } = await supabase.storage
-          .from('study_materials')
-          .upload(fileName, file, {
-            cacheControl: '3600',
-            upsert: true
-          });
-
-        if (error) throw error;
-      }
-
-      alert(`${type} uploaded successfully!`);
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      alert(`Error uploading ${type}. Please try again.`);
-    } finally {
-      setUploadLoading(prev => ({ ...prev, [type]: false }));
-    }
-  };
-
-  const handleFileSelect = async (type: keyof SelectedFiles, event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
-    if (files.length > 0) {
-      setSelectedFiles(prev => ({
-        ...prev,
-        [type]: [...prev[type], ...files] // Add new files to existing ones
-      }));
-      
-      // Upload files immediately after selection
-      await uploadToSupabase(files, type);
-    }
-  };
-
-  const handleUploadClick = (type: keyof SelectedFiles) => {
-    if (!subject.trim()) {
-      alert('Please enter a subject name first');
-      return;
-    }
-    fileInputRefs[type].current?.click();
-  };
-
   const uploadTypes: UploadType[] = [
     { type: 'syllabus', title: "Syllabus", desc: "Upload your syllabus pdf" },
-    { type: 'pyq', title: "PYQ papers", desc: "Upload your PYQ pdf" },
-    { type: 'notes', title: "Notes", desc: "Upload your study notes pdf" }
+    { type: 'pyq', title: "PYQ papers", desc: "Upload all the PYQ's papers pdf" },
+    { type: 'notes', title: "Notes", desc: "Upload all module's study notes pdf" }
   ];
-
   return (
     <div className="min-h-screen bg-[#125774] relative overflow-hidden">
-      {/* Navbar */}
+      {/* Navbar remains the same */}
       <nav className="relative z-10 flex items-center h-20">
-        <div className="w-1/2 h-full flex items-center pl-8" style={{ background: "rgba(255, 140, 90, 1)" }}>
+        <div
+          className="w-1/2 h-full flex items-center pl-8"
+          style={{ background: "rgba(255, 140, 90, 1)" }}
+        >
           <div className="flex items-center gap-2">
             <Book className="h-6 w-6 text-gray-800" />
             <div className="text-2xl font-bold">
@@ -177,47 +173,74 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
         <div className="w-1/2 h-full bg-white" />
       </nav>
 
-      {/* Main Content */}
       <div className="container mx-auto relative">
-        {/* Welcome Section */}
-        <div className="flex items-center gap-0 mt-20">
-          <div className="w-32 h-32 rounded-full overflow-hidden bg-white">
-            <Image src="/assets/pfp.png" alt="Profile Picture" width={128} height={128} className="object-cover rounded-full" />
+        {/* Welcome Section with adjusted spacing and larger profile picture */}
+        <div className="flex items-start gap-4 mt-20">
+          <div className="w-40 h-40 rounded-full overflow-hidden bg-white flex-shrink-0">
+            <Image
+              src="/assets/pfp.png"
+              alt="Profile Picture"
+              width={240}
+              height={240}
+              className="object-cover w-full h-full"
+            />
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col ml-4">
             <div
               className="w-[568px] h-[130px] rounded-[30px_0_0_0] p-6"
               style={{
                 background: "rgba(218, 236, 244, 0.49)",
-                marginLeft: "156px",
               }}
             >
               <h2 className="text-4xl font-bold text-white mb-2">
-                Hi {profile?.full_name}!
+                HEY {profile?.full_name}👋
               </h2>
             </div>
-            <p className="text-white/90 ml-[156px] mt-2 text-lg font-semibold">
-              Organize, share, and succeed—all in one place!
+            <p className="text-white/90 mt-2 text-lg font-semibold">
+              Organize, share, and succeed — all in one place!
             </p>
           </div>
+
+          {/* Updated Organize Button with new positioning */}
+          <button
+            className="flex items-center gap-12 px-12 py-10 rounded-[20px] absolute right-0 mr-8"
+            style={{
+              background: "rgba(218, 236, 244, 0.49)",
+              transform: "translateX(-50%)",
+              top: "32px"
+            }}
+            onClick={handleButtonClick}
+          >
+            <span className="text-white font-semibold">Organize Your Study Patterns 💡</span>
+          </button>
+
         </div>
 
-        {/* Subject Input */}
+        {/* Upload Section with improved scrollbar styling */}
         <div className="mt-16 ml-8">
-          <input
-            type="text"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            placeholder="Enter subject name"
-            className="w-full max-w-md px-4 py-2 rounded bg-white/20 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#FF8C5A] mb-8"
-          />
-
-          <h3 className="text-[#FF8C5A] text-2xl font-bold mb-6">
+          <h3 className="text-[#FF8C5A] text-2xl font-bold mb-6 flex justify-center">
             Upload your essentials:
           </h3>
 
-          {/* Step Bar */}
+          {/* Subject Input Field remains the same */}
+          <div className="mb-8 flex justify-center">
+            <input
+              type="text"
+              placeholder="Enter subject name"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="w-[465px] px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 border-2 border-white/20 focus:outline-none focus:border-[#FF8C5A]"
+            />
+          </div>
+
+          {errorMessage && (
+      <div className="text-red-500 text-center mb-4">
+        {errorMessage}
+      </div>
+          )}
+
+          {/* Step Bar remains the same */}
           <div className="flex justify-center items-center gap-10 mb-10">
             {[0, 1, 2].map((step) => (
               <div
@@ -229,7 +252,7 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
             ))}
           </div>
 
-          {/* Upload Boxes */}
+          {/* Updated Upload Boxes with improved scrollbar */}
           <div className="flex flex-row gap-10">
             {uploadTypes.map(({ type, title, desc }) => (
               <div key={type}>
@@ -241,9 +264,9 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
                   className="hidden"
                   onChange={(e) => handleFileSelect(type, e)}
                 />
-                
+
                 <div
-                  className="w-[465px] h-auto min-h-[347px] p-6 cursor-pointer rounded-[30px]"
+                  className="w-[465px] h-[347px] p-6 cursor-pointer rounded-[30px] relative"
                   style={{
                     border: "6px solid rgba(245, 245, 245, 1)",
                     background: "rgba(255, 255, 255, 0.1)",
@@ -260,54 +283,68 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
                   <p className="text-white/80 text-lg font-medium mb-4 mt-5">
                     {desc}
                   </p>
-                  
+
+                  {/* Updated files list with custom scrollbar */}
                   {selectedFiles[type].length > 0 && (
-                    <div className="mb-4 space-y-2">
+                    <div 
+                      className="space-y-2 mb-4 max-h-[120px] overflow-y-auto pr-2"
+                      style={{
+                        scrollbarWidth: 'thin',
+                        scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent'
+                      }}
+                    >
+                      <style jsx>{`
+                        div::-webkit-scrollbar {
+                          width: 6px;
+                        }
+                        div::-webkit-scrollbar-track {
+                          background: transparent;
+                        }
+                        div::-webkit-scrollbar-thumb {
+                          background-color: rgba(255, 255, 255, 0.3);
+                          border-radius: 20px;
+                        }
+                      `}</style>
                       {selectedFiles[type].map((file, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-white/20 rounded">
-                          <p className="text-white text-sm truncate">{file.name}</p>
-                          <button
+                        <div key={index} 
+                          className="flex items-center justify-between p-2 bg-white/20 rounded backdrop-blur-sm"
+                          style={{
+                            transition: 'all 0.2s ease-in-out'
+                          }}
+                        >
+                          <p className="text-white text-sm truncate max-w-[300px]">
+                            {file.name}
+                          </p>
+                          <X
+                            className="h-5 w-5 text-white cursor-pointer flex-shrink-0 hover:text-red-300 transition-colors"
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleFileRemove(type, index);
+                              handleDeleteFile(type, index);
                             }}
-                            className="ml-2 p-1 hover:bg-white/10 rounded"
-                          >
-                            <X className="h-4 w-4 text-white" />
-                          </button>
+                          />
                         </div>
                       ))}
                     </div>
                   )}
-                  
-                  <button 
-                    className="w-full bg-[#FF8C5A] text-white py-4 rounded-lg flex items-center justify-center gap-2 mt-10"
+
+                  <button
+                    className="w-full bg-[#FF8C5A] text-white py-4 rounded-lg flex items-center justify-center gap-2 mt-auto hover:bg-[#ff7a40] transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleUploadClick(type);
                     }}
                   >
                     <Upload className="h-5 w-5" />
-                    Upload PDFs
+                    Upload Multiple PDFs
                   </button>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Upload All Button */}
-          {Object.values(selectedFiles).some(files => files.length > 0) && (
-            <button
-              onClick={handleUploadAll}
-              className="mt-8 bg-[#FF8C5A] text-white px-8 py-3 rounded-lg hover:bg-[#ff7c42]"
-            >
-              Upload All Files
-            </button>
-          )}
         </div>
       </div>
 
-      {/* Laptop Image */}
+      {/* Laptop Image remains the same */}
       <div className="absolute right-0 top-[100px] w-[700px] h-[700px]">
         <Image
           src="/assets/userpg.png"
@@ -321,4 +358,4 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
   );
 };
 
-export default User;
+export default UserPage;
