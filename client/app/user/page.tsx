@@ -1,14 +1,42 @@
-'use client'; // Correct directive for Next.js app
-
+'use client';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../utils/supabase';
 import { Upload, Book } from 'lucide-react';
+
+// Define types
+type SelectedFiles = {
+  syllabus: File | null;
+  pyq: File | null;
+  notes: File | null;
+};
+
+type UploadType = {
+  type: keyof SelectedFiles;
+  title: string;
+  desc: string;
+};
 
 const UserPage = () => {
   const [profile, setProfile] = useState<{ full_name: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [uploadLoading, setUploadLoading] = useState<Record<keyof SelectedFiles, boolean>>({
+    syllabus: false,
+    pyq: false,
+    notes: false
+  });
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [selectedFiles, setSelectedFiles] = useState<SelectedFiles>({
+    syllabus: null,
+    pyq: null,
+    notes: null
+  });
+
+  const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElement>> = {
+    syllabus: useRef<HTMLInputElement>(null),
+    pyq: useRef<HTMLInputElement>(null),
+    notes: useRef<HTMLInputElement>(null)
+  };
 
   useEffect(() => {
     fetchProfile();
@@ -32,13 +60,58 @@ const UserPage = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#125774]">
-        <div className="text-xl text-white">Loading...</div>
-      </div>
-    );
-  }
+  const uploadToSupabase = async (file: File, type: keyof SelectedFiles) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('No user found');
+
+      setUploadLoading(prev => ({ ...prev, [type]: true }));
+
+      // Create a unique file name using timestamp and original name
+      const timestamp = new Date().getTime();
+      const fileName = `${user.id}/${type}/${timestamp}-${file.name}`;
+
+      // Upload file to Supabase Storage
+      const { error } = await supabase.storage
+        .from('study_materials')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (error) throw error;
+
+      alert(`${type} uploaded successfully!`);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert(`Error uploading ${type}. Please try again.`);
+    } finally {
+      setUploadLoading(prev => ({ ...prev, [type]: false }));
+    }
+  };
+
+  const handleFileSelect = async (type: keyof SelectedFiles, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFiles(prev => ({
+        ...prev,
+        [type]: file
+      }));
+      
+      // Upload file immediately after selection
+      await uploadToSupabase(file, type);
+    }
+  };
+
+  const handleUploadClick = (type: keyof SelectedFiles) => {
+    fileInputRefs[type].current?.click();
+  };
+
+  const uploadTypes: UploadType[] = [
+    { type: 'syllabus', title: "Syllabus", desc: "Upload your syllabus pdf" },
+    { type: 'pyq', title: "PYQ papers", desc: "Upload your PYQ pdf" },
+    { type: 'notes', title: "Notes", desc: "Upload your study notes pdf" }
+  ];
 
   return (
     <div className="min-h-screen bg-[#125774] relative overflow-hidden">
@@ -105,39 +178,89 @@ const UserPage = () => {
                 className={`w-6 h-6 rounded-full transition ${
                   activeStep === step ? "bg-white" : "bg-white/40"
                 }`}
-              ></div>
+              />
             ))}
           </div>
 
           {/* Upload Boxes */}
           <div className="flex flex-row gap-10">
-            {[
-              { title: "Syllabus", desc: "Upload your syllabus pdf" },
-              { title: "PYQ papers", desc: "Upload your PYQ pdf." },
-              { title: "Notes", desc: "Upload your study notes pdf." },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="w-[465px] h-[347px] p-6 cursor-pointer rounded-[30px]"
-                style={{
-                  border: "6px solid rgba(245, 245, 245, 1)",
-                  background: "rgba(255, 255, 255, 0.1)",
-                  backdropFilter: "blur(8px)",
-                }}
-                onClick={() => setActiveStep(index)}
-              >
-                <h4 className="text-white text-2xl font-semibold mb-2 mt-5">
-                  {item.title}
-                </h4>
-                <p className="text-white/80 text-lg font-medium mb-4 mt-5">
-                  {item.desc}
-                </p>
-                <button className="w-full bg-[#FF8C5A] text-white py-4 rounded-lg flex items-center justify-center gap-2 mt-10">
-                  <Upload className="h-5 w-5" />
-                  Upload
-                </button>
+            {uploadTypes.map(({ type, title, desc }) => (
+              <div key={type}>
+                <input
+                  type="file"
+                  ref={fileInputRefs[type]}
+                  accept=".pdf"
+                  className="hidden"
+                  onChange={(e) => handleFileSelect(type, e)}
+                />
+                
+                <div
+                  className="w-[465px] h-[347px] p-6 cursor-pointer rounded-[30px]"
+                  style={{
+                    border: "6px solid rgba(245, 245, 245, 1)",
+                    background: "rgba(255, 255, 255, 0.1)",
+                    backdropFilter: "blur(8px)",
+                  }}
+                  onClick={() => {
+                    setActiveStep(uploadTypes.findIndex(t => t.type === type));
+                    handleUploadClick(type);
+                  }}
+                >
+                  <h4 className="text-white text-2xl font-semibold mb-2 mt-5">
+                    {title}
+                  </h4>
+                  <p className="text-white/80 text-lg font-medium mb-4 mt-5">
+                    {desc}
+                  </p>
+                  
+                  {selectedFiles[type] && (
+                    <div className="mb-4 p-2 bg-white/20 rounded">
+                      <p className="text-white text-sm">
+                        Selected: {selectedFiles[type]?.name}
+                      </p>
+                    </div>
+                  )}
+                  
+                  <button 
+                    className="w-full bg-[#FF8C5A] text-white py-4 rounded-lg flex items-center justify-center gap-2 mt-10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUploadClick(type);
+                    }}
+                  >
+                    <Upload className="h-5 w-5" />
+                    Upload
+                  </button>
+                </div>
               </div>
             ))}
+          </div>
+
+          {/* Display selected files */}
+          <div className="mt-8 p-4 bg-white/10 rounded-lg">
+            <h3 className="text-white text-xl mb-4">Selected Files (Ready to send to Backend):</h3>
+            <pre className="text-white text-sm">
+              {JSON.stringify(
+                Object.entries(selectedFiles).reduce<Record<string, {
+                  fileName: string;
+                  fileType: string;
+                  fileSize: string;
+                  documentType: string;
+                }>>((acc, [type, file]) => {
+                  if (file) {
+                    acc[type] = {
+                      fileName: file.name,
+                      fileType: file.type,
+                      fileSize: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
+                      documentType: type
+                    };
+                  }
+                  return acc;
+                }, {}),
+                null,
+                2
+              )}
+            </pre>
           </div>
         </div>
       </div>
