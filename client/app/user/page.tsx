@@ -2,13 +2,13 @@
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../utils/supabase';
-import { Upload, Book } from 'lucide-react';
+import { Upload, Book ,X} from 'lucide-react';
 
 // Define types
 type SelectedFiles = {
-  syllabus: File | null;
-  pyq: File | null;
-  notes: File | null;
+  syllabus: File[];  // Changed to File[] for multiple files
+  pyq: File[];
+  notes: File[];
 };
 
 type UploadType = {
@@ -17,9 +17,10 @@ type UploadType = {
   desc: string;
 };
 
-const UserPage = () => {
+const User = () => {
   const [profile, setProfile] = useState<{ full_name: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [subject, setSubject] = useState<string>(''); // Added subject state
   const [uploadLoading, setUploadLoading] = useState<Record<keyof SelectedFiles, boolean>>({
     syllabus: false,
     pyq: false,
@@ -27,18 +28,16 @@ const UserPage = () => {
   });
   const [activeStep, setActiveStep] = useState<number>(0);
   const [selectedFiles, setSelectedFiles] = useState<SelectedFiles>({
-    syllabus: null,
-    pyq: null,
-    notes: null
+    syllabus: [],  // Changed to empty arrays
+    pyq: [],
+    notes: []
   });
-
 
 const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElement | null>> = {
   syllabus: useRef<HTMLInputElement | null>(null),
   pyq: useRef<HTMLInputElement | null>(null),
   notes: useRef<HTMLInputElement | null>(null)
 };
-
 
   useEffect(() => {
     fetchProfile();
@@ -62,26 +61,69 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
     }
   };
 
-  const uploadToSupabase = async (file: File, type: keyof SelectedFiles) => {
+  const handleFileRemove = (type: keyof SelectedFiles, index: number) => {
+    setSelectedFiles(prev => ({
+      ...prev,
+      [type]: prev[type].filter((_, i) => i !== index)
+    }));
+  };
+
+  // Add handleUploadAll function
+  const handleUploadAll = async () => {
+    if (!subject.trim()) {
+      alert('Please enter a subject name first');
+      return;
+    }
+
+    try {
+      // Upload files for each type
+      for (const type of Object.keys(selectedFiles) as Array<keyof SelectedFiles>) {
+        if (selectedFiles[type].length > 0) {
+          await uploadToSupabase(selectedFiles[type], type);
+        }
+      }
+
+      // Clear all selected files after successful upload
+      setSelectedFiles({
+        syllabus: [],
+        pyq: [],
+        notes: []
+      });
+
+      alert('All files uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading files:', error);
+      alert('Error uploading some files. Please try again.');
+    }
+  };
+
+  const uploadToSupabase = async (files: File[], type: keyof SelectedFiles) => {
+    if (!subject.trim()) {
+      alert('Please enter a subject name first');
+      return;
+    }
+
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('No user found');
 
       setUploadLoading(prev => ({ ...prev, [type]: true }));
 
-      // Create a unique file name using timestamp and original name
-      const timestamp = new Date().getTime();
-      const fileName = `${user.id}/${type}/${timestamp}-${file.name}`;
+      // Upload each file
+      for (const file of files) {
+        const timestamp = new Date().getTime();
+        // Modified path to include subject
+        const fileName = `${user.id}/${subject}/${type}/${timestamp}-${file.name}`;
 
-      // Upload file to Supabase Storage
-      const { error } = await supabase.storage
-        .from('study_materials')
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: true
-        });
+        const { error } = await supabase.storage
+          .from('study_materials')
+          .upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: true
+          });
 
-      if (error) throw error;
+        if (error) throw error;
+      }
 
       alert(`${type} uploaded successfully!`);
     } catch (error) {
@@ -93,19 +135,23 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
   };
 
   const handleFileSelect = async (type: keyof SelectedFiles, event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
+    const files = Array.from(event.target.files || []);
+    if (files.length > 0) {
       setSelectedFiles(prev => ({
         ...prev,
-        [type]: file
+        [type]: [...prev[type], ...files] // Add new files to existing ones
       }));
       
-      // Upload file immediately after selection
-      await uploadToSupabase(file, type);
+      // Upload files immediately after selection
+      await uploadToSupabase(files, type);
     }
   };
 
   const handleUploadClick = (type: keyof SelectedFiles) => {
+    if (!subject.trim()) {
+      alert('Please enter a subject name first');
+      return;
+    }
     fileInputRefs[type].current?.click();
   };
 
@@ -119,10 +165,7 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
     <div className="min-h-screen bg-[#125774] relative overflow-hidden">
       {/* Navbar */}
       <nav className="relative z-10 flex items-center h-20">
-        <div
-          className="w-1/2 h-full flex items-center pl-8"
-          style={{ background: "rgba(255, 140, 90, 1)" }}
-        >
+        <div className="w-1/2 h-full flex items-center pl-8" style={{ background: "rgba(255, 140, 90, 1)" }}>
           <div className="flex items-center gap-2">
             <Book className="h-6 w-6 text-gray-800" />
             <div className="text-2xl font-bold">
@@ -139,13 +182,7 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
         {/* Welcome Section */}
         <div className="flex items-center gap-0 mt-20">
           <div className="w-32 h-32 rounded-full overflow-hidden bg-white">
-            <Image
-              src="/assets/pfp.png"
-              alt="Profile Picture"
-              width={128}
-              height={128}
-              className="object-cover rounded-full"
-            />
+            <Image src="/assets/pfp.png" alt="Profile Picture" width={128} height={128} className="object-cover rounded-full" />
           </div>
 
           <div className="flex flex-col">
@@ -166,8 +203,16 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
           </div>
         </div>
 
-        {/* Upload Section */}
+        {/* Subject Input */}
         <div className="mt-16 ml-8">
+          <input
+            type="text"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            placeholder="Enter subject name"
+            className="w-full max-w-md px-4 py-2 rounded bg-white/20 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#FF8C5A] mb-8"
+          />
+
           <h3 className="text-[#FF8C5A] text-2xl font-bold mb-6">
             Upload your essentials:
           </h3>
@@ -192,12 +237,13 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
                   type="file"
                   ref={fileInputRefs[type]}
                   accept=".pdf"
+                  multiple
                   className="hidden"
                   onChange={(e) => handleFileSelect(type, e)}
                 />
                 
                 <div
-                  className="w-[465px] h-[347px] p-6 cursor-pointer rounded-[30px]"
+                  className="w-[465px] h-auto min-h-[347px] p-6 cursor-pointer rounded-[30px]"
                   style={{
                     border: "6px solid rgba(245, 245, 245, 1)",
                     background: "rgba(255, 255, 255, 0.1)",
@@ -215,11 +261,22 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
                     {desc}
                   </p>
                   
-                  {selectedFiles[type] && (
-                    <div className="mb-4 p-2 bg-white/20 rounded">
-                      <p className="text-white text-sm">
-                        Selected: {selectedFiles[type]?.name}
-                      </p>
+                  {selectedFiles[type].length > 0 && (
+                    <div className="mb-4 space-y-2">
+                      {selectedFiles[type].map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-2 bg-white/20 rounded">
+                          <p className="text-white text-sm truncate">{file.name}</p>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleFileRemove(type, index);
+                            }}
+                            className="ml-2 p-1 hover:bg-white/10 rounded"
+                          >
+                            <X className="h-4 w-4 text-white" />
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   )}
                   
@@ -231,39 +288,22 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
                     }}
                   >
                     <Upload className="h-5 w-5" />
-                    Upload
+                    Upload PDFs
                   </button>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Display selected files */}
-          <div className="mt-8 p-4 bg-white/10 rounded-lg">
-            <h3 className="text-white text-xl mb-4">Selected Files (Ready to send to Backend):</h3>
-            <pre className="text-white text-sm">
-              {JSON.stringify(
-                Object.entries(selectedFiles).reduce<Record<string, {
-                  fileName: string;
-                  fileType: string;
-                  fileSize: string;
-                  documentType: string;
-                }>>((acc, [type, file]) => {
-                  if (file) {
-                    acc[type] = {
-                      fileName: file.name,
-                      fileType: file.type,
-                      fileSize: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
-                      documentType: type
-                    };
-                  }
-                  return acc;
-                }, {}),
-                null,
-                2
-              )}
-            </pre>
-          </div>
+          {/* Upload All Button */}
+          {Object.values(selectedFiles).some(files => files.length > 0) && (
+            <button
+              onClick={handleUploadAll}
+              className="mt-8 bg-[#FF8C5A] text-white px-8 py-3 rounded-lg hover:bg-[#ff7c42]"
+            >
+              Upload All Files
+            </button>
+          )}
         </div>
       </div>
 
@@ -281,4 +321,4 @@ const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElemen
   );
 };
 
-export default UserPage;
+export default User;
