@@ -32,11 +32,13 @@ const UserPage = () => {
     notes: null
   });
 
-  const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElement>> = {
-    syllabus: useRef<HTMLInputElement>(null),
-    pyq: useRef<HTMLInputElement>(null),
-    notes: useRef<HTMLInputElement>(null)
-  };
+
+const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElement | null>> = {
+  syllabus: useRef<HTMLInputElement | null>(null),
+  pyq: useRef<HTMLInputElement | null>(null),
+  notes: useRef<HTMLInputElement | null>(null)
+};
+
 
   useEffect(() => {
     fetchProfile();
