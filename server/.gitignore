@@ -3,3 +3,7 @@ venv/
 # Ignore Python bytecode files
 *.pyc
 __pycache__/
+
+.env
+
+../.vscode/
