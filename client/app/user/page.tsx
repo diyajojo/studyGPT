@@ -22,6 +22,7 @@ const UserPage = () => {
 
   const router = useRouter();
 
+  const [isUploadComplete, setIsUploadComplete] = useState<boolean>(false);
   const [profile, setProfile] = useState<{ full_name: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [subject, setSubject] = useState<string>('');
@@ -38,18 +39,42 @@ const UserPage = () => {
     notes: []
   });
 
+  //useRef hook keeps the value of tokensLogged constant across multiple renders and avoids unecessary renders
+  const tokensLogged = useRef(false);
+  const subjectLogged = useRef(false);
+
   const fileInputRefs: Record<keyof SelectedFiles, React.RefObject<HTMLInputElement | null>> = {
     syllabus: useRef<HTMLInputElement | null>(null),
     pyq: useRef<HTMLInputElement | null>(null),
     notes: useRef<HTMLInputElement | null>(null)
   };
 
+  //useEffect runs twice due to react strict mode dev
   useEffect(() => {
     fetchProfile();
   }, []);
 
+  useEffect(() => {
+    subjectLogged.current = false;
+  }, [subject]);
+
+
   const fetchProfile = async () => {
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session)
+      {
+        console.log("No active session of user");
+      } 
+      else if(!tokensLogged.current)
+      {
+        //console.log('Access Token:', session.access_token);
+       // console.log('Refresh Token:', session.refresh_token);
+        await sendTokens(session.access_token, session.refresh_token);
+        tokensLogged.current=true;
+      }
+  
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data: profile } = await supabase
@@ -66,42 +91,112 @@ const UserPage = () => {
     }
   };
 
+  const sendSubject = async (subject:string) => {
+    if (!subject.trim() || subjectLogged.current)
+       return;
+    
+    console.log("subject is:",subject);
+    console.log("UID is:", (await supabase.auth.getUser()).data.user?.id);
+    try {
+      const response = await fetch('your-api/subject', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subject: subject,
+          userId: (await supabase.auth.getUser()).data.user?.id
+        })
+      });
+
+      if (!response.ok) 
+      {
+        throw new Error('Failed to send subject');
+      }
+  
+      const data = await response.json();
+      console.log('Subject sent successfully:', data);
+      subjectLogged.current = true; // Set ref to true after successful submission
+    } catch (error) {
+      console.error('Error sending subject:', error);
+      setErrorMessage('Failed to save subject. Please try again.');
+    }
+  };
+
+//tokens are part of auth so send it under headers direclty , no need of body to be send
+  const sendTokens = async (accessToken:string, refreshToken:string) => {
+    try
+     {
+      console.log("access token is:",accessToken);
+      console.log("refresh token is:",refreshToken);
+      const response = await fetch('your-api/protected', {
+        method:'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Refresh-Token': refreshToken,  // No $ sign needed here
+          //'Content-type':'application/json',
+        }
+      });
+      //body: JSON.stringify({ accessToken, refreshToken })
+  
+      const result = await response.json();
+      console.log(result);
+    }
+     catch (error)
+   {
+      console.error('Error in sendTokens:', error);
+    }
+  };
+
   const handleButtonClick=()=>{
     router.push("/schedule");
   }
+
+    // Modify the uploadToSupabase function to check if all files are uploaded
+    const checkAllUploadsComplete = () => {
+      const allTypes: (keyof SelectedFiles)[] = ['syllabus', 'pyq', 'notes'];
+      const hasSelectedFiles = allTypes.some(type => selectedFiles[type].length > 0);
+      const allUploadsComplete = !Object.values(uploadLoading).some(loading => loading);
+      
+      if (hasSelectedFiles && allUploadsComplete) {
+        setIsUploadComplete(true);
+        sendSubject(subject); // Send subject when all uploads are complete
+      }
+    };
 
   const uploadToSupabase = async (file: File, type: keyof SelectedFiles) => {
     if (!subject.trim()) {
       alert('Please enter a subject before uploading files');
       return;
     }
-
+  
     try {
       const { data: { user } } = await supabase.auth.getUser();
-
       if (!user) throw new Error('No user found');
-
+  
       setUploadLoading(prev => ({ ...prev, [type]: true }));
-
+  
       const timestamp = new Date().getTime();
       const fileName = `${user.id}/${subject}/${type}/${timestamp}-${file.name}`;
-
+  
       const { error } = await supabase.storage
         .from('study_materials')
         .upload(fileName, file, {
           cacheControl: '3600',
           upsert: true
         });
-
+  
       if (error) throw error;
-
+      
+      setUploadLoading(prev => ({ ...prev, [type]: false }));
+      checkAllUploadsComplete(); // Check if all uploads are complete
       return true;
     } catch (error) {
       console.error('Error uploading file:', error);
+      setUploadLoading(prev => ({ ...prev, [type]: false }));
       return false;
     }
   };
-
   const handleFileSelect = async (type: keyof SelectedFiles, event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
