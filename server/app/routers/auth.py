@@ -1,25 +1,11 @@
 from fastapi import APIRouter, HTTPException, Depends, Header
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel
 import jwt
-from typing import Optional
+from app.schemas.auth_schema import TokenSchema, UserData, VerifyResponse
 import os
 
 router = APIRouter()
 security = HTTPBearer()
-class TokenSchema(BaseModel):
-    access_token: str
-    refresh_token: str
-class UserData(BaseModel):
-    id: str
-    email: str
-    full_name: Optional[str] = None
-    avatar_url: Optional[str] = None
-    provider: Optional[str] = None
-
-class VerifyResponse(BaseModel):
-    authenticated: bool
-    user: UserData
 
 async def get_current_user_from_token(token: TokenSchema) -> UserData:
     try:
