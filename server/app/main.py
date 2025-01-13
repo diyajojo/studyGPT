@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-#from app.routers import notes, study_sessions
+from app.routers import models #, study_sessions
 
 app = FastAPI(
     title="StudyGPT",
@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 # Include routers
-#app.include_router(notes.router, prefix="/api/notes", tags=["Notes"])
+app.include_router(models.router, prefix="/models", tags=["Models"])
 #app.include_router(study_sessions.router, prefix="/api/study-sessions", tags=["Study Sessions"])
 
 @app.get("/")
