@@ -12,45 +12,7 @@ import os
 router = APIRouter()
 #security = HTTPBearer()
 
-# Request/Response models
 
-'''
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> UserData:
-    """Verify JWT token and return user data"""
-    try:
-        # Get JWT secret from environment
-        jwt_secret = os.getenv("SUPABASE_JWT_SECRET")
-        if not jwt_secret:
-            raise HTTPException(
-                status_code=500,
-                detail="JWT secret not configured"
-            )
-
-        # Verify the token
-        payload = jwt.decode(
-            credentials.credentials,
-            jwt_secret,
-            algorithms=["HS256"],
-            audience="authenticated"
-        )
-
-        # Extract user data from token
-        return UserData(
-            id=payload.get('sub'),
-            email=payload.get('email')
-        )
-    except jwt.InvalidTokenError as e:
-        raise HTTPException(
-            status_code=401,
-            detail=f"Invalid token: {str(e)}"
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid authentication credentials"
-        )
-'''
-        
 @router.post("/upload", response_model=PostResponse)
 async def upload_files(
     request: PostRequest,
@@ -72,6 +34,20 @@ async def upload_files(
                     "sortBy": {"column": "name", "order": "desc"}
                 }
             )
+##### Adding subject to subjects table
+            try:
+                # Check if the subject and user_id already exist in the public.subjects table
+                existing_entry = supabase.table("subjects").select("*").eq("user_id", current_user.id).eq("subject_name", request.subject).execute()
+
+                if not existing_entry.data:
+                    # Insert the new subject and user_id into the public.subjects table
+                    supabase.table("subjects").insert({"user_id": current_user.id, "subject_name": request.subject}).execute()
+            except Exception as e:
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Failed to insert subject: {str(e)}"
+                )
+####
 
             if response is None:  # Check if response is None
                 raise HTTPException(
@@ -106,3 +82,4 @@ async def upload_files(
             status_code=500,
             detail=f"Error processing request: {str(e)}"
         )
+
