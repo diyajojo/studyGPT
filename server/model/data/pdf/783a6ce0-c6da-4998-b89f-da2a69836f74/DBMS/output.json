@@ -1,0 +1,359 @@
+{
+  "important_topics": {
+    "mod1": [
+      "Database Languages",
+      "Cardinality",
+      "Synthesizing ER Diagram to Relational Schema",
+      "Introduction to SQL",
+      "Physical Data Organization",
+      "Aggregation and Grouping",
+      "Heap Files",
+      "Weak Entities",
+      "Three-Schema-Architecture",
+      "Blocking Factor",
+      "Database Architectures and Classification",
+      "Nested Queries: Correlated and Non-correlated",
+      "Indexing",
+      "Concept & Overview of DBMS",
+      "Notations",
+      "Participation",
+      "DDL: CREATE, DROP, ALTER, INSERT, DELETE, UPDATE",
+      "Database Users",
+      "Relational Algebra Operations: Select, Project, Cartesian Product",
+      "SQL DML",
+      "Query Examples",
+      "Pinned and Unpinned Organization",
+      "Relationships of Degree 3",
+      "Relational Algebra: Join - Equi-join, Natural Join",
+      "Entity Set & Attributes",
+      "ER Model: Basic Concepts",
+      "Relationships and Constraints",
+      "Views and Assertions",
+      "Physical and Logical Records",
+      "Structured, Semi-Structured and Unstructured Data",
+      "SQL Queries on Single and Multiple Tables",
+      "Important SQL Data Types",
+      "Triggers",
+      "Introduction to Relational Algebra",
+      "Structure of Relational Databases",
+      "ER Diagram",
+      "Integrity Constraints",
+      "Characteristics of DB system",
+      "Data Models and Schema"
+    ],
+    "mod2": [
+      "Relational Algebra: Select, Project, Cartesian Product Operations",
+      "Introduction to Relational Algebra",
+      "Structure of Relational Databases",
+      "Synthesizing ER diagram to Relational Schema",
+      "Introduction to SQL",
+      "Data Definition Language (DDL)",
+      "Table Definitions and Operations: CREATE, DROP, ALTER, INSERT, DELETE, UPDATE",
+      "Integrity Constraints",
+      "Relational Algebra: Join - Equi-Join, Natural Join",
+      "Important Data Types",
+      "Query Examples"
+    ],
+    "mod3": [
+      "Single Level Indices",
+      "Pinned and Unpinned Organization",
+      "Multi-Level Indices",
+      "Triggers and SQL Data Types",
+      "Aggregation and Grouping",
+      "B-Trees and B+ Trees",
+      "Heap Files and Indexing",
+      "Views and Assertions",
+      "Review of Terms: Physical and Logical Records, Blocking Factor",
+      "Nested Queries (Correlated and Non-Correlated)",
+      "Extendible Hashing",
+      "SQL DML",
+      "Indexing on Multiple Keys – Grid Files",
+      "SQL Queries on Single and Multiple Tables"
+    ],
+    "mod4": [
+      "Lossless Join and Dependency Preserving Decomposition",
+      "Algorithms for Checking Lossless Join and Dependency Preserving Properties",
+      "Closures and Computation",
+      "Minimal Cover",
+      "Second Normal Form (2NF)",
+      "Boyce Codd Normal Form (BCNF)",
+      "Normalization",
+      "Anomalies in Designing a Database",
+      "Third Normal Form (3NF)",
+      "Equivalence of Functional Dependencies",
+      "First Normal Form (1NF)",
+      "Functional Dependency",
+      "Armstrong’s Axioms"
+    ],
+    "mod5": [
+      "Transaction States, System Log",
+      "Concurrent and Serializable Schedules",
+      "Deferred database modification (serial schedule), example",
+      "Main characteristics of Key-value DB (examples from: Redis), Document DB (examples from: MongoDB)",
+      "Main characteristics of Column-Family DB (examples from: Cassandra) and Graph DB (examples from: ArangoDB)",
+      "Conflict equivalence and conflict serializability",
+      "Transaction Processing Concepts: Transaction Model",
+      "Log-based recovery",
+      "Recoverable and cascade-less schedules",
+      "Introduction to NoSQL Databases",
+      "Overview of concurrency control, Significance of concurrency Control & Recovery",
+      "Desirable Properties of transactions, Serial schedules",
+      "Locking, Two-phase locking, strict 2PL",
+      "Deferred database modification (concurrent schedule) example, check-pointing"
+    ]
+  },
+  "important_qna": {
+    "mod1": [
+      {
+        "question": "What are the three types of data described in DBMS?",
+        "answer": "The three types of data described in DBMS are structured, semi-structured, and unstructured data."
+      },
+      {
+        "question": "What is Three-Schema-architecture in DBMS?",
+        "answer": "The Three-Schema-Architecture is a database architecture which separates the conceptual, external and internal schemas."
+      },
+      {
+        "question": "What are the basic concepts of the ER model?",
+        "answer": "The basic concepts of the ER model includes entities, attributes, and relationships."
+      },
+      {
+        "question": "What is a weak entity in the ER model?",
+        "answer": "A weak entity in the ER model is an entity that cannot be uniquely identified by its attributes alone; it must use a foreign key in conjunction with its attributes to create a primary key."
+      },
+      {
+        "question": "What are integrity constraints in the context of relational databases?",
+        "answer": "Integrity constraints are rules that help ensure the quality of information stored in a relational database by validating the data entered into the tables."
+      },
+      {
+        "question": "What are the main operations in relational algebra?",
+        "answer": "The main operations in relational algebra are select, project, Cartesian product, and join operations."
+      },
+      {
+        "question": "What is SQL and what are its important data types?",
+        "answer": "SQL (Structured Query Language) is a standard language for managing data held in a relational database system. Its important data types include numeric, string, datetime, and other miscellaneous types like boolean or JSON."
+      },
+      {
+        "question": "What are the different types of SQL commands?",
+        "answer": "SQL commands can be categorized into Data Definition Language (DDL) commands like CREATE, DROP, ALTER; and Data Manipulation Language (DML) commands like INSERT, DELETE, UPDATE."
+      },
+      {
+        "question": "What are nested queries in SQL?",
+        "answer": "Nested queries, also known as subqueries, are SQL queries where an inner query is embedded within an outer query, and the inner query is run first to form the input to the outer query."
+      },
+      {
+        "question": "What is physical data organization in DBMS?",
+        "answer": "Physical data organization in DBMS refers to the physical storage of data in a database. It includes concepts like physical and logical records, blocking factor, pinned and unpinned organization, heap files, and indexing."
+      }
+    ],
+    "mod2": [
+      {
+        "question": "What is the structure of relational databases?",
+        "answer": "The structure of relational databases consists of tables or relations that are organized in rows and columns. Each row represents a record or tuple, and each column represents a field or attribute."
+      },
+      {
+        "question": "What are integrity constraints in a relational database?",
+        "answer": "Integrity constraints are rules that help ensure the correctness and consistency of data in a relational database. They enforce certain restrictions to maintain the quality of data."
+      },
+      {
+        "question": "How is an ER diagram synthesized to a relational schema?",
+        "answer": "An ER diagram is synthesized to a relational schema by converting entities, attributes, and relationships in the ER diagram into tables, columns, and relationships in the relational schema."
+      },
+      {
+        "question": "What are the operations involved in relational algebra?",
+        "answer": "Relational algebra involves operations such as select, project, join (equi-join and natural join), and Cartesian product."
+      },
+      {
+        "question": "What is SQL and what are its important data types?",
+        "answer": "SQL (Structured Query Language) is a standard language for managing and manipulating relational databases. Important SQL data types include integer, varchar (variable character), boolean, date/time, and numeric."
+      },
+      {
+        "question": "What operations are supported by the Data Definition Language (DDL)?",
+        "answer": "DDL supports operations such as CREATE (to create a new table), DROP (to delete a table), ALTER (to modify an existing table), INSERT (to add new data), DELETE (to remove data), and UPDATE (to modify existing data)."
+      },
+      {
+        "question": "What is SQL DML?",
+        "answer": "SQL DML (Data Manipulation Language) includes commands that allow you to manipulate and query data within existing structures. These commands include SELECT, INSERT, UPDATE, and DELETE."
+      },
+      {
+        "question": "What is Physical Data Organization?",
+        "answer": "Physical Data Organization refers to the physical layout of the data on the storage media. It includes concepts like physical and logical records, blocking factor, pinned and unpinned organization, heap files and indexing."
+      },
+      {
+        "question": "What are weak entities in an ER model?",
+        "answer": "Weak entities in an ER model are entities that depend on another entity for their existence. They do not have a primary key of their own but instead use a combination of their own attributes and the primary key of the entity they depend on."
+      },
+      {
+        "question": "What is a two-phase locking mechanism?",
+        "answer": "Two-phase locking is a concurrency control method used in databases. It ensures serializability by dividing each transaction into two phases - a growing phase where locks are acquired and a shrinking phase where locks are released."
+      }
+    ],
+    "mod3": [
+      {
+        "question": "What is SQL DML?",
+        "answer": "SQL DML (Data Manipulation Language) includes commands that are used to manipulate data present in the database. It includes SQL queries on single and multiple tables, Nested queries (correlated and non-correlated), Aggregation and grouping, Views, assertions, Triggers, and SQL data types."
+      },
+      {
+        "question": "What does physical data organization entail?",
+        "answer": "Physical Data Organization refers to how data is physically stored and accessed in a database. It involves understanding terms such as physical and logical records, blocking factor, pinned and unpinned organization. It also covers Heap files, Indexing, Single level indices, Multi-level-indices, B-Trees & B+-Trees, Extendible Hashing, and Indexing on multiple keys – grid files."
+      },
+      {
+        "question": "What is normalization in the context of databases?",
+        "answer": "Normalization is a process in database design that organizes data to minimize redundancy and anomalies in data insertion, update, or deletion. The process involves dividing a database into two or more tables and defining relationships between the tables to achieve the First Normal Form (1NF), Second Normal Form (2NF), Third Normal Form (3NF), and Boyce Codd Normal Form (BCNF)."
+      },
+      {
+        "question": "What is a trigger in SQL?",
+        "answer": "A trigger in SQL is a stored procedure that automatically executes or fires when a specific event occurs in the database. It can be used to maintain the integrity of the data and enforce business rules."
+      },
+      {
+        "question": "What are B-Trees and B+ Trees?",
+        "answer": "B-Trees and B+ Trees are data structures used in databases and file systems to allow for efficient insertion, deletion, and search operations. They are tree structures that keep data sorted and allow for efficient lookup, sequential access, insertions, and deletions in logarithmic time."
+      },
+      {
+        "question": "What are the different anomalies in designing a database?",
+        "answer": "The different anomalies in designing a database are insertion, update, and deletion anomalies. These anomalies can lead to inconsistency in data and are often addressed through the normalization process."
+      },
+      {
+        "question": "What is a functional dependency in the context of databases?",
+        "answer": "In the context of databases, a functional dependency is a constraint between two sets of attributes. It occurs when the value of one attribute (or a group of attributes) determines the value of another attribute."
+      },
+      {
+        "question": "What is the role of SQL data types in database design?",
+        "answer": "SQL data types define the type of data that can be stored in a column within a SQL database. They help ensure data consistency and can enforce business rules within the database."
+      },
+      {
+        "question": "What is a lossless join and dependency preserving decomposition?",
+        "answer": "Lossless join and dependency preserving decomposition is a property of database decomposition. It ensures that the decomposition of a database into multiple tables does not result in the loss of information, and all functional dependencies are preserved."
+      },
+      {
+        "question": "What are Armstrong’s Axioms?",
+        "answer": "Armstrong's axioms are a set of rules about functional dependencies in a database. They provide a sound and complete inference system for functional dependencies which can be used to infer all the functional dependencies of a database schema."
+      }
+    ],
+    "mod4": [
+      {
+        "question": "What are the different anomalies that can occur in designing a database?",
+        "answer": "The different anomalies that can occur while designing a database are Insertion Anomaly, Deletion Anomaly, and Update Anomaly. These anomalies can lead to inconsistencies and redundancy in the database."
+      },
+      {
+        "question": "Can you explain the concept of Functional Dependency?",
+        "answer": "Functional Dependency in a database is a constraint between two sets of attributes from the database. A set of attributes X functionally determines a set of attributes Y if the value of X determines a unique value for Y."
+      },
+      {
+        "question": "What is the First Normal Form (1NF) in database normalization?",
+        "answer": "The First Normal Form (1NF) is a property of a relation in a database. A relation is in 1NF if and only if the domain of each attribute contains only atomic (indivisible) values, and the value of each attribute contains only a single value from that domain."
+      },
+      {
+        "question": "What is the Second Normal Form (2NF) in database normalization?",
+        "answer": "The Second Normal Form (2NF) is a level of database normalization where a relation is in 1NF and every non-prime attribute is fully functionally dependent on the primary key."
+      },
+      {
+        "question": "What is the difference between the Third Normal Form (3NF) and Boyce Codd Normal Form (BCNF)?",
+        "answer": "Both 3NF and BCNF are levels of database normalization. A relation is in 3NF if it is in 2NF and no non-prime attribute is transitively dependent on the primary key. BCNF is a stricter standard than 3NF. A relation is in BCNF if it is in 3NF and for every one of its dependencies X -> Y, X is a superkey."
+      },
+      {
+        "question": "What is a lossless join and dependency preserving decomposition?",
+        "answer": "A lossless join decomposition ensures that the splicing of data does not result in the loss of information. Dependency preserving decomposition means that all functional dependencies are preserved in the decomposed relations, which allows dependencies to be checked without having to join the relations."
+      },
+      {
+        "question": "What does the term 'Closures and their computation' refer to in the context of databases?",
+        "answer": "In the context of databases, 'Closures and their computation' refers to the process of finding the closure of a set of functional dependencies, which is the set of all dependencies logically implied by the original set."
+      },
+      {
+        "question": "What are Armstrong’s Axioms?",
+        "answer": "Armstrong’s Axioms are a set of axioms (or rules) used to infer all the functional dependencies on a relational database. They include reflexivity, augmentation, and transitivity."
+      },
+      {
+        "question": "What are the algorithms for checking Lossless Join and Dependency preserving properties?",
+        "answer": "The algorithms for checking Lossless Join and Dependency Preserving properties are used to ensure the integrity of a database after decomposition. Lossless Join property can be checked using the Dependency Preservation algorithm. Dependency preserving properties can be checked by ensuring that the closure of the set of functional dependencies is the same for the original and decomposed relations."
+      },
+      {
+        "question": "What is the importance of Normalization in database design?",
+        "answer": "Normalization is a process of organizing data in a database to avoid duplication and redundancy, and to improve data integrity. It helps in efficient organization of data, reduces the storage space required, and improves the performance of queries."
+      }
+    ],
+    "mod5": [
+      {
+        "question": "What is the Transaction Model in Transaction Processing Concepts?",
+        "answer": "The Transaction Model in Transaction Processing Concepts is a theoretical representation of a database transaction, which is a logical unit of work in a database management system. It includes states like active, partially committed, committed, failed, and aborted."
+      },
+      {
+        "question": "Why is concurrency control significant in transaction processing?",
+        "answer": "Concurrency control is significant in transaction processing because it ensures the correct execution of transactions in a multi-user database system, preventing conflicts and ensuring data integrity. Without concurrency control, simultaneous transactions could interfere with each other, leading to inconsistent and incorrect data."
+      },
+      {
+        "question": "What are the desirable properties of transactions?",
+        "answer": "The desirable properties of transactions, often referred to by the acronym ACID, are Atomicity (the transaction is all-or-nothing), Consistency (the transaction brings the database from one valid state to another), Isolation (concurrent transaction execution results in a system state that would be obtained if transactions were executed sequentially), and Durability (once a transaction commits, its effects persist in the database even in the event of a system failure)."
+      },
+      {
+        "question": "What is the difference between concurrent and serializable schedules?",
+        "answer": "Concurrent schedules allow multiple transactions to be executed in parallel, interleaving their operations. Serializable schedules, on the other hand, ensure that the concurrent execution of a set of transactions produces the same effect as some serial execution of those same transactions."
+      },
+      {
+        "question": "What is conflict serializability in the context of transaction processing?",
+        "answer": "Conflict serializability is a concept in transaction processing where the concurrent execution of several transactions is conflict equivalent to some serial execution. It ensures that the interleaved execution of transactions yields consistent results."
+      },
+      {
+        "question": "What are recoverable and cascade-less schedules?",
+        "answer": "A schedule is recoverable if, for any pair of transactions, the commit operation of a transaction that has written an item that is read by another transaction precedes the commit operation of the second transaction. A cascade-less schedule is a type of recoverable schedule where dirty reads are not allowed, i.e., a transaction can only read items that have been committed."
+      },
+      {
+        "question": "What is two-phase locking and how does it relate to transaction processing?",
+        "answer": "Two-phase locking is a protocol that ensures serializability in concurrent transaction execution. It has two phases: the expanding (or growing) phase where locks are acquired and no locks are released, and the shrinking phase where locks are released and no new locks are acquired. This protocol prevents conflicts and ensures consistent transaction execution."
+      },
+      {
+        "question": "What is log-based recovery in transaction processing?",
+        "answer": "Log-based recovery is a technique used to restore a database to a consistent state after a failure. It involves keeping a log of all changes made to the database during transaction processing. In the event of a system failure, the log is used to undo incomplete transactions and redo completed transactions."
+      },
+      {
+        "question": "What is deferred database modification and how does it work?",
+        "answer": "Deferred database modification is a recovery technique where changes to the database are not immediately applied, but are recorded in a log. The actual database modification is deferred until the transaction reaches its commit point. If a failure occurs before the transaction commits, no changes have to be undone as they have not been applied to the database yet."
+      },
+      {
+        "question": "What are the main characteristics of NoSQL Databases like Key-value DB, Document DB, Column-Family DB, and Graph DB?",
+        "answer": "NoSQL databases are non-relational and can handle structured, semi-structured, and unstructured data. Key-value databases (like Redis) store data as a collection of key-value pairs. Document databases (like MongoDB) store data as documents, typically in a format like JSON. Column-Family databases (like Cassandra) store data in columns instead of rows. Graph databases (like ArangoDB) are used to store data whose relations are best represented as a graph."
+      }
+    ]
+  },
+  "flashcards": [
+    {
+      "question": "What is a database?",
+      "answer": "A database is a collection of related data."
+    },
+    {
+      "question": "What does 'data' mean?",
+      "answer": "Data means known facts that can be recorded and that have implicit meaning."
+    },
+    {
+      "question": "What are some implicit properties of a database?",
+      "answer": "A database represents some aspect of the real world, is a logically coherent collection of data with some inherent meaning, and is designed, built, and populated with data for a specific purpose."
+    },
+    {
+      "question": "What is a Database Management System (DBMS)?",
+      "answer": "A DBMS is a collection of programs that enables users to create and maintain a database."
+    },
+    {
+      "question": "What processes does a DBMS facilitate?",
+      "answer": "A DBMS facilitates the processes of defining, constructing, manipulating, and sharing databases among various users and applications."
+    },
+    {
+      "question": "What is involved in defining a database?",
+      "answer": "Defining a database involves specifying the data types, structures, and constraints of the data to be stored in the database."
+    },
+    {
+      "question": "What is meta-data in the context of DBMS?",
+      "answer": "Meta-data is the database definition or descriptive information stored by the DBMS in the form of a database catalog or dictionary."
+    },
+    {
+      "question": "What is the process of constructing a database?",
+      "answer": "Constructing the database is the process of storing the data in the database."
+    },
+    {
+      "question": "What are data models in DBMS?",
+      "answer": "Data models describe how a database’s logical structure is represented. They are essential for introducing abstraction and specify how data is linked to one another, as well as how it is handled and stored within the system."
+    },
+    {
+      "question": "What are Representational Data Models in DBMS?",
+      "answer": "Representational Data Models are used to represent only the logical part of the database and do not represent the physical structure."
+    }
+  ]
+}
