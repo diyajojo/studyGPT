@@ -1,5 +1,5 @@
 from langchain_openai import OpenAIEmbeddings
-from src.config import Config
+from model.src.config import Config
 
 def get_embeddings():
     """Initialize OpenAI embeddings"""

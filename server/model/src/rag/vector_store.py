@@ -3,7 +3,7 @@ import faiss
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from .embeddings import get_embeddings
-from src.config import Config
+from model.src.config import Config
 class VectorStore:
     def __init__(self):
         self.embeddings = get_embeddings()

@@ -1,8 +1,8 @@
 import os
 import json
-from src.config import Config
-from src.utils.pdf_utils import extract_text_from_pdf
-from src.generator.content_generator import ContentGenerator
+from model.src.config import Config
+from model.src.utils.pdf_utils import extract_text_from_pdf
+from model.src.generator.content_generator import ContentGenerator
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 

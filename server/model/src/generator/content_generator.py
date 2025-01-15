@@ -2,9 +2,9 @@ from typing import Dict, List
 import json
 from openai import OpenAI
 import tiktoken
-from src.config import Config
-from src.utils.text_utils import extract_modules
-from src.rag.vector_store import VectorStore
+from model.src.config import Config
+from model.src.utils.text_utils import extract_modules
+from model.src.rag.vector_store import VectorStore
 from .prompts import TOPIC_PROMPT, QA_PROMPT, FLASHCARD_PROMPT
 
 class ContentGenerator:
