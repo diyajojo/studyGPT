@@ -11,7 +11,7 @@ def load_multiple_pdfs(file_paths):
     all_text = ""
     for path in file_paths:
         text = extract_text_from_pdf(path)
-        if text:
+        if text:     
             all_text += f"\n{text}"  # Separate files with a newline
         else:
             print(f"Error: Failed to read PDF file at {path}")
@@ -20,7 +20,7 @@ def load_multiple_pdfs(file_paths):
 def main():
     # Define paths to PDF directories or files
     syllabus_files = [
-        os.path.join(Config.DATA_DIR, "DBMS Syllabus.pdf")
+        os.path.join(Config.DATA_DIR, "DBMS Syllabus.pdf ")
         # Add more syllabus files if needed
     ]
     questions_files = [
