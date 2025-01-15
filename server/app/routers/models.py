@@ -18,6 +18,11 @@ from model.src.config import Config
 from model.src.utils.pdf_utils import extract_text_from_pdf
 from model.src.generator.content_generator import ContentGenerator
 
+''' db enetering import code '''
+import json
+from typing import Dict, List, Any
+''''''
+
 # Create logs directory if it doesn't exist
 os.makedirs('logs', exist_ok=True)
 
@@ -89,6 +94,114 @@ def load_multiple_pdfs(file_paths):
         else:
             logger.error(f"Failed to read PDF file at {path}")
     return all_text
+
+
+async def insert_content_to_database(user_id: str, subject: str, content: Dict[str, Any], logger: logging.Logger):
+    """
+    Insert generated content into Supabase database tables.
+    
+    Args:
+        user_id: User ID for the current request
+        subject: Subject name
+        content: Dictionary containing generated content
+        logger: Logger instance for tracking operations
+    """
+    try:
+        logger.info("=== Starting database insertion process ===")
+        
+        # First, get the subject_id
+        subject_response = supabase.table("subjects")\
+            .select("id")\
+            .eq("user_id", user_id)\
+            .eq("subject_name", subject)\
+            .execute()
+            
+        if not subject_response.data:
+            logger.error(f"Subject not found for user {user_id}")
+            raise ValueError("Subject not found in database")
+            
+        subject_id = subject_response.data[0]['id']
+        logger.info(f"Retrieved subject_id: {subject_id}")
+
+        # Insert module topics
+        logger.info("Inserting module topics...")
+        for module_name, module_data in content.get("important_topics", {}).items():
+            # Extract module number from module name (e.g., 'mod1' -> '1')
+            module_no = module_name.replace('mod', '')
+            topics = module_data
+            
+            if topics:
+                try:
+                    response = supabase.rpc(
+                        "insert_module_topics",
+                        {
+                            "p_subject_id": subject_id,
+                            "p_module_no": module_no,
+                            "p_topics": topics
+                        }
+                    ).execute()
+                    logger.info(f"Successfully inserted topics for module {module_no}")
+                except Exception as e:
+                    logger.error(f"Error inserting topics for module {module_no}: {str(e)}")
+
+        # Insert module Q&A
+        logger.info("Inserting module Q&A...")
+        for module_name, questions in content.get("important_qna", {}).items():
+            # Extract module number
+            module_no = module_name.replace('mod', '')
+            
+            if questions:
+                try:
+                    # Convert questions to JSONB format
+                    questions_jsonb = [
+                        {
+                            "question": qa["question"],
+                            "answer": qa["answer"]
+                        } for qa in questions
+                    ]
+                    response = supabase.rpc(
+                        "insert_module_questions",
+                        {
+                            "p_subject_id": subject_id,
+                            "p_module_no": module_no,
+                            "p_questions": questions_jsonb
+                        }
+                    ).execute()
+                    logger.info(f"Successfully inserted Q&A for module {module_no}")
+                except Exception as e:
+                    logger.error(f"Error inserting Q&A for module {module_no}: {str(e)}")
+
+        # Insert flashcards
+        logger.info("Inserting flashcards...")
+        flashcards = content.get("flashcards", [])
+        if flashcards:
+            try:
+                # Convert flashcards to JSONB format with module_no
+                flashcards_jsonb = [
+                    {
+                        "question": card["question"],
+                        "answer": card["answer"],
+                        "module_no": card.get("module_no", "1")  # Get module_no from card or default to "1"
+                    } for card in flashcards
+                ]
+                response = supabase.rpc(
+                    "insert_flashcards",
+                    {
+                        "p_subject_id": subject_id,
+                        "p_flashcards": flashcards_jsonb
+                    }
+                ).execute()
+                logger.info("Successfully inserted flashcards")
+            except Exception as e:
+                logger.error(f"Error inserting flashcards: {str(e)}")
+
+        logger.info("=== Database insertion process completed ===")
+        return True
+
+    except Exception as e:
+        logger.error(f"Error in database insertion process: {str(e)}")
+        raise
+
 
 @router.post("/upload", response_model=PostResponse)
 async def upload_files(request: PostRequest):
@@ -206,7 +319,7 @@ async def upload_files(request: PostRequest):
                 detail=f"Failed to insert subject: {str(e)}"
             )
 
-        # Process PDFs and generate content
+        # Process PDFs and generate content & store to database
         logger.info("=== Starting PDF processing and content generation ===")
         logger.info("Processing syllabus files...")
         syllabus_text = load_multiple_pdfs(saved_files["syllabus"])
@@ -221,7 +334,7 @@ async def upload_files(request: PostRequest):
                 generator = ContentGenerator()
                 content = generator.generate_all_content(syllabus_text, questions_text, notes_text)
 
-                # Save output
+                # Save output to file
                 output_dir = os.path.join(Config.DATA_DIR, current_user.id, request.subject)
                 output_path = os.path.join(output_dir, "output.json")
                 
@@ -229,12 +342,23 @@ async def upload_files(request: PostRequest):
                 async with aiofiles.open(output_path, "w", encoding='utf-8') as f:
                     await f.write(json.dumps(content, indent=2, ensure_ascii=False))
                 
-                logger.info(f"Successfully saved content for {request.subject}")
+                # Insert content into database
+                logger.info("Inserting generated content into database")
+                await insert_content_to_database(
+                    user_id=current_user.id,
+                    subject=request.subject,
+                    content=content,
+                    logger=logger
+                )
+                
+                logger.info(f"Successfully saved and stored content for {request.subject}")
             except Exception as e:
-                logger.error(f"Error generating content: {str(e)}")
+                logger.error(f"Error in content generation or storage: {str(e)}")
+                raise
         else:
             logger.warning("Some PDF files could not be processed")
 
+    
         # Prepare response
         logger.info("=== Preparing response ===")
         all_files = []
