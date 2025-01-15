@@ -69,6 +69,9 @@ const UserPage = () => {
 
   // passing the tokens via body not headers
   const sendData = async (accessToken: string, refreshToken: string,userId:string,subject:string) => {
+
+    console.log("access token:",accessToken);
+    console.log("refresh token:",refreshToken);
     try {
       const response = await fetch('https://studygpt-z5rq.onrender.com/models/upload ', {
         method: 'POST',

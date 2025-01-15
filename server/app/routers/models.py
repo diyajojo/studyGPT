@@ -1,5 +1,3 @@
-# At the top of your file, update the logging configuration:
-
 from fastapi import APIRouter, HTTPException
 from fastapi.security import HTTPBearer
 import uuid
