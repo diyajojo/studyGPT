@@ -8,13 +8,13 @@ class PostRequest(BaseModel):
     token: TokenSchema
     #access_token: str
     #refresh_token: str
-    class FileDetail(BaseModel):
-        name: str
-        url: str
+class FileDetail(BaseModel):
+    name: str
+    url: str
 
-    class PostResponse(BaseModel):
-        user_id: str
-        subject: str
-        file_urls: List[FileDetail]
+class PostResponse(BaseModel):
+    user_id: str
+    subject: str
+    file_urls: List[FileDetail]
 
 
