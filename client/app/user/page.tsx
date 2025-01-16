@@ -126,7 +126,7 @@ const UserPage = () => {
       setUploadLoading(prev => ({ ...prev, [type]: true }));
   
       const timestamp = new Date().getTime();
-      const fileName = `${user.id}/${subject}/${type}/${timestamp}-${file.name}`;
+      const fileName = `${user.id}/${subject}/${type}/${file.name}`;
   
       const { error } = await supabase.storage
         .from('study_materials')
@@ -179,12 +179,41 @@ const UserPage = () => {
     }
 };
 
-  const handleDeleteFile = (type: keyof SelectedFiles, index: number) => {
+const handleDeleteFile = async (type: keyof SelectedFiles, index: number) => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      console.error("No active session or user found");
+      return;
+    }
+
+    // Get the file to delete
+    const fileToDelete = selectedFiles[type][index];
+    const filePath = `${user.id}/${subject}/${type}/${fileToDelete.name}`;
+
+    // Delete the file from Supabase
+    const { error } = await supabase.storage
+      .from('study_materials')
+      .remove([filePath]);
+
+    if (error) {
+      console.error('Error deleting file from Supabase:', error);
+      return;
+    }
+
+    // Update the selectedFiles state to remove the file
     setSelectedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index)
     }));
-  };
+
+    console.log(`File ${fileToDelete.name} successfully deleted`);
+  } catch (error) {
+    console.error('Error in handleDeleteFile:', error);
+  }
+};
+
 
   const handleUploadButton=async()=>{
     try
