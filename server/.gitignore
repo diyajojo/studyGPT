@@ -1,4 +1,5 @@
 venv/
+testvenv/
 logs/
 
 # Ignore Python bytecode files
