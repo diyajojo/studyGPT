@@ -11,7 +11,8 @@ import aiohttp
 import aiofiles
 from app.services.supabase_service import supabase
 from app.routers.auth import verify_auth
-from app.schemas.model_schemas import PostRequest, PostResponse, FileDetail
+from app.schemas.auth_schema import TokenSchema
+from app.schemas.model_schemas import PostRequest, PostResponse, FileDetail, CurrentSubjectResponse
 from model.src.config import Config
 from model.src.utils.pdf_utils import extract_text_from_pdf
 from model.src.generator.content_generator import ContentGenerator
@@ -491,6 +492,41 @@ async def upload_files(request: PostRequest):
             detail=f"Error processing request: {str(e)}"
         )
     
+
+@router.post("/get-current-subject", response_model=CurrentSubjectResponse)
+async def get_current_subject(token: TokenSchema):
+    try:
+        logger.info("=== Getting current subject ===")
+        verification = await verify_auth(token)
+        if not verification.authenticated:
+            logger.warning("Authentication failed")
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        current_user = verification.user
+        logger.info(f"Authentication successful for user: {current_user.id}")
+
+        response = supabase.table("user_current_subject")\
+            .select("subject_id, subject_name")\
+            .eq("user_id", current_user.id)\
+            .single()\
+            .execute()
+
+        if not response.data:
+            logger.info(f"No current subject found for user {current_user.id}")
+            return CurrentSubjectResponse()
+
+        logger.info("Successfully retrieved current subject")
+        return CurrentSubjectResponse(
+            subject_name=response.data.get("subject_name"),
+            subject_id=response.data.get("subject_id")
+        )
+
+    except Exception as e:
+        logger.error(f"Error getting current subject: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+        
+'''        
 @router.get("/current-subject")  #will havto make it a post to get the refresh tokens
 async def get_current_subject():
     try:
@@ -521,3 +557,5 @@ async def get_current_subject():
     except Exception as e:
         logger.error(f"Error getting current subject: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+'''
