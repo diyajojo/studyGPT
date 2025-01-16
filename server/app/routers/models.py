@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.security import HTTPBearer
 import uuid
 import jwt
-from typing import List
+from typing import List, Optional
 import logging
 from logging.handlers import RotatingFileHandler
 import os
@@ -201,6 +201,70 @@ async def insert_content_to_database(user_id: str, subject: str, content: Dict[s
         raise
 
 
+async def upload_file_to_storage(file_path: str, user_id: str, subject: str, logger: logging.Logger) -> Optional[str]:
+    """
+    Upload a file to Supabase storage in the study_materials bucket.
+    
+    Args:
+        file_path: Local path to the file to be uploaded
+        user_id: User ID for the directory structure
+        subject: Subject name for the directory structure
+        logger: Logger instance for tracking operations
+        
+    Returns:
+        Optional[str]: URL of the uploaded file if successful, None if file doesn't exist
+    """
+    try:
+        # Check if file exists
+        if not os.path.exists(file_path):
+            logger.error(f"File not found at path: {file_path}")
+            return None
+            
+        # Get the filename from the path
+        filename = os.path.basename(file_path)
+        
+        # Create the storage path
+        storage_path = f"{user_id}/{subject}/{filename}"
+        
+        logger.info(f"Starting upload of {filename} to storage path: {storage_path}")
+        
+        # Read the file content
+        with open(file_path, 'rb') as file:
+            file_content = file.read()
+        
+        # Get file extension and set content type
+        file_extension = os.path.splitext(filename)[1].lower()
+        content_type = "application/json" if file_extension == '.json' else "application/octet-stream"
+        
+        try:
+            # Try to remove existing file first
+            supabase.storage.from_("study_materials").remove([storage_path])
+        except Exception:
+            # If file doesn't exist or other error, continue with upload
+            pass
+            
+        # Upload to Supabase storage
+        response = supabase.storage\
+            .from_("study_materials")\
+            .upload(
+                path=storage_path,
+                file=file_content,
+                file_options={"content-type": content_type}
+            )
+            
+        # Get the public URL
+        file_url = supabase.storage\
+            .from_("study_materials")\
+            .get_public_url(storage_path)
+            
+        logger.info(f"Successfully uploaded {filename} to storage")
+        return file_url
+        
+    except Exception as e:
+        logger.error(f"Error uploading file to storage: {str(e)}")
+        raise
+
+
 @router.post("/upload", response_model=PostResponse)
 async def upload_files(request: PostRequest):
     """
@@ -340,6 +404,19 @@ async def upload_files(request: PostRequest):
                 async with aiofiles.open(output_path, "w", encoding='utf-8') as f:
                     await f.write(json.dumps(content, indent=2, ensure_ascii=False))
                 
+                # Upload saved file to storage
+                try:
+                    storage_url = await upload_file_to_storage(
+                        file_path=output_path,
+                        user_id=current_user.id,
+                        subject=request.subject,
+                        logger=logger
+                    )
+                except Exception as e:
+                    logger.error(f"Error uploading to storage: {str(e)}")
+                    # Continue execution even if storage upload fails
+                    
+
                 # Insert content into database
                 logger.info("Inserting generated content into database")
                 await insert_content_to_database(
