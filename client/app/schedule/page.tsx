@@ -308,7 +308,7 @@ const Schedule = () => {
           {/* Previous Year Questions */}
           <div className="bg-white p-6 rounded-xl shadow-sm">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-800"> ❓ FREQUENTLY ASKED PREVIOUS YEAR QUESTIONS</h2>
+              <h2 className="text-lg font-semibold text-gray-800"> ❓ REPEATED PREVIOUS YEAR QUESTIONS</h2>
               <ChevronRight className="h-5 w-5 text-gray-400" />
             </div>
             <div className="grid grid-cols-3 gap-3">

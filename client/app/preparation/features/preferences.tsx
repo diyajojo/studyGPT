@@ -82,49 +82,7 @@ const RenderPreferences = () => {
     },
   ];
   
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  const fetchUser = async () => {
-    const { data: userData, error } = await supabase.auth.getUser();
-    if (error) 
-    {
-      console.error("Error fetching user:", error.message);
-      return;
-    }
-
-    if (userData?.user)
-    {
-      setUserID(userData.user.id); 
-      console.log(userID);
-    }
-  };
-  
-  const savePreferences = async (key: string, value: string) => {
-    if (!userID) 
-    {
-      console.error("User ID not found");
-      return;
-    }
-
-    // Insert or update the user's preferences in the database
-    const { error } = await supabase
-      .from('UserPreferences')
-      .upsert({
-        UserID: userID,
-        [key]: value, // Save the specific preference key and value
-      })
-      .eq('UserID', userID); // Ensure it's associated with the current user
-
-    if (error) {
-      console.error("Error saving preferences:", error.message);
-    } else {
-      console.log("Preferences updated successfully!");
-    }
-  };
-
-  return (
+   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {preferenceOptions.map(({ title, icon, options, preferenceKey }) => (
@@ -139,7 +97,6 @@ const RenderPreferences = () => {
                 ...prev,
                 [preferenceKey as keyof typeof preferences]: value,
               }));
-              savePreferences(preferenceKey, value); // Save to Supabase
             }}
           />
         ))}
