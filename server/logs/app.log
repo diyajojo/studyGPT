@@ -1,0 +1,545 @@
+2025-01-16 11:04:47 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 11:04:47 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 11:04:47 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:04:47 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 11:04:47 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 11:04:47 - app.routers.models - INFO - Processing category: notes
+2025-01-16 11:04:47 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 11:04:50 - app.routers.models - INFO - Found 2 files in notes category
+2025-01-16 11:04:50 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes
+2025-01-16 11:04:50 - app.routers.models - INFO - Processing file: mod1.pdf
+2025-01-16 11:04:50 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:04:50 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:04:50 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:04:50 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:04:54 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:04:54 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:04:54 - app.routers.models - INFO - Processing file: 2 Mod DBMS.pdf
+2025-01-16 11:04:54 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:04:54 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:04:54 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:04:54 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:04:59 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:04:59 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:04:59 - app.routers.models - INFO - Processing category: pyq
+2025-01-16 11:04:59 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq
+2025-01-16 11:05:00 - app.routers.models - INFO - Found 1 files in pyq category
+2025-01-16 11:05:00 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq
+2025-01-16 11:05:00 - app.routers.models - INFO - Processing file: DBMS Jan 2024.pdf
+2025-01-16 11:05:00 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:05:00 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:05:00 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:05:00 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:05:05 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:05:05 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:05:05 - app.routers.models - INFO - Processing category: syllabus
+2025-01-16 11:05:05 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus
+2025-01-16 11:05:06 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-16 11:05:06 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus
+2025-01-16 11:05:06 - app.routers.models - INFO - Processing file: 1737003687115-DBMS Syllabus.pdf
+2025-01-16 11:05:06 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:05:06 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:05:06 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:05:06 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\1737003687115-DBMS Syllabus.pdf
+2025-01-16 11:05:07 - app.routers.models - ERROR - Error in download_file: {'statusCode': 404, 'error': not_found, 'message': Object not found}
+2025-01-16 11:05:07 - app.routers.models - ERROR - Failed to download file: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:05:07 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-16 11:05:07 - app.routers.models - INFO - Checking if subject DBMS exists for user c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:05:08 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-16 11:05:08 - app.routers.models - INFO - Processing syllabus files...
+2025-01-16 11:05:08 - app.routers.models - INFO - Starting PDF processing for 0 files
+2025-01-16 11:05:08 - app.routers.models - INFO - Processing question papers...
+2025-01-16 11:05:08 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 11:05:08 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:05:08 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:05:08 - app.routers.models - INFO - Processing notes...
+2025-01-16 11:05:08 - app.routers.models - INFO - Starting PDF processing for 2 files
+2025-01-16 11:05:08 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:05:10 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:05:10 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:05:11 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:05:11 - app.routers.models - WARNING - Some PDF files could not be processed
+2025-01-16 11:05:11 - app.routers.models - INFO - === Preparing response ===
+2025-01-16 11:05:11 - app.routers.models - INFO - Total files in response: 4
+2025-01-16 11:05:11 - app.routers.models - INFO - === Upload process completed successfully ===
+2025-01-16 11:07:38 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 11:07:38 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 11:07:38 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:07:38 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 11:07:38 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 11:07:38 - app.routers.models - INFO - Processing category: notes
+2025-01-16 11:07:38 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 11:07:40 - app.routers.models - INFO - Found 2 files in notes category
+2025-01-16 11:07:40 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes
+2025-01-16 11:07:40 - app.routers.models - INFO - Processing file: mod1.pdf
+2025-01-16 11:07:40 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:07:40 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:07:40 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:07:40 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:07:40 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:07:40 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:07:40 - app.routers.models - INFO - Processing file: 2 Mod DBMS.pdf
+2025-01-16 11:07:40 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:07:40 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:07:40 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:07:40 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:07:43 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:07:43 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:07:43 - app.routers.models - INFO - Processing category: pyq
+2025-01-16 11:07:43 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq
+2025-01-16 11:07:44 - app.routers.models - INFO - Found 1 files in pyq category
+2025-01-16 11:07:44 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq
+2025-01-16 11:07:44 - app.routers.models - INFO - Processing file: DBMS Jan 2024.pdf
+2025-01-16 11:07:44 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:07:44 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:07:44 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:07:44 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:07:46 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:07:46 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:07:46 - app.routers.models - INFO - Processing category: syllabus
+2025-01-16 11:07:46 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus
+2025-01-16 11:07:46 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-16 11:07:46 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus
+2025-01-16 11:07:46 - app.routers.models - INFO - Processing file: 1737003687115-DBMS Syllabus.pdf
+2025-01-16 11:07:46 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:07:46 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:07:46 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:07:46 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\1737003687115-DBMS Syllabus.pdf
+2025-01-16 11:07:48 - app.routers.models - ERROR - Error in download_file: {'statusCode': 404, 'error': not_found, 'message': Object not found}
+2025-01-16 11:07:48 - app.routers.models - ERROR - Failed to download file: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:07:48 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-16 11:07:48 - app.routers.models - INFO - Checking if subject DBMS exists for user c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:07:48 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-16 11:07:48 - app.routers.models - INFO - Processing syllabus files...
+2025-01-16 11:07:48 - app.routers.models - INFO - Starting PDF processing for 0 files
+2025-01-16 11:07:48 - app.routers.models - INFO - Processing question papers...
+2025-01-16 11:07:48 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 11:07:48 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:07:48 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:07:48 - app.routers.models - INFO - Processing notes...
+2025-01-16 11:07:48 - app.routers.models - INFO - Starting PDF processing for 2 files
+2025-01-16 11:07:48 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:07:50 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:07:50 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:07:50 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:07:50 - app.routers.models - WARNING - Some PDF files could not be processed
+2025-01-16 11:07:50 - app.routers.models - INFO - === Preparing response ===
+2025-01-16 11:07:50 - app.routers.models - INFO - Total files in response: 4
+2025-01-16 11:07:50 - app.routers.models - INFO - === Upload process completed successfully ===
+2025-01-16 11:09:20 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 11:09:20 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 11:09:20 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:09:20 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 11:09:20 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 11:09:20 - app.routers.models - INFO - Processing category: notes
+2025-01-16 11:09:20 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 11:09:22 - app.routers.models - INFO - Found 2 files in notes category
+2025-01-16 11:09:22 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes
+2025-01-16 11:09:22 - app.routers.models - INFO - Processing file: mod1.pdf
+2025-01-16 11:09:22 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:09:22 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:09:22 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:09:22 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:09:22 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:09:22 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:09:22 - app.routers.models - INFO - Processing file: 2 Mod DBMS.pdf
+2025-01-16 11:09:22 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:09:22 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:09:22 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:09:22 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:09:25 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:09:25 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:09:25 - app.routers.models - INFO - Processing category: pyq
+2025-01-16 11:09:25 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq
+2025-01-16 11:09:26 - app.routers.models - INFO - Found 1 files in pyq category
+2025-01-16 11:09:26 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq
+2025-01-16 11:09:26 - app.routers.models - INFO - Processing file: DBMS Jan 2024.pdf
+2025-01-16 11:09:26 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:09:26 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:09:26 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:09:26 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:09:28 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:09:28 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:09:28 - app.routers.models - INFO - Processing category: syllabus
+2025-01-16 11:09:28 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus
+2025-01-16 11:09:28 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-16 11:09:28 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus
+2025-01-16 11:09:28 - app.routers.models - INFO - Processing file: 1737003687115-DBMS Syllabus.pdf
+2025-01-16 11:09:28 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:09:28 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:09:28 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:09:28 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\1737003687115-DBMS Syllabus.pdf
+2025-01-16 11:09:30 - app.routers.models - ERROR - Error in download_file: {'statusCode': 404, 'error': not_found, 'message': Object not found}
+2025-01-16 11:09:30 - app.routers.models - ERROR - Failed to download file: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/1737003687115-DBMS Syllabus.pdf?
+2025-01-16 11:09:30 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-16 11:09:30 - app.routers.models - INFO - Checking if subject DBMS exists for user c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:09:30 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-16 11:09:30 - app.routers.models - INFO - Processing syllabus files...
+2025-01-16 11:09:30 - app.routers.models - INFO - Starting PDF processing for 0 files
+2025-01-16 11:09:30 - app.routers.models - INFO - Processing question papers...
+2025-01-16 11:09:30 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 11:09:30 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:09:30 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:09:30 - app.routers.models - INFO - Processing notes...
+2025-01-16 11:09:30 - app.routers.models - INFO - Starting PDF processing for 2 files
+2025-01-16 11:09:30 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:09:32 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:09:32 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:09:33 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:09:33 - app.routers.models - WARNING - Some PDF files could not be processed
+2025-01-16 11:09:33 - app.routers.models - INFO - === Preparing response ===
+2025-01-16 11:09:33 - app.routers.models - INFO - Total files in response: 4
+2025-01-16 11:09:33 - app.routers.models - INFO - === Upload process completed successfully ===
+2025-01-16 11:14:17 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 11:14:17 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 11:14:17 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:14:17 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 11:14:17 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 11:14:17 - app.routers.models - INFO - Processing category: notes
+2025-01-16 11:14:17 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 11:14:18 - app.routers.models - INFO - Found 2 files in notes category
+2025-01-16 11:14:18 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes
+2025-01-16 11:14:18 - app.routers.models - INFO - Processing file: mod1.pdf
+2025-01-16 11:14:18 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:14:18 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:14:18 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:14:18 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:14:19 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:14:19 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:14:19 - app.routers.models - INFO - Processing file: 2 Mod DBMS.pdf
+2025-01-16 11:14:19 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:14:19 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:14:19 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:14:19 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:14:22 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:14:22 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:14:22 - app.routers.models - INFO - Processing category: pyq
+2025-01-16 11:14:22 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq
+2025-01-16 11:14:22 - app.routers.models - INFO - Found 1 files in pyq category
+2025-01-16 11:14:22 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq
+2025-01-16 11:14:22 - app.routers.models - INFO - Processing file: DBMS Jan 2024.pdf
+2025-01-16 11:14:22 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:14:22 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:14:22 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:14:22 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:14:25 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:14:25 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:14:25 - app.routers.models - INFO - Processing category: syllabus
+2025-01-16 11:14:25 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus
+2025-01-16 11:14:26 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-16 11:14:26 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus
+2025-01-16 11:14:26 - app.routers.models - INFO - Processing file: DBMS Syllabus.pdf
+2025-01-16 11:14:26 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 11:14:26 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 11:14:26 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 11:14:26 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:14:31 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:14:31 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:14:31 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-16 11:14:31 - app.routers.models - INFO - Checking if subject DBMS exists for user c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:14:31 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-16 11:14:31 - app.routers.models - INFO - Processing syllabus files...
+2025-01-16 11:14:31 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 11:14:31 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:14:32 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:14:32 - app.routers.models - INFO - Processing question papers...
+2025-01-16 11:14:32 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 11:14:32 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:14:32 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:14:32 - app.routers.models - INFO - Processing notes...
+2025-01-16 11:14:32 - app.routers.models - INFO - Starting PDF processing for 2 files
+2025-01-16 11:14:32 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:14:33 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:14:33 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:14:35 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:14:35 - app.routers.models - INFO - Generating content from processed PDFs
+2025-01-16 11:17:55 - app.routers.models - INFO - Saving generated content to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\output.json
+2025-01-16 11:17:55 - app.routers.models - INFO - Inserting generated content into database
+2025-01-16 11:17:55 - app.routers.models - INFO - === Starting database insertion process ===
+2025-01-16 11:17:55 - app.routers.models - INFO - Retrieved subject_id: 6d0b1232-b051-4e68-9742-e1fa43139f2f
+2025-01-16 11:17:55 - app.routers.models - INFO - Inserting module topics...
+2025-01-16 11:17:56 - app.routers.models - INFO - Successfully inserted topics for module 1
+2025-01-16 11:17:56 - app.routers.models - INFO - Successfully inserted topics for module 2
+2025-01-16 11:17:57 - app.routers.models - INFO - Successfully inserted topics for module 3
+2025-01-16 11:17:57 - app.routers.models - INFO - Successfully inserted topics for module 4
+2025-01-16 11:17:58 - app.routers.models - INFO - Successfully inserted topics for module 5
+2025-01-16 11:17:58 - app.routers.models - INFO - Inserting module Q&A...
+2025-01-16 11:17:58 - app.routers.models - INFO - Successfully inserted Q&A for module 1
+2025-01-16 11:17:58 - app.routers.models - INFO - Successfully inserted Q&A for module 2
+2025-01-16 11:17:59 - app.routers.models - INFO - Successfully inserted Q&A for module 3
+2025-01-16 11:17:59 - app.routers.models - INFO - Successfully inserted Q&A for module 4
+2025-01-16 11:17:59 - app.routers.models - INFO - Successfully inserted Q&A for module 5
+2025-01-16 11:17:59 - app.routers.models - INFO - Inserting flashcards...
+2025-01-16 11:17:59 - app.routers.models - INFO - Successfully inserted flashcards
+2025-01-16 11:17:59 - app.routers.models - INFO - === Database insertion process completed ===
+2025-01-16 11:17:59 - app.routers.models - INFO - Successfully saved and stored content for DBMS
+2025-01-16 11:17:59 - app.routers.models - INFO - === Preparing response ===
+2025-01-16 11:17:59 - app.routers.models - INFO - Total files in response: 4
+2025-01-16 11:17:59 - app.routers.models - INFO - === Upload process completed successfully ===
+2025-01-16 11:35:26 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 11:35:26 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 11:35:26 - app.routers.models - ERROR - HTTP Exception occurred: 401: Invalid refresh token
+2025-01-16 11:36:21 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 11:36:21 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 11:36:21 - app.routers.models - ERROR - HTTP Exception occurred: 401: Invalid token: The token is not yet valid (iat)
+2025-01-16 11:36:24 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 11:36:24 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 11:36:24 - app.routers.models - ERROR - HTTP Exception occurred: 401: Invalid token: The token is not yet valid (iat)
+2025-01-16 11:37:14 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 11:37:14 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 11:37:14 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:37:14 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 11:37:14 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 11:37:14 - app.routers.models - INFO - Processing category: notes
+2025-01-16 11:37:14 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 11:37:16 - app.routers.models - INFO - Found 2 files in notes category
+2025-01-16 11:37:16 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes
+2025-01-16 11:37:16 - app.routers.models - INFO - Processing file: mod1.pdf
+2025-01-16 11:37:16 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:37:16 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:37:16 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 11:37:16 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:37:16 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:37:16 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:37:16 - app.routers.models - INFO - Processing file: 2 Mod DBMS.pdf
+2025-01-16 11:37:16 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:37:16 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:37:16 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 11:37:16 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:37:18 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:37:18 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:37:18 - app.routers.models - INFO - Processing category: pyq
+2025-01-16 11:37:18 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq
+2025-01-16 11:37:19 - app.routers.models - INFO - Found 1 files in pyq category
+2025-01-16 11:37:19 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq
+2025-01-16 11:37:19 - app.routers.models - INFO - Processing file: DBMS Jan 2024.pdf
+2025-01-16 11:37:19 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:37:19 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:37:19 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 11:37:19 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:37:21 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:37:21 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:37:21 - app.routers.models - INFO - Processing category: syllabus
+2025-01-16 11:37:21 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus
+2025-01-16 11:37:22 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-16 11:37:22 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus
+2025-01-16 11:37:22 - app.routers.models - INFO - Processing file: DBMS Syllabus.pdf
+2025-01-16 11:37:22 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 11:37:22 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 11:37:22 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 11:37:22 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:37:23 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:37:23 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:37:23 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-16 11:37:23 - app.routers.models - INFO - Checking if subject DBMS exists for user c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 11:37:25 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-16 11:37:25 - app.routers.models - INFO - Processing syllabus files...
+2025-01-16 11:37:25 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 11:37:25 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:37:26 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 11:37:26 - app.routers.models - INFO - Processing question papers...
+2025-01-16 11:37:26 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 11:37:26 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:37:26 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 11:37:26 - app.routers.models - INFO - Processing notes...
+2025-01-16 11:37:26 - app.routers.models - INFO - Starting PDF processing for 2 files
+2025-01-16 11:37:26 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:37:29 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 11:37:29 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:37:30 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 11:37:30 - app.routers.models - INFO - Generating content from processed PDFs
+2025-01-16 11:41:17 - app.routers.models - INFO - Saving generated content to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\output.json
+2025-01-16 11:41:17 - app.routers.models - INFO - Starting upload of output.json to storage path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/output.json
+2025-01-16 11:41:17 - app.routers.models - ERROR - Error uploading file to storage: SyncBucketActionsMixin.upload() got an unexpected keyword argument 'upsert'
+2025-01-16 11:41:17 - app.routers.models - ERROR - Error uploading to storage: SyncBucketActionsMixin.upload() got an unexpected keyword argument 'upsert'
+2025-01-16 11:41:17 - app.routers.models - INFO - Inserting generated content into database
+2025-01-16 11:41:17 - app.routers.models - INFO - === Starting database insertion process ===
+2025-01-16 11:41:18 - app.routers.models - INFO - Retrieved subject_id: 6d0b1232-b051-4e68-9742-e1fa43139f2f
+2025-01-16 11:41:18 - app.routers.models - INFO - Inserting module topics...
+2025-01-16 11:41:18 - app.routers.models - INFO - Successfully inserted topics for module 1
+2025-01-16 11:41:18 - app.routers.models - INFO - Successfully inserted topics for module 2
+2025-01-16 11:41:19 - app.routers.models - INFO - Successfully inserted topics for module 3
+2025-01-16 11:41:19 - app.routers.models - INFO - Successfully inserted topics for module 4
+2025-01-16 11:41:19 - app.routers.models - INFO - Successfully inserted topics for module 5
+2025-01-16 11:41:19 - app.routers.models - INFO - Inserting module Q&A...
+2025-01-16 11:41:20 - app.routers.models - INFO - Successfully inserted Q&A for module 1
+2025-01-16 11:41:20 - app.routers.models - INFO - Successfully inserted Q&A for module 2
+2025-01-16 11:41:20 - app.routers.models - INFO - Successfully inserted Q&A for module 3
+2025-01-16 11:41:20 - app.routers.models - INFO - Successfully inserted Q&A for module 4
+2025-01-16 11:41:21 - app.routers.models - INFO - Successfully inserted Q&A for module 5
+2025-01-16 11:41:21 - app.routers.models - INFO - Inserting flashcards...
+2025-01-16 11:41:21 - app.routers.models - INFO - Successfully inserted flashcards
+2025-01-16 11:41:21 - app.routers.models - INFO - === Database insertion process completed ===
+2025-01-16 11:41:21 - app.routers.models - INFO - Successfully saved and stored content for DBMS
+2025-01-16 11:41:21 - app.routers.models - INFO - === Preparing response ===
+2025-01-16 11:41:21 - app.routers.models - INFO - Total files in response: 4
+2025-01-16 11:41:21 - app.routers.models - INFO - === Upload process completed successfully ===
+2025-01-16 12:52:48 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 12:52:48 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 12:52:48 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 12:52:48 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 12:52:48 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 12:52:48 - app.routers.models - INFO - Processing category: notes
+2025-01-16 12:52:48 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 12:53:04 - app.routers.models - INFO - Found 2 files in notes category
+2025-01-16 12:53:04 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes
+2025-01-16 12:53:04 - app.routers.models - INFO - Processing file: mod1.pdf
+2025-01-16 12:53:04 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 12:53:04 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 12:53:04 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 12:53:04 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 12:53:49 - app.routers.models - ERROR - Error in download_file: Server disconnected
+2025-01-16 12:53:49 - app.routers.models - ERROR - Failed to download file: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 12:53:49 - app.routers.models - INFO - Processing file: 2 Mod DBMS.pdf
+2025-01-16 12:53:49 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 12:53:49 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 12:53:49 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 12:53:49 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 12:53:49 - app.routers.models - ERROR - Error in download_file: [Errno 11001] getaddrinfo failed
+2025-01-16 12:53:49 - app.routers.models - ERROR - Failed to download file: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 12:53:49 - app.routers.models - INFO - Processing category: pyq
+2025-01-16 12:53:49 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq
+2025-01-16 12:53:49 - app.routers.models - ERROR - Error accessing storage for pyq: [Errno 11001] getaddrinfo failed
+2025-01-16 12:53:49 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error accessing storage for pyq: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:07 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 12:54:07 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 12:54:07 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 12:54:07 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 12:54:07 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 12:54:07 - app.routers.models - INFO - Processing category: notes
+2025-01-16 12:54:07 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 12:54:07 - app.routers.models - ERROR - Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:07 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:14 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 12:54:14 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 12:54:14 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 12:54:14 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 12:54:14 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 12:54:14 - app.routers.models - INFO - Processing category: notes
+2025-01-16 12:54:14 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 12:54:14 - app.routers.models - ERROR - Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:14 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:14 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 12:54:14 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 12:54:14 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 12:54:14 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 12:54:14 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 12:54:14 - app.routers.models - INFO - Processing category: notes
+2025-01-16 12:54:14 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 12:54:14 - app.routers.models - ERROR - Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:14 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:27 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 12:54:27 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 12:54:27 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 12:54:27 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 12:54:27 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 12:54:27 - app.routers.models - INFO - Processing category: notes
+2025-01-16 12:54:27 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 12:54:27 - app.routers.models - ERROR - Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:27 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:34 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 12:54:34 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 12:54:34 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 12:54:34 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 12:54:34 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 12:54:34 - app.routers.models - INFO - Processing category: notes
+2025-01-16 12:54:34 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 12:54:34 - app.routers.models - ERROR - Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:54:34 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:55:01 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 12:55:01 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 12:55:01 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 12:55:01 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 12:55:01 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 12:55:01 - app.routers.models - INFO - Processing category: notes
+2025-01-16 12:55:01 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 12:55:01 - app.routers.models - ERROR - Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 12:55:01 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error accessing storage for notes: [Errno 11001] getaddrinfo failed
+2025-01-16 13:03:31 - app.routers.models - INFO - === Starting upload process ===
+2025-01-16 13:03:31 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-16 13:03:31 - app.routers.models - INFO - Authentication successful for user: c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 13:03:31 - app.routers.models - INFO - Processing subject: DBMS
+2025-01-16 13:03:31 - app.routers.models - INFO - === Starting file processing ===
+2025-01-16 13:03:31 - app.routers.models - INFO - Processing category: notes
+2025-01-16 13:03:31 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes
+2025-01-16 13:03:33 - app.routers.models - INFO - Found 2 files in notes category
+2025-01-16 13:03:33 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes
+2025-01-16 13:03:33 - app.routers.models - INFO - Processing file: mod1.pdf
+2025-01-16 13:03:33 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 13:03:33 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 13:03:33 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/mod1.pdf?
+2025-01-16 13:03:33 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 13:03:33 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 13:03:33 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 13:03:33 - app.routers.models - INFO - Processing file: 2 Mod DBMS.pdf
+2025-01-16 13:03:33 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 13:03:33 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 13:03:33 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/notes/2 Mod DBMS.pdf?
+2025-01-16 13:03:33 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 13:03:36 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 13:03:36 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 13:03:36 - app.routers.models - INFO - Processing category: pyq
+2025-01-16 13:03:36 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq
+2025-01-16 13:03:37 - app.routers.models - INFO - Found 1 files in pyq category
+2025-01-16 13:03:37 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq
+2025-01-16 13:03:37 - app.routers.models - INFO - Processing file: DBMS Jan 2024.pdf
+2025-01-16 13:03:37 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 13:03:37 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 13:03:37 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/pyq/DBMS Jan 2024.pdf?
+2025-01-16 13:03:37 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 13:03:39 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 13:03:39 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 13:03:39 - app.routers.models - INFO - Processing category: syllabus
+2025-01-16 13:03:39 - app.routers.models - DEBUG - Listing files from path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus
+2025-01-16 13:03:39 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-16 13:03:39 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus
+2025-01-16 13:03:39 - app.routers.models - INFO - Processing file: DBMS Syllabus.pdf
+2025-01-16 13:03:39 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 13:03:39 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 13:03:39 - app.routers.models - DEBUG - Extracted bucket path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/syllabus/DBMS Syllabus.pdf?
+2025-01-16 13:03:39 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 13:03:41 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 13:03:41 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 13:03:41 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-16 13:03:41 - app.routers.models - INFO - Checking if subject DBMS exists for user c6e1ff42-3c0a-469a-a912-ee5cee171001
+2025-01-16 13:03:42 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-16 13:03:42 - app.routers.models - INFO - Processing syllabus files...
+2025-01-16 13:03:42 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 13:03:42 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 13:03:42 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\syllabus\DBMS Syllabus.pdf
+2025-01-16 13:03:42 - app.routers.models - INFO - Processing question papers...
+2025-01-16 13:03:42 - app.routers.models - INFO - Starting PDF processing for 1 files
+2025-01-16 13:03:42 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 13:03:42 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\pyq\DBMS Jan 2024.pdf
+2025-01-16 13:03:42 - app.routers.models - INFO - Processing notes...
+2025-01-16 13:03:42 - app.routers.models - INFO - Starting PDF processing for 2 files
+2025-01-16 13:03:42 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 13:03:44 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\mod1.pdf
+2025-01-16 13:03:44 - app.routers.models - INFO - Processing PDF: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 13:03:45 - app.routers.models - INFO - Successfully extracted text from: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\notes\2 Mod DBMS.pdf
+2025-01-16 13:03:45 - app.routers.models - INFO - Generating content from processed PDFs
+2025-01-16 13:08:04 - app.routers.models - INFO - Saving generated content to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\c6e1ff42-3c0a-469a-a912-ee5cee171001\DBMS\output.json
+2025-01-16 13:08:04 - app.routers.models - INFO - Starting upload of output.json to storage path: c6e1ff42-3c0a-469a-a912-ee5cee171001/DBMS/output.json
+2025-01-16 13:08:05 - app.routers.models - INFO - Successfully uploaded output.json to storage
+2025-01-16 13:08:05 - app.routers.models - INFO - Inserting generated content into database
+2025-01-16 13:08:05 - app.routers.models - INFO - === Starting database insertion process ===
+2025-01-16 13:08:06 - app.routers.models - INFO - Retrieved subject_id: 6d0b1232-b051-4e68-9742-e1fa43139f2f
+2025-01-16 13:08:06 - app.routers.models - INFO - Inserting module topics...
+2025-01-16 13:08:07 - app.routers.models - INFO - Successfully inserted topics for module 1
+2025-01-16 13:08:08 - app.routers.models - INFO - Successfully inserted topics for module 2
+2025-01-16 13:08:08 - app.routers.models - INFO - Successfully inserted topics for module 3
+2025-01-16 13:08:09 - app.routers.models - INFO - Successfully inserted topics for module 4
+2025-01-16 13:08:09 - app.routers.models - INFO - Successfully inserted topics for module 5
+2025-01-16 13:08:09 - app.routers.models - INFO - Inserting module Q&A...
+2025-01-16 13:08:09 - app.routers.models - INFO - Successfully inserted Q&A for module 1
+2025-01-16 13:08:10 - app.routers.models - INFO - Successfully inserted Q&A for module 2
+2025-01-16 13:08:10 - app.routers.models - INFO - Successfully inserted Q&A for module 3
+2025-01-16 13:08:10 - app.routers.models - INFO - Successfully inserted Q&A for module 4
+2025-01-16 13:08:11 - app.routers.models - INFO - Successfully inserted Q&A for module 5
+2025-01-16 13:08:11 - app.routers.models - INFO - Inserting flashcards...
+2025-01-16 13:08:11 - app.routers.models - INFO - Successfully inserted flashcards
+2025-01-16 13:08:11 - app.routers.models - INFO - === Database insertion process completed ===
+2025-01-16 13:08:11 - app.routers.models - INFO - Successfully saved and stored content for DBMS
+2025-01-16 13:08:11 - app.routers.models - INFO - === Preparing response ===
+2025-01-16 13:08:11 - app.routers.models - INFO - Total files in response: 4
+2025-01-16 13:08:11 - app.routers.models - INFO - === Upload process completed successfully ===
