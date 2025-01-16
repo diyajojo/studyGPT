@@ -68,7 +68,7 @@ const UserPage = () => {
   };
 
   // passing the tokens via body not headers
-  const sendData = async (accessToken: string, refreshToken: string,userId:string,subject:string) => {
+  async function sendData (accessToken: string, refreshToken: string,userId:string,subject:string)  {
 
     console.log("access token:",accessToken);
     console.log("refresh token:",refreshToken);
@@ -105,23 +105,23 @@ const UserPage = () => {
  
 
   const uploadToSupabase = async (file: File, type: keyof SelectedFiles) => {
-    if (!subject.trim()) {
+
+    if (!subject.trim())
+       {
       alert('Please enter a subject before uploading files');
       return;
     }
   
     try {
-      // Get session and user details
-      const { data: { session } } = await supabase.auth.getSession();
+      
       const { data: { user } } = await supabase.auth.getUser();
   
-      if (!session || !user) 
+      if (!user) 
       {
         console.log("No active session or user found");
         return false;
       }
   
-      await sendData(session.access_token, session.refresh_token, user.id, subject);
   
       setUploadLoading(prev => ({ ...prev, [type]: true }));
   
@@ -163,13 +163,6 @@ const UserPage = () => {
         const success = await uploadToSupabase(file, type);
         if (success) successCount++;
       }
-
-      // Show upload results
-      //if (successCount === fileArray.length) {
-       // alert(`All ${fileArray.length} files uploaded successfully!`);
-     // } else {
-       // alert(`${successCount} out of ${fileArray.length} files uploaded successfully.`);
-     // }
       
       setUploadLoading(prev => ({ ...prev, [type]: false }));
     }
@@ -193,8 +186,28 @@ const UserPage = () => {
     }));
   };
 
-  const handleUploadButton=()=>{
+  const handleUploadButton=async()=>{
+    try
+    {
+      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { user } } = await supabase.auth.getUser();
+      if(!user || !session)
+      {
+        return;
+      }
+      else
+      {
+        await sendData(session.access_token, session.refresh_token, user.id, subject);
+      }
+    }
+    catch(error)
+    {
+      console.log(error);
+    }
+    finally
+    {
     router.push('/preparation');
+    }
   }
 
   const uploadTypes: UploadType[] = [
