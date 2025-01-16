@@ -1,4 +1,5 @@
 venv/
+logs/
 
 # Ignore Python bytecode files
 *.pyc

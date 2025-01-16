@@ -23,4 +23,4 @@ if __name__ == "__main__":
     data = fetch_data("your_table_name")
     print(data)
 
-    '''
+'''
