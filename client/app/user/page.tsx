@@ -193,9 +193,8 @@ const UserPage = () => {
     }));
   };
 
-  const handleButtonClick=()=>
-  {
-    router.push('/schedule');
+  const handleUploadButton=()=>{
+    router.push('/preparation');
   }
 
   const uploadTypes: UploadType[] = [
@@ -226,7 +225,7 @@ const UserPage = () => {
         {/* Welcome Section with adjusted spacing and larger profile picture */}
         <div className="flex items-start gap-4 mt-20">
           <div className="w-40 h-40 rounded-full overflow-hidden bg-white flex-shrink-0">
-            <Image
+          <Image
               src="/assets/pfp.png"
               alt="Profile Picture"
               width={240}
@@ -243,26 +242,13 @@ const UserPage = () => {
               }}
             >
               <h2 className="text-4xl font-bold text-white mb-2">
-                HEY {profile?.full_name}👋
+                HEY {profile?.full_name.toLocaleUpperCase()}👋
               </h2>
             </div>
             <p className="text-white/90 mt-2 text-lg font-semibold">
               Organize, share, and succeed — all in one place!
             </p>
           </div>
-
-          {/* Updated Organize Button with new positioning */}
-          <button
-            className="flex items-center gap-12 px-12 py-10 rounded-[20px] absolute right-0 mr-8"
-            style={{
-              background: "rgba(218, 236, 244, 0.49)",
-              transform: "translateX(-50%)",
-              top: "32px"
-            }}
-            onClick={handleButtonClick}
-          >
-            <span className="text-white font-semibold">Organize Your Study Patterns 💡</span>
-          </button>
 
         </div>
 
@@ -393,7 +379,20 @@ const UserPage = () => {
         </div>
       </div>
 
-      {/* Laptop Image remains the same */}
+      <div className="flex justify-center mt-8">
+          <button
+            className="flex items-center gap-12 px-12 py-7 rounded-[20px]"
+            style={{
+              background: "rgba(218, 236, 244, 0.49)",
+            }}
+            onClick={handleUploadButton} // Ensure this function navigates to the desired next step
+          >
+            <span className="text-white font-semibold">Done Uploading? Let's Proceed</span>
+          </button>
+        </div>
+
+
+      {/* Laptop Image remains the same 
       <div className="absolute right-0 top-[100px] w-[700px] h-[700px]">
         <Image
           src="/assets/userpg.png"
@@ -402,7 +401,7 @@ const UserPage = () => {
           height={700}
           className="object-contain"
         />
-      </div>
+      </div> */}
     </div>
   );
 };
