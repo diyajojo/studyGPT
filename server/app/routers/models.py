@@ -381,6 +381,38 @@ async def upload_files(request: PostRequest):
                 detail=f"Failed to insert subject: {str(e)}"
             )
 
+        # Update user's current subject
+        logger.info("=== Updating user's current subject ===")
+        try:
+            # Get the subject_id
+            subject_response = supabase.table("subjects").select("id")\
+                .eq("user_id", current_user.id)\
+                .eq("subject_name", request.subject)\
+                .execute()
+            
+            if not subject_response.data:
+                logger.error("Subject ID not found")
+                raise ValueError("Subject not found in database")
+        
+            subject_id = subject_response.data[0]['id']
+            
+            # Update or insert into user_current_subject
+            supabase.rpc(
+                "upsert_user_current_subject",
+                {
+                    "p_user_id": current_user.id,
+                    "p_subject_id": subject_id,
+                    "p_subject_name": request.subject
+                }
+            ).execute()
+            logger.info("Successfully updated user's current subject")
+        except Exception as e:
+            logger.error(f"Error updating user's current subject: {str(e)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to update current subject: {str(e)}"
+            )
+
         # Process PDFs and generate content & store to database
         logger.info("=== Starting PDF processing and content generation ===")
         logger.info("Processing syllabus files...")
@@ -458,3 +490,34 @@ async def upload_files(request: PostRequest):
             status_code=500,
             detail=f"Error processing request: {str(e)}"
         )
+    
+@router.get("/current-subject")  #will havto make it a post to get the refresh tokens
+async def get_current_subject():
+    try:
+        logger.info("=== Getting current subject ===")
+        verification = await verify_auth()
+        if not verification.authenticated:
+            logger.warning("Authentication failed")
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        current_user = verification.user
+        logger.info(f"Authentication successful for user: {current_user.id}")
+
+        response = supabase.table("user_current_subject")\
+            .select("subject_id, subject_name, last_accessed")\
+            .eq("user_id", current_user.id)\
+            .single()\
+            .execute()
+
+        if not response.data:
+            logger.info(f"No current subject found for user {current_user.id}")
+            return {"subject": None}
+
+        logger.info("Successfully retrieved current subject")
+        return {
+            "subject": response.data
+        }
+
+    except Exception as e:
+        logger.error(f"Error getting current subject: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
