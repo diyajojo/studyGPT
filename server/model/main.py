@@ -39,7 +39,10 @@ def main():
     ]
     
     questions_files = [
-        os.path.join(Config.DATA_DIR, "DBMS Jan 2024.pdf")
+        os.path.join(Config.DATA_DIR, "qp1.pdf"),
+        os.path.join(Config.DATA_DIR, "qp2.pdf"),
+        os.path.join(Config.DATA_DIR, "qp3.pdf"),
+        os.path.join(Config.DATA_DIR, "qp4.pdf"),
     ]
     
     notes_files = [
