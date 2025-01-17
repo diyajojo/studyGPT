@@ -1,8 +1,7 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState } from 'react';
 import { Laptop, Coffee, GraduationCap, Clock } from 'lucide-react';
 import { supabase } from '@/app/utils/supabase';
 
-// Define the props type for PreferenceCard
 interface PreferenceCardProps {
   title: string;
   icon: React.ReactNode;
@@ -11,7 +10,10 @@ interface PreferenceCardProps {
   onChange: (option: string) => void;
 }
 
-// PreferenceCard component
+interface RenderPreferencesProps {
+  subjectId: string;
+}
+
 const PreferenceCard: React.FC<PreferenceCardProps> = ({
   title,
   icon,
@@ -44,17 +46,18 @@ const PreferenceCard: React.FC<PreferenceCardProps> = ({
   );
 };
 
-
-const RenderPreferences = () => {
+const RenderPreferences: React.FC<RenderPreferencesProps> = ({ subjectId }) => {
+  // State to track all preferences
   const [preferences, setPreferences] = useState({
-    studyTime: '',
-    environment: '',
-    breakInterval: '',
-    learningStyle: '',
+    study_time: '',
+    study_env: '',
+    break_interval: '',
+    learning_style: '',
   });
 
-  const [userID,setUserID]=useState<string | null>('');
-  
+  // Track whether all preferences have been selected
+  const [isComplete, setIsComplete] = useState(false);
+
   const preferenceOptions = [
     {
       title: "Best Study Time",
@@ -81,8 +84,56 @@ const RenderPreferences = () => {
       preferenceKey: 'learning_style',
     },
   ];
-  
-   return (
+
+  // Handle individual preference selection
+  const handlePreferenceChange = (preferenceKey: string, value: string) => {
+    // Update the preferences state
+    const updatedPreferences = {
+      ...preferences,
+      [preferenceKey]: value,
+    };
+    setPreferences(updatedPreferences);
+
+    // Check if all preferences are selected
+    const allSelected = Object.values(updatedPreferences).every(pref => pref !== '');
+    setIsComplete(allSelected);
+
+    // If all preferences are selected, save to database
+    if (allSelected) {
+      saveAllPreferences(updatedPreferences);
+    }
+  };
+
+  // Function to save all preferences to database
+  const saveAllPreferences = async (allPreferences: typeof preferences) => {
+    try {
+      // Prepare the complete data object for insertion
+      const preferenceData = {
+        subject_id: subjectId,
+        study_time: allPreferences.study_time,
+        study_env: allPreferences.study_env,
+        break_interval: allPreferences.break_interval,
+        learning_style: allPreferences.learning_style,
+      };
+
+      // Insert or update all preferences at once
+      const { error } = await supabase
+        .from('user_preferences')
+        .upsert(preferenceData, {
+           onConflict: 'subject_id'
+        });
+
+      if (error) {
+        console.error('Error saving preferences:', error);
+      } else {
+        console.log('All preferences saved successfully!');
+      }
+    } catch (error) {
+      console.error('Error in database operation:', error);
+    }
+  };
+
+  return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {preferenceOptions.map(({ title, icon, options, preferenceKey }) => (
@@ -92,15 +143,15 @@ const RenderPreferences = () => {
             icon={icon}
             options={options}
             selected={preferences[preferenceKey as keyof typeof preferences]}
-            onChange={(value: string) => {
-              setPreferences(prev => ({
-                ...prev,
-                [preferenceKey as keyof typeof preferences]: value,
-              }));
-            }}
+            onChange={(value: string) => handlePreferenceChange(preferenceKey, value)}
           />
         ))}
       </div>
+      {isComplete && (
+        <div className="text-white text-center p-4 bg-green-500/20 rounded-lg">
+          Your preferences have been saved!
+        </div>
+      )}
     </div>
   );
 };

@@ -48,7 +48,12 @@ const RenderGames = () => {
     );
 
     // Word scramble setup
-    const words = ['STUDY', 'FOCUS', 'LEARN', 'GROWTH', 'SMART'];
+    const words = [
+      'STUDY', 'FOCUS', 'LEARN', 'GROWTH', 'SMART', 'LOGIC',
+      'THINK', 'BRAIN', 'KNOWLEDGE', 'INSIGHT', 'WISDOM', 'INTELLECT',
+      'REASON', 'ANALYZE', 'UNDERSTAND', 'COMPREHEND', 'DISCOVER', 'INNOVATE',
+      'CREATE', 'IMAGINE', 'INSPIRE', 'ACHIEVE', 'DEVELOP', 'PROGRESS'
+    ];
     const word = words[Math.floor(Math.random() * words.length)];
     const scrambled = word.split('')
       .sort(() => Math.random() - 0.5)
@@ -123,18 +128,20 @@ const RenderGames = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6">
       {/* Memory Game */}
-      <div className="bg-white/20 rounded-xl p-6">
-        <h3 className="text-xl font-semibold text-white mb-4">Memory Match</h3>
-        <div className="grid grid-cols-4 gap-3">
+      <div className="bg-white/20 rounded-xl p-6 transform transition-all duration-300 hover:scale-[1.02]">
+        <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+          <span className="mr-2">🧠</span> Memory Match
+        </h3>
+        <div className="grid grid-cols-4 gap-4">
           {gameState.memoryCards.map((card) => (
             <button
               key={card.id}
               onClick={() => handleMemoryCard(card.id)}
-              className={`aspect-square rounded-lg text-2xl flex items-center justify-center transition-all ${
+              className={`aspect-square rounded-lg text-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 ${
                 gameState.flipped.includes(card.id) || gameState.matched.includes(card.icon)
-                  ? 'bg-[#FF8C5A]'
+                  ? 'bg-gradient-to-br from-[#FF8C5A] to-[#FF6B3D] shadow-lg'
                   : 'bg-white/10 hover:bg-white/20'
               }`}
             >
@@ -147,25 +154,27 @@ const RenderGames = () => {
       </div>
 
       {/* Number Sequence Game */}
-      <div className="bg-white/20 rounded-xl p-6">
-        <h3 className="text-xl font-semibold text-white mb-4">Number Sequence</h3>
-        <div className="space-y-4">
-          <div className="flex justify-center gap-2">
+      <div className="bg-white/20 rounded-xl p-6 transform transition-all duration-300 hover:scale-[1.02]">
+        <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+          <span className="mr-2">🔢</span> Number Sequence
+        </h3>
+        <div className="space-y-6">
+          <div className="flex justify-center gap-3">
             {gameState.numberSequence.map((num, idx) => (
               <div
                 key={idx}
-                className="w-12 h-12 bg-[#FF8C5A] rounded-lg flex items-center justify-center text-white text-xl font-bold"
+                className="w-12 h-12 bg-gradient-to-br from-[#FF8C5A] to-[#FF6B3D] rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-lg transform transition-all duration-300 hover:scale-110"
               >
                 {num}
               </div>
             ))}
           </div>
-          <div className="flex justify-center gap-2">
+          <div className="grid grid-cols-3 gap-3">
             {Array.from({ length: 9 }, (_, i) => (
               <button
                 key={i}
                 onClick={() => handleNumberSequence(i + 1)}
-                className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg text-white"
+                className="w-full h-12 bg-white/10 hover:bg-white/20 rounded-lg text-white text-lg font-semibold transition-all duration-300 transform hover:scale-105"
               >
                 {i + 1}
               </button>
@@ -175,17 +184,26 @@ const RenderGames = () => {
       </div>
 
       {/* Word Scramble */}
-      <div className="bg-white/20 rounded-xl p-6">
-        <h3 className="text-xl font-semibold text-white mb-4">Word Scramble</h3>
-        <div className="space-y-4">
-          <div className="text-center text-3xl font-bold text-white">
-            {gameState.wordScramble.scrambled}
+      <div className="bg-white/20 rounded-xl p-6 transform transition-all duration-300 hover:scale-[1.02]">
+        <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+          <span className="mr-2">📝</span> Word Scramble
+        </h3>
+        <div className="space-y-6">
+          <div className="text-center text-4xl font-bold text-white bg-white/10 rounded-lg p-4">
+            {gameState.wordScramble.scrambled.split('').map((letter, idx) => (
+              <span
+                key={idx}
+                className="inline-block mx-1 transform transition-all duration-300 hover:scale-110 hover:text-[#FF8C5A]"
+              >
+                {letter}
+              </span>
+            ))}
           </div>
           <input
             type="text"
             value={gameState.wordScramble.userInput}
             onChange={(e) => handleWordScramble(e.target.value)}
-            className="w-full bg-white/10 text-white border border-white/20 rounded-lg p-3 text-center uppercase"
+            className="w-full bg-white/10 text-white border border-white/20 rounded-lg p-4 text-center uppercase text-xl transition-all duration-300 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-[#FF8C5A]"
             placeholder="Unscramble the word"
           />
         </div>
