@@ -68,7 +68,7 @@ const UserPage = () => {
   };
 
   // passing the tokens via body not headers
-  const sendData = async (accessToken: string, refreshToken: string,userId:string,subject:string) => {
+  async function sendData (accessToken: string, refreshToken: string,userId:string,subject:string)  {
 
     console.log("access token:",accessToken);
     console.log("refresh token:",refreshToken);
@@ -105,28 +105,28 @@ const UserPage = () => {
  
 
   const uploadToSupabase = async (file: File, type: keyof SelectedFiles) => {
-    if (!subject.trim()) {
+
+    if (!subject.trim())
+       {
       alert('Please enter a subject before uploading files');
       return;
     }
   
     try {
-      // Get session and user details
-      const { data: { session } } = await supabase.auth.getSession();
+      
       const { data: { user } } = await supabase.auth.getUser();
   
-      if (!session || !user) 
+      if (!user) 
       {
         console.log("No active session or user found");
         return false;
       }
   
-      await sendData(session.access_token, session.refresh_token, user.id, subject);
   
       setUploadLoading(prev => ({ ...prev, [type]: true }));
   
       const timestamp = new Date().getTime();
-      const fileName = `${user.id}/${subject}/${type}/${timestamp}-${file.name}`;
+      const fileName = `${user.id}/${subject}/${type}/${file.name}`;
   
       const { error } = await supabase.storage
         .from('study_materials')
@@ -163,13 +163,6 @@ const UserPage = () => {
         const success = await uploadToSupabase(file, type);
         if (success) successCount++;
       }
-
-      // Show upload results
-      //if (successCount === fileArray.length) {
-       // alert(`All ${fileArray.length} files uploaded successfully!`);
-     // } else {
-       // alert(`${successCount} out of ${fileArray.length} files uploaded successfully.`);
-     // }
       
       setUploadLoading(prev => ({ ...prev, [type]: false }));
     }
@@ -186,16 +179,64 @@ const UserPage = () => {
     }
 };
 
-  const handleDeleteFile = (type: keyof SelectedFiles, index: number) => {
+const handleDeleteFile = async (type: keyof SelectedFiles, index: number) => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      console.error("No active session or user found");
+      return;
+    }
+
+    // Get the file to delete
+    const fileToDelete = selectedFiles[type][index];
+    const filePath = `${user.id}/${subject}/${type}/${fileToDelete.name}`;
+
+    // Delete the file from Supabase
+    const { error } = await supabase.storage
+      .from('study_materials')
+      .remove([filePath]);
+
+    if (error) {
+      console.error('Error deleting file from Supabase:', error);
+      return;
+    }
+
+    // Update the selectedFiles state to remove the file
     setSelectedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index)
     }));
-  };
 
-  const handleButtonClick=()=>
-  {
-    router.push('/schedule');
+    console.log(`File ${fileToDelete.name} successfully deleted`);
+  } catch (error) {
+    console.error('Error in handleDeleteFile:', error);
+  }
+};
+
+
+  const handleUploadButton=async()=>{
+    try
+    {
+      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { user } } = await supabase.auth.getUser();
+      if(!user || !session)
+      {
+        return;
+      }
+      else
+      {
+        await sendData(session.access_token, session.refresh_token, user.id, subject);
+      }
+    }
+    catch(error)
+    {
+      console.log(error);
+    }
+    finally
+    {
+    router.push('/preparation');
+    }
   }
 
   const uploadTypes: UploadType[] = [
@@ -226,7 +267,7 @@ const UserPage = () => {
         {/* Welcome Section with adjusted spacing and larger profile picture */}
         <div className="flex items-start gap-4 mt-20">
           <div className="w-40 h-40 rounded-full overflow-hidden bg-white flex-shrink-0">
-            <Image
+          <Image
               src="/assets/pfp.png"
               alt="Profile Picture"
               width={240}
@@ -243,26 +284,13 @@ const UserPage = () => {
               }}
             >
               <h2 className="text-4xl font-bold text-white mb-2">
-                HEY {profile?.full_name}👋
+                HEY {profile?.full_name.toLocaleUpperCase()}👋
               </h2>
             </div>
             <p className="text-white/90 mt-2 text-lg font-semibold">
               Organize, share, and succeed — all in one place!
             </p>
           </div>
-
-          {/* Updated Organize Button with new positioning */}
-          <button
-            className="flex items-center gap-12 px-12 py-10 rounded-[20px] absolute right-0 mr-8"
-            style={{
-              background: "rgba(218, 236, 244, 0.49)",
-              transform: "translateX(-50%)",
-              top: "32px"
-            }}
-            onClick={handleButtonClick}
-          >
-            <span className="text-white font-semibold">Organize Your Study Patterns 💡</span>
-          </button>
 
         </div>
 
@@ -393,7 +421,20 @@ const UserPage = () => {
         </div>
       </div>
 
-      {/* Laptop Image remains the same */}
+      <div className="flex justify-center mt-8">
+          <button
+            className="flex items-center gap-12 px-12 py-7 rounded-[20px]"
+            style={{
+              background: "rgba(218, 236, 244, 0.49)",
+            }}
+            onClick={handleUploadButton} // Ensure this function navigates to the desired next step
+          >
+            <span className="text-white font-semibold">Done Uploading? Let's Proceed</span>
+          </button>
+        </div>
+
+
+      {/* Laptop Image remains the same 
       <div className="absolute right-0 top-[100px] w-[700px] h-[700px]">
         <Image
           src="/assets/userpg.png"
@@ -402,7 +443,7 @@ const UserPage = () => {
           height={700}
           className="object-contain"
         />
-      </div>
+      </div> */}
     </div>
   );
 };
