@@ -3,6 +3,15 @@ import { ChevronRight,BookOpen,Sparkles } from 'lucide-react';
 import { supabase } from '../../utils/supabase';
 import ModuleTopicsModal from './topicsmodal';
 import QuestionAnswerModal from './quesmodal';
+import FlashcardModal from './flashcardmodal';
+
+interface Flashcard {
+  id: string;
+  question_text: string;
+  answer_text: string;
+  subject_id: string;
+  module_no: number;
+}
 
 interface Topic {
   id: string;
@@ -30,6 +39,8 @@ interface SubjectContentProps
 const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
+   const [isFlashcardsModalOpen, setIsFlashcardsModalOpen] = useState(false);
   const [isTopicsModalOpen, setIsTopicsModalOpen] = useState(false);
   const [isQuestionsModalOpen, setIsQuestionsModalOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState('');
@@ -75,6 +86,19 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
             setQuestions(questionsData || []);
             console.log("questions are",questionsData);
           }
+
+          //fetch flashcards
+          const { data: flashcardsData, error: flashcardsError } = await supabase
+  .from('flashcards')
+  .select('*')
+  .eq('subject_id', selectedSubject.id)
+  .abortSignal(controller.signal);
+
+if (flashcardsError) {
+  console.error('Error fetching flashcards:', flashcardsError);
+} else {
+  setFlashcards(flashcardsData || []);
+}
         }
       } catch (error) {
         if (error instanceof Error && error.name !== 'AbortError') {
@@ -104,6 +128,11 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
     return questions.filter(question => question.module_no === moduleNum);
   };
 
+  const getFlashcardsForModule = (moduleNumber: string): Flashcard[] => {
+    const moduleNum = moduleNumber.split(' ')[1];
+    return flashcards.filter(flashcard => flashcard.module_no.toString() === moduleNum);
+  };
+
   const handleTopicModuleClick = (moduleNumber: string) => {
     setSelectedModule(moduleNumber);
     setIsTopicsModalOpen(true);
@@ -114,6 +143,10 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
     setIsQuestionsModalOpen(true);
   };
 
+  const handleFlashcardModuleClick = (moduleNumber: string) => {
+    setSelectedModule(moduleNumber);
+    setIsFlashcardsModalOpen(true);
+  };
 
 
   const handlePreviousMonth = () => {
@@ -204,16 +237,24 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
             <ChevronRight className="h-5 w-5 text-gray-400" />
           </div>
           <div className="grid grid-cols-3 gap-3">
-            {['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5'].map((module) => (
-              <button
-                key={module}
-                className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
-              >
-                {module}
-              </button>
-            ))}
-          </div>
-        </div>
+          {['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5'].map((module) => {
+  const moduleFlashcards = getFlashcardsForModule(module);
+  return (
+    <button
+      key={module}
+      className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 relative"
+      onClick={() => handleFlashcardModuleClick(module)}
+    >
+      {module}
+      {moduleFlashcards.length > 0 && (
+        <span className="absolute top-0 right-0 -mt-2 -mr-2 bg-green-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+          {moduleFlashcards.length}
+        </span>
+      )}
+    </button>
+  );
+})}
+</div></div>
 
         {/* Calendar and Assignments Grid */}
         <div className="grid grid-cols-3 gap-6">
@@ -291,6 +332,15 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
           module_no: Number(question.module_no)
         }))}
       />
+      <FlashcardModal
+  isOpen={isFlashcardsModalOpen}
+  onClose={() => setIsFlashcardsModalOpen(false)}
+  module={selectedModule}
+  flashcards={getFlashcardsForModule(selectedModule).map(flashcard => ({
+    ...flashcard,
+    module_no: Number(flashcard.module_no)
+  }))}
+/>
     </div>
   );
 };
