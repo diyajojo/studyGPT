@@ -113,7 +113,7 @@ const Schedule = () => {
   };
 
   return (
-    <div className="flex h-[vh] bg-[#125774]">
+    <div className="flex h-screen bg-[#125774]">
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-lg flex flex-col">
         <div className="p-4" style={{ background: primaryColor }}>
@@ -205,7 +205,7 @@ const Schedule = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-8 bg-[#125774]">
         {selectedSubject ? <SubjectContent selectedSubject={selectedSubject} /> : <EmptyState />}
       </div>
     </div>
