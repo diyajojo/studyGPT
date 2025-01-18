@@ -15,12 +15,8 @@ storage3==0.11.0
 aiohttp==3.11.11
 aiofiles==23.2.1
 
-# PDF Processing
-PyPDF2==3.0.1
 
-# OpenAI Integration
-openai==1.12.0
-tiktoken==0.8.0
+
 
 # Type Hints
 typing_extensions==4.12.2
