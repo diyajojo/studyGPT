@@ -94,6 +94,33 @@ def load_multiple_pdfs(file_paths):
             logger.error(f"Failed to read PDF file at {path}")
     return all_text
 
+# In your router file, modify the PDF loading and content generation section:
+
+def load_pdf(file_path: str) -> str:
+    """Extract text from a single PDF file with error handling"""
+    try:
+        text = extract_text_from_pdf(file_path)
+        return text if text else ""
+    except Exception as e:
+        logger.error(f"Error reading PDF {file_path}: {str(e)}")
+        return ""
+
+def load_module_notes(notes_files: list) -> Dict[str, str]:
+    """Load notes files and organize them by module"""
+    module_notes = {}
+    for file_path in notes_files:
+        # Extract module number from filename (assuming format modX.pdf)
+        module_key = os.path.splitext(os.path.basename(file_path))[0]
+        if not module_key.startswith('mod'):
+            continue
+        
+        text = load_pdf(file_path)
+        if text:
+            module_notes[module_key] = text
+    
+    return module_notes
+
+
 
 async def insert_content_to_database(user_id: str, subject: str, content: Dict[str, Any], logger: logging.Logger):
     """
@@ -416,57 +443,78 @@ async def upload_files(request: PostRequest):
 
         # Process PDFs and generate content & store to database
         logger.info("=== Starting PDF processing and content generation ===")
-        logger.info("Processing syllabus files...")
-        syllabus_text = load_multiple_pdfs(saved_files["syllabus"])
-        logger.info("Processing question papers...")
-        questions_text = load_multiple_pdfs(saved_files["pyq"])
-        logger.info("Processing notes...")
-        notes_text = load_multiple_pdfs(saved_files["notes"])
+        try:
+            # Process syllabus
+            logger.info("Processing syllabus files...")
+            if saved_files["syllabus"]:
+                syllabus_text = load_pdf(saved_files["syllabus"][0])  # Take the first syllabus file
+            else:
+                syllabus_text = ""
+                logger.warning("No syllabus files found")
 
-        if all([syllabus_text, questions_text, notes_text]):
+            # Process question papers
+            logger.info("Processing question papers...")
+            questions_texts = [load_pdf(qf) for qf in saved_files["pyq"]]
+            if not any(questions_texts):
+                logger.warning("No question papers could be read")
+                questions_texts = [""]  # Provide empty fallback
+
+            # Process module notes
+            logger.info("Processing notes...")
+            module_notes = load_module_notes(saved_files["notes"])
+            
+            if not syllabus_text:
+                logger.error("Failed to read syllabus file")
+                raise HTTPException(status_code=500, detail="Failed to process syllabus file")
+
+            if not module_notes:
+                logger.error("Failed to read any module notes")
+                raise HTTPException(status_code=500, detail="Failed to process module notes")
+
+            # Generate content
+            logger.info("Generating content from processed PDFs")
+            generator = ContentGenerator()
+            content = generator.generate_all_content(
+                syllabus_text=syllabus_text,
+                questions_texts=questions_texts,
+                notes_texts=module_notes
+            )
+
+            # Save output to file
+            output_dir = os.path.join(Config.DATA_DIR, current_user.id, request.subject)
+            output_path = os.path.join(output_dir, "output.json")
+            
+            logger.info(f"Saving generated content to: {output_path}")
+            async with aiofiles.open(output_path, "w", encoding='utf-8') as f:
+                await f.write(json.dumps(content, indent=2, ensure_ascii=False))
+
+            # Upload saved file to storage
             try:
-                logger.info("Generating content from processed PDFs")
-                generator = ContentGenerator()
-                content = generator.generate_all_content(syllabus_text, questions_text, notes_text)
-
-                # Save output to file
-                output_dir = os.path.join(Config.DATA_DIR, current_user.id, request.subject)
-                output_path = os.path.join(output_dir, "output.json")
-                
-                logger.info(f"Saving generated content to: {output_path}")
-                async with aiofiles.open(output_path, "w", encoding='utf-8') as f:
-                    await f.write(json.dumps(content, indent=2, ensure_ascii=False))
-                
-                # Upload saved file to storage
-                try:
-                    storage_url = await upload_file_to_storage(
-                        file_path=output_path,
-                        user_id=current_user.id,
-                        subject=request.subject,
-                        logger=logger
-                    )
-                except Exception as e:
-                    logger.error(f"Error uploading to storage: {str(e)}")
-                    # Continue execution even if storage upload fails
-                    
-
-                # Insert content into database
-                logger.info("Inserting generated content into database")
-                await insert_content_to_database(
+                storage_url = await upload_file_to_storage(
+                    file_path=output_path,
                     user_id=current_user.id,
                     subject=request.subject,
-                    content=content,
                     logger=logger
                 )
-                
-                logger.info(f"Successfully saved and stored content for {request.subject}")
             except Exception as e:
-                logger.error(f"Error in content generation or storage: {str(e)}")
-                raise
-        else:
-            logger.warning("Some PDF files could not be processed")
+                logger.error(f"Error uploading to storage: {str(e)}")
+                # Continue execution even if storage upload fails
 
-    
+            # Insert content into database
+            logger.info("Inserting generated content into database")
+            await insert_content_to_database(
+                user_id=current_user.id,
+                subject=request.subject,
+                content=content,
+                logger=logger
+            )
+            
+            logger.info(f"Successfully saved and stored content for {request.subject}")
+
+        except Exception as e:
+            logger.error(f"Error in content generation or storage: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Error in content generation: {str(e)}")
+
         # Prepare response
         logger.info("=== Preparing response ===")
         all_files = []
