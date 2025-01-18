@@ -607,3 +607,37 @@ async def get_current_subject():
         raise HTTPException(status_code=500, detail=str(e))
 
 '''
+
+
+@router.post("/get-output-json")
+async def get_output_json(request: PostRequest):
+    try:
+        logger.info("=== Getting output.json ===")
+        verification = await verify_auth(request.token)
+        if not verification.authenticated:
+            logger.warning("Authentication failed")
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        current_user = verification.user
+        logger.info(f"Authentication successful for user: {current_user.id}")
+
+        # Construct the file path
+        file_path = f"{current_user.id}/{request.subject}/output.json"
+
+        try:
+            # Download the file from storage
+            response = supabase.storage.from_("study_materials").download(file_path)
+            
+            # Parse the JSON content
+            content = json.loads(response.decode('utf-8'))
+            
+            logger.info(f"Successfully retrieved output.json for {request.subject}")
+            return content
+
+        except Exception as e:
+            logger.error(f"Error retrieving output.json: {str(e)}")
+            raise HTTPException(status_code=404, detail="Output file not found")
+
+    except Exception as e:
+        logger.error(f"Error in get_output_json: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
