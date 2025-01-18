@@ -1,13 +1,22 @@
 import React, { useState, useEffect,useRef } from 'react';
 import { ChevronRight,BookOpen,Sparkles } from 'lucide-react';
 import { supabase } from '../../utils/supabase';
-import ModuleTopicsModal from './modal';
+import ModuleTopicsModal from './topicsmodal';
+import QuestionAnswerModal from './quesmodal';
 
 interface Topic {
   id: string;
   topic_name: string;
   subject_id: string;
-  module_no: number;
+  module_no: number | string;
+}
+
+interface Question {
+  id: string;
+  question_text: string;
+  answer_text: string;
+  subject_id: string;
+  module_no: number | string;
 }
 
 interface SubjectContentProps
@@ -20,7 +29,9 @@ interface SubjectContentProps
 
 const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [isTopicsModalOpen, setIsTopicsModalOpen] = useState(false);
+  const [isQuestionsModalOpen, setIsQuestionsModalOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState('');
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -31,76 +42,78 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
   ];
 
   useEffect(() => {
-    // Create new AbortController for this effect instance
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    const fetchTopics = async () => {
+    // Function to fetch both topics and questions
+    const fetchData = async () => {
       try {
-        const { data, error } = await supabase
+        // Fetch topics
+        const { data: topicsData, error: topicsError } = await supabase
           .from('topics')
           .select('*')
           .eq('subject_id', selectedSubject.id)
           .abortSignal(controller.signal);
 
-        // Only update state if the request wasn't aborted
+        // Fetch questions
+        const { data: questionsData, error: questionsError } = await supabase
+          .from('questions')
+          .select('*')
+          .eq('subject_id', selectedSubject.id)
+          .abortSignal(controller.signal);
+
         if (!controller.signal.aborted) {
-          if (error) {
-            console.error('Error fetching topics:', error);
+          if (topicsError) {
+            console.error('Error fetching topics:', topicsError);
           } else {
-            setTopics(data || []);
+            setTopics(topicsData || []);
+          }
+
+          if (questionsError) {
+            console.error('Error fetching questions:', questionsError);
+          } else {
+            setQuestions(questionsData || []);
+            console.log("questions are",questionsData);
           }
         }
       } catch (error) {
-        // Only log error if it's not an abort error
         if (error instanceof Error && error.name !== 'AbortError') {
-          console.error('Unexpected error fetching topics:', error);
+          console.error('Unexpected error fetching data:', error);
         }
       }
     };
 
-    fetchTopics();
+    fetchData();
 
-    // Cleanup: abort any ongoing request when component unmounts or selectedSubject changes
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
     };
-  }, [selectedSubject.id]); // Only depend on selectedSubject.id
+  }, [selectedSubject.id]);
 
   const getTopicsForModule = (moduleNumber: string): Topic[] => {
-    // Extract just the number from "Module X"
     const moduleNum = moduleNumber.split(' ')[1];
-    // Filter topics where module_no matches our target module number
     return topics.filter(topic => topic.module_no.toString() === moduleNum);
   };
 
-  const handleModuleClick = (moduleNumber: string) => {
-    const filteredTopics = getTopicsForModule(moduleNumber);
-    console.log(`Topics for ${moduleNumber}:`, filteredTopics);
-    setSelectedModule(moduleNumber);
-    setIsModalOpen(true);
+  const getQuestionsForModule = (moduleNumber: string): Question[] => {
+    // Extract just the number from "Module X"
+    const moduleNum = moduleNumber.split(' ')[1];
+    // Filter questions where module_no matches the number
+    return questions.filter(question => question.module_no === moduleNum);
   };
 
-  const EmptyModuleState = () => (
-    <div className="py-8 px-4 text-center">
-      <div className="flex justify-center mb-4">
-        <Sparkles className="h-12 w-12 text-purple-500" />
-      </div>
-      <h3 className="text-xl font-semibold text-gray-800 mb-2">
-        You're in for a treat! 🎉
-      </h3>
-      <p className="text-gray-600 mb-4">
-        This module is special - it's so straightforward that it doesn't need any important topics highlighted.
-        You're already a step ahead! 
-      </p>
-      <div className="flex items-center justify-center gap-2 text-purple-600">
-        <BookOpen className="h-5 w-5" />
-        <span className="text-sm font-medium">Ready to explore the basics!</span>
-      </div>
-    </div>
-  );
+  const handleTopicModuleClick = (moduleNumber: string) => {
+    setSelectedModule(moduleNumber);
+    setIsTopicsModalOpen(true);
+  };
+
+  const handleQuestionModuleClick = (moduleNumber: string) => {
+    setSelectedModule(moduleNumber);
+    setIsQuestionsModalOpen(true);
+  };
+
 
 
   const handlePreviousMonth = () => {
@@ -126,42 +139,63 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
       </header>
 
       <div className="space-y-6">
+
         {/* Important Topics */}
-        <div className="bg-white p-6 rounded-xl shadow-sm">
+                <div className="bg-white p-6 rounded-xl shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-800">📚 IMPORTANT TOPICS</h2>
             <ChevronRight className="h-5 w-5 text-gray-400" />
           </div>
           <div className="grid grid-cols-3 gap-3">
-            {['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5'].map((module) => (
-              <button
-                key={module}
-                className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
-                onClick={() => handleModuleClick(module)}
-              >
-                {module}
-              </button>
-            ))}
+            {['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5'].map((module) => {
+              const moduleTopics = getTopicsForModule(module);
+              return (
+                <button
+                  key={module}
+                  className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 relative"
+                  onClick={() => handleTopicModuleClick(module)}
+                >
+                  {module}
+                  {moduleTopics.length > 0 && (
+                    <span className="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                      {moduleTopics.length}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Previous Year Questions */}
-        <div className="bg-white p-6 rounded-xl shadow-sm">
+
+        
+              {/* Previous Year Questions Section */}
+              <div className="bg-white p-6 rounded-xl shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-800">❓ REPEATED PREVIOUS YEAR QUESTIONS</h2>
             <ChevronRight className="h-5 w-5 text-gray-400" />
           </div>
           <div className="grid grid-cols-3 gap-3">
-            {['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5'].map((module) => (
-              <button
-                key={module}
-                className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
-              >
-                {module}
-              </button>
-            ))}
+            {['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5'].map((module) => {
+              const moduleQuestions = getQuestionsForModule(module);
+              return (
+                <button
+                  key={module}
+                  className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 relative"
+                  onClick={() => handleQuestionModuleClick(module)}
+                >
+                  {module}
+                  {moduleQuestions.length > 0 && (
+                    <span className="absolute top-0 right-0 -mt-2 -mr-2 bg-blue-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                      {moduleQuestions.length}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
+
         
         {/* Flashcards */}
         <div className="bg-white p-6 rounded-xl shadow-sm">
@@ -240,14 +274,22 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
       </div>
 
       <ModuleTopicsModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isTopicsModalOpen}
+        onClose={() => setIsTopicsModalOpen(false)}
         module={selectedModule}
         topics={getTopicsForModule(selectedModule).map(topic => ({
           ...topic,
           module_number: Number(topic.module_no)
         }))}
-        EmptyStateComponent={EmptyModuleState}
+      />
+<QuestionAnswerModal
+        isOpen={isQuestionsModalOpen}
+        onClose={() => setIsQuestionsModalOpen(false)}
+        module={selectedModule}
+        questions={getQuestionsForModule(selectedModule).map(question => ({
+          ...question,
+          module_no: Number(question.module_no)
+        }))}
       />
     </div>
   );
