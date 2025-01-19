@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException, BackgroundTasks, Response
 from fastapi.security import HTTPBearer
 from fastapi.responses import JSONResponse
 import uuid
-import jwt
 from typing import List, Optional
 import logging
 from logging.handlers import RotatingFileHandler
