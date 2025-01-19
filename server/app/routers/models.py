@@ -80,7 +80,7 @@ async def download_file(url: str, save_path: str):
         logger.error(f"Error in download_file: {str(e)}")
         return False
 
-async def load_multiple_pdfs(file_paths):
+def load_multiple_pdfs(file_paths):
     """Extract and concatenate text from multiple PDF files."""
     all_text = ""
     logger.info(f"Starting PDF processing for {len(file_paths)} files")
@@ -96,7 +96,7 @@ async def load_multiple_pdfs(file_paths):
 
 # In your router file, modify the PDF loading and content generation section:
 
-async def load_pdf(file_path: str) -> str:
+def load_pdf(file_path: str) -> str:
     """Extract text from a single PDF file with error handling"""
     try:
         text = extract_text_from_pdf(file_path)
@@ -105,7 +105,7 @@ async def load_pdf(file_path: str) -> str:
         logger.error(f"Error reading PDF {file_path}: {str(e)}")
         return ""
 
-async def load_module_notes(notes_files: list) -> Dict[str, str]:
+def load_module_notes(notes_files: list) -> Dict[str, str]:
     """Load notes files and organize them by module"""
     module_notes = {}
     for file_path in notes_files:
