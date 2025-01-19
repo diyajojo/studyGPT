@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, BackgroundTasks, Response
 from fastapi.security import HTTPBearer
+from fastapi.responses import JSONResponse
 import uuid
 import jwt
 from typing import List, Optional
@@ -62,6 +63,8 @@ logging.getLogger().handlers = []
 
 router = APIRouter()
 
+# Add new status tracking dictionary
+#processing_status = {}
 
 async def download_file(url: str, save_path: str):
     """Download a file from URL and save it locally"""
@@ -80,7 +83,7 @@ async def download_file(url: str, save_path: str):
         logger.error(f"Error in download_file: {str(e)}")
         return False
 
-async def load_multiple_pdfs(file_paths):
+def load_multiple_pdfs(file_paths):
     """Extract and concatenate text from multiple PDF files."""
     all_text = ""
     logger.info(f"Starting PDF processing for {len(file_paths)} files")
@@ -96,7 +99,7 @@ async def load_multiple_pdfs(file_paths):
 
 # In your router file, modify the PDF loading and content generation section:
 
-async def load_pdf(file_path: str) -> str:
+def load_pdf(file_path: str) -> str:
     """Extract text from a single PDF file with error handling"""
     try:
         text = extract_text_from_pdf(file_path)
@@ -105,7 +108,7 @@ async def load_pdf(file_path: str) -> str:
         logger.error(f"Error reading PDF {file_path}: {str(e)}")
         return ""
 
-async def load_module_notes(notes_files: list) -> Dict[str, str]:
+def load_module_notes(notes_files: list) -> Dict[str, str]:
     """Load notes files and organize them by module"""
     module_notes = {}
     for file_path in notes_files:
@@ -293,6 +296,291 @@ async def upload_file_to_storage(file_path: str, user_id: str, subject: str, log
         raise
 
 
+'''------------------'''
+# Add status tracking
+file_processing_status = {}
+
+async def process_files_background(request: PostRequest, user_id: str):
+    """Background task for processing uploaded files"""
+    try:
+        file_processing_status[user_id] = {"status": "processing", "error": None}
+        
+        # Move existing upload_files logic here
+        logger.info("=== Starting background processing ===")
+        logger.info("=== Starting upload process ===")
+        logger.info(f"Verifying authentication for user request")
+        verification = await verify_auth(request.token)
+        if not verification.authenticated:
+            logger.warning("Authentication failed")
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid authentication credentials"
+            )
+
+        current_user = verification.user
+        logger.info(f"Authentication successful for user: {current_user.id}")
+        
+        # Define paths for different file categories
+        paths = {
+            "notes": f"{current_user.id}/{request.subject}/notes",
+            "pyq": f"{current_user.id}/{request.subject}/pyq",
+            "syllabus": f"{current_user.id}/{request.subject}/syllabus"
+        }
+        logger.info(f"Processing subject: {request.subject}")
+
+        file_urls = {
+            "notes": [],
+            "pyq": [],
+            "syllabus": []
+        }
+
+        saved_files = {
+            "notes": [],
+            "pyq": [],
+            "syllabus": []
+        }
+
+        # Fetch files and download them
+        logger.info("=== Starting file processing ===")
+        for key, path in paths.items():
+            try:
+                logger.info(f"Processing category: {key}")
+                logger.debug(f"Listing files from path: {path}")
+                response = supabase.storage.from_("study_materials").list(
+                    path=path,
+                    options={
+                        "limit": 100,
+                        "sortBy": {"column": "name", "order": "desc"}
+                    }
+                )
+
+                if response is None or len(response) == 0:
+                    logger.info(f"No files found in {key} category")
+                    continue
+
+                logger.info(f"Found {len(response)} files in {key} category")
+
+                # Create directory for saving files
+                save_dir = os.path.join(Config.DATA_DIR, current_user.id, request.subject, key)
+                os.makedirs(save_dir, exist_ok=True)
+                logger.debug(f"Created directory: {save_dir}")
+
+                for file in response:
+                    try:
+                        logger.info(f"Processing file: {file['name']}")
+                        url = supabase.storage.from_("study_materials").get_public_url(
+                            f"{path}/{file['name']}"
+                        )
+                        file_urls[key].append(url)
+                        logger.debug(f"Generated public URL: {url}")
+
+                        # Download the file
+                        save_path = os.path.join(save_dir, file['name'])
+                        success = await download_file(url, save_path)
+                        if success:
+                            saved_files[key].append(save_path)
+                            logger.info(f"Successfully saved file to: {save_path}")
+                        else:
+                            logger.error(f"Failed to download file: {url}")
+
+                    except Exception as e:
+                        logger.error(f"Error processing file {file['name']}: {str(e)}")
+                        continue
+
+            except Exception as e:
+                logger.error(f"Error accessing storage for {key}: {str(e)}")
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Error accessing storage for {key}: {str(e)}"
+                )
+
+        # Add subject to subjects table
+        logger.info("=== Updating subjects table ===")
+        try:
+            logger.info(f"Checking if subject {request.subject} exists for user {current_user.id}")
+            existing_entry = supabase.table("subjects").select("*")\
+                .eq("user_id", current_user.id)\
+                .eq("subject_name", request.subject)\
+                .execute()
+
+            if not existing_entry.data:
+                logger.info("Subject not found, adding to subjects table")
+                supabase.table("subjects").insert({
+                    "user_id": current_user.id,
+                    "subject_name": request.subject
+                }).execute()
+                logger.info("Successfully added subject to table")
+        except Exception as e:
+            logger.error(f"Failed to insert subject: {str(e)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to insert subject: {str(e)}"
+            )
+
+        # Update user's current subject
+        logger.info("=== Updating user's current subject ===")
+        try:
+            # Get the subject_id
+            subject_response = supabase.table("subjects").select("id")\
+                .eq("user_id", current_user.id)\
+                .eq("subject_name", request.subject)\
+                .execute()
+            
+            if not subject_response.data:
+                logger.error("Subject ID not found")
+                raise ValueError("Subject not found in database")
+        
+            subject_id = subject_response.data[0]['id']
+            
+            # Update or insert into user_current_subject
+            supabase.rpc(
+                "upsert_user_current_subject",
+                {
+                    "p_user_id": current_user.id,
+                    "p_subject_id": subject_id,
+                    "p_subject_name": request.subject
+                }
+            ).execute()
+            logger.info("Successfully updated user's current subject")
+        except Exception as e:
+            logger.error(f"Error updating user's current subject: {str(e)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to update current subject: {str(e)}"
+            )
+
+        # Process PDFs and generate content & store to database
+        logger.info("=== Starting PDF processing and content generation ===")
+        try:
+            # Process syllabus
+            logger.info("Processing syllabus files...")
+            if saved_files["syllabus"]:
+                syllabus_text = load_pdf(saved_files["syllabus"][0])  # Take the first syllabus file
+            else:
+                syllabus_text = ""
+                logger.warning("No syllabus files found")
+
+            # Process question papers
+            logger.info("Processing question papers...")
+            questions_texts = [load_pdf(qf) for qf in saved_files["pyq"]]
+            if not any(questions_texts):
+                logger.warning("No question papers could be read")
+                questions_texts = [""]  # Provide empty fallback
+
+            # Process module notes
+            logger.info("Processing notes...")
+            module_notes = load_module_notes(saved_files["notes"])
+            
+            if not syllabus_text:
+                logger.error("Failed to read syllabus file")
+                raise HTTPException(status_code=500, detail="Failed to process syllabus file")
+
+            if not module_notes:
+                logger.error("Failed to read any module notes")
+                raise HTTPException(status_code=500, detail="Failed to process module notes")
+
+            # Generate content
+            logger.info("Generating content from processed PDFs")
+            generator = ContentGenerator()
+            content = generator.generate_all_content(
+                syllabus_text=syllabus_text,
+                questions_texts=questions_texts,
+                notes_texts=module_notes
+            )
+
+            # Save output to file
+            output_dir = os.path.join(Config.DATA_DIR, current_user.id, request.subject)
+            output_path = os.path.join(output_dir, "output.json")
+            
+            logger.info(f"Saving generated content to: {output_path}")
+            async with aiofiles.open(output_path, "w", encoding='utf-8') as f:
+                await f.write(json.dumps(content, indent=2, ensure_ascii=False))
+
+            # Upload saved file to storage
+            try:
+                storage_url = await upload_file_to_storage(
+                    file_path=output_path,
+                    user_id=current_user.id,
+                    subject=request.subject,
+                    logger=logger
+                )
+            except Exception as e:
+                logger.error(f"Error uploading to storage: {str(e)}")
+                # Continue execution even if storage upload fails
+
+            # Insert content into database
+            logger.info("Inserting generated content into database")
+            await insert_content_to_database(
+                user_id=current_user.id,
+                subject=request.subject,
+                content=content,
+                logger=logger
+            )
+            
+            logger.info(f"Successfully saved and stored content for {request.subject}")
+
+        except Exception as e:
+            logger.error(f"Error in content generation or storage: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Error in content generation: {str(e)}")
+
+        # Prepare response
+        logger.info("=== Preparing response ===")
+        all_files = []
+        for category, urls in file_urls.items():
+            for url in urls:
+                all_files.append(FileDetail(name=category, url=url))
+        logger.info(f"Total files in response: {len(all_files)}")
+
+        logger.info("=== Upload process completed successfully ===")
+
+        file_processing_status[user_id] = {"status": "completed", "error": None}
+        logger.info(f"Background processing completed for user {user_id}")
+        
+
+    except HTTPException as he:
+        logger.error(f"HTTP Exception occurred: {str(he)}")
+        raise he
+    except Exception as e:
+        logger.error(f"Background processing error: {str(e)}")
+        file_processing_status[user_id] = {"status": "failed", "error": str(e)}
+
+@router.post("/upload")
+async def handle_upload(
+    request: PostRequest,
+    background_tasks: BackgroundTasks
+):
+    """Quick-return upload endpoint that triggers background processing"""
+    try:
+        verification = await verify_auth(request.token)
+        if not verification.authenticated:
+            raise HTTPException(status_code=401)
+            
+        user_id = verification.user.id
+        background_tasks.add_task(process_files_background, request, user_id)
+        
+        return JSONResponse(
+            status_code=202,
+            content={
+                "message": "Processing started",
+                "status_endpoint": f"/status/{user_id}"
+            }
+        )
+    except Exception as e:
+        logger.error(f"Upload initiation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+#not used 4 now
+@router.get("/status/{user_id}")
+async def get_processing_status(user_id: str):
+    """Check file processing status"""
+    status = file_processing_status.get(user_id, {"status": "not_found", "error": None})
+    return status
+
+
+
+
+'''----------------------'''
+'''
 @router.post("/upload", response_model=PostResponse)
 async def upload_files(request: PostRequest):
     """
@@ -539,7 +827,8 @@ async def upload_files(request: PostRequest):
             status_code=500,
             detail=f"Error processing request: {str(e)}"
         )
-    
+
+'''
 
 @router.post("/get-current-subject", response_model=CurrentSubjectResponse)
 async def get_current_subject(token: TokenSchema):
