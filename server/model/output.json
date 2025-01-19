@@ -1,263 +1,54 @@
 {
   "important_topics": {
-    "mod1": [
-      "Data Models and Schema",
-      "Entity Set & Attributes",
-      "Database Users",
-      "Structured, Semi-Structured and Unstructured Data",
-      "Relationships and Constraints: Cardinality and Participation"
-    ],
+    "mod2": [],
     "mod3": [
-      "SQL DML (Data Manipulation Language)",
-      "Triggers",
-      "Indexing on multiple keys – grid files",
-      "Spanned and Unspanned Organization",
-      "Views, assertions"
+      "Aggregation and grouping",
+      "B-Trees and B+Trees",
+      "SQL data types",
+      "Review of terms",
+      "Nested queries"
     ],
-    "mod2": [
-      "Introduction to Relational Algebra",
-      "Query Examples",
-      "Important SQL Data Types",
-      "Relational Algebra: Select, Project, Cartesian Product Operations",
-      "Introduction to SQL"
+    "mod1": [
+      "Characteristics of DB System",
+      "Data Models",
+      "ER Model Basic Concepts",
+      "Weak Entities",
+      "Entity Set & Attributes"
     ],
-    "mod4": [
-      "Different Anomalies in Designing a Database",
-      "Second Normal Form (2NF)",
-      "Normalization",
-      "Third Normal Form (3NF)",
-      "Armstrong's Axioms"
-    ],
-    "mod5": [
-      "Concurrency and Recovery",
-      "Recoverable and cascade-less schedules",
-      "Transaction Processing Concepts: Transaction Model",
-      "Main characteristics of Graph DB",
-      "Locking"
-    ]
+    "mod5": [],
+    "mod4": []
   },
   "important_qna": {
-    "mod1": [
+    "mod2": [
       {
-        "question": "What is a DBMS and what are its main characteristics?",
-        "answer": "A Database Management System (DBMS) is a software system that enables users to define, create, maintain and control access to the database. Its main characteristics include data abstraction, support for ACID properties (Atomicity, Consistency, Isolation, Durability), provision for multiple views of data, and data security."
-      },
-      {
-        "question": "What is the difference between structured, semi-structured, and unstructured data?",
-        "answer": "Structured data is highly organized and formatted in a way so it's easily searchable in relational databases. Semi-structured data is a type of structured data, but lacks the strict data model structure. It contains tags to separate data elements. Unstructured data is neither of these, having no specific form or structure whatsoever."
-      },
-      {
-        "question": "What is the Three-Schema-Architecture in DBMS?",
-        "answer": "The Three-Schema-Architecture is a DBMS framework that divides the database system into three logical levels: the internal level, which is the physical storage level; the conceptual level, which describes what data is stored in the database; and the external level, which is how data is presented to users."
-      },
-      {
-        "question": "What are the basic concepts of the ER model?",
-        "answer": "The ER (Entity-Relationship) model is a conceptual data model that includes three basic concepts: entities, attributes, and relationships. Entities are objects or concepts that can be distinctly identified. Attributes are properties that describe the entity's characteristics. Relationships are associations between entities."
-      },
-      {
-        "question": "What are weak entities in the ER model?",
-        "answer": "Weak entities are entities that do not have key attributes of their own. They are dependent on another entity (the owner or strong entity) and are identified by being related to specific instances of the owner entity. They are represented in ER diagrams by a double rectangle."
+        "question": "",
+        "answer": ""
       }
     ],
     "mod3": [
       {
-        "question": "What is SQL DML and what does it allow you to do?",
-        "answer": "SQL DML (Data Manipulation Language) provides the ability to query information from the database, and to insert, delete, and modify tuples in the database. It is a part of SQL that is used for managing data within schema objects."
-      },
-      {
-        "question": "What are the different types of SQL queries that can be performed on single and multiple tables?",
-        "answer": "SQL queries on single and multiple tables can include Select, Insert, Update, and Delete commands. SQL also supports Nested queries which can be correlated or non-correlated, and aggregation and grouping of data."
-      },
-      {
-        "question": "What is physical data organization in the context of databases?",
-        "answer": "Physical data organization refers to the physical storage of data in a database. It includes concepts such as physical and logical records, blocking factor, pinned and unpinned organization, heap files, and indexing. These concepts determine how data is stored and retrieved from the database."
-      },
-      {
-        "question": "What are the different types of indices used in physical data organization?",
-        "answer": "There are several types of indices used in physical data organization, including single-level indices and multi-level indices, B-Trees and B+Trees, and Indexing on multiple keys through grid files. These indices enhance data retrieval speed."
-      },
-      {
-        "question": "What is the difference between fixed and variable length records in a file?",
-        "answer": "In a file, if every record has the same size in bytes, it is said to be made up of fixed-length records. On the other hand, if different records in the file have different sizes, the file is said to be made up of variable-length records."
+        "question": "",
+        "answer": ""
       }
     ],
-    "mod2": [
+    "mod1": [
       {
-        "question": "What is the relational data model and who introduced it?",
-        "answer": "The relational data model represents a database as a collection of relations, where a relation is a table with rows and columns. Each row represents a real-world entity and its related values. It was first introduced by Ted Codd in 1970."
-      },
-      {
-        "question": "What are the main operations in relational algebra?",
-        "answer": "The main operations in relational algebra are select, project, Cartesian product, and join (including Equi-join and Natural join)."
-      },
-      {
-        "question": "What are the main components of SQL and what are their functions?",
-        "answer": "SQL consists of Data Definition Language (DDL) and Data Manipulation Language (DML). DDL includes table definitions and operations such as CREATE, DROP, ALTER, INSERT, DELETE, UPDATE. DML allows for SQL queries on single and multiple tables, nested queries, and aggregations."
-      },
-      {
-        "question": "What is the process of synthesizing an ER diagram to a relational schema?",
-        "answer": "Synthesizing an ER diagram to a relational schema involves converting the entities, relationships, and constraints from the ER diagram into tables, columns, and constraints in the relational schema."
-      },
-      {
-        "question": "What is the structure of a relational database?",
-        "answer": "Relational databases are structured as a set of tables or relations. Each table contains rows (tuples) representing entities and columns (attributes) representing the characteristics of these entities. Integrity constraints are also a key part of the structure, ensuring the accuracy and consistency of the data."
-      }
-    ],
-    "mod4": [
-      {
-        "question": "What are the different anomalies in designing a database?",
-        "answer": "The different anomalies in designing a database include update anomalies, deletion anomalies, and insertion anomalies. These anomalies refer to the problems that can occur when data is inserted, updated, or deleted due to the database's structure."
-      },
-      {
-        "question": "What is functional dependency in the context of database normalization?",
-        "answer": "Functional dependency is a concept in database normalization where the value of one attribute (or a group of attributes) depends on another attribute (or a group of attributes). It's a key tool in achieving normalization in a database."
-      },
-      {
-        "question": "What are the four types of Normal Forms in database normalization?",
-        "answer": "The four types of Normal Forms in database normalization are First Normal Form (1NF), Second Normal Form (2NF), Third Normal Form (3NF), and Boyce Codd Normal Form (BCNF). Each form has a specific set of rules and conditions that must be met."
-      },
-      {
-        "question": "What is a lossless join and dependency preserving decomposition in database normalization?",
-        "answer": "Lossless join and dependency preserving decomposition are properties of a database schema. A lossless join ensures that the splicing of databases does not result in the loss of information, and dependency preserving means that all functional dependencies are preserved in the individual tables of a decomposition, which makes it easier to check for violations of certain constraints."
-      },
-      {
-        "question": "What are the informal design guidelines for relation schema?",
-        "answer": "There are four informal guidelines for designing relation schema: ensuring the semantics of the attributes are clear in the schema, reducing the redundant information in tuples, reducing the NULL values in tuples, and disallowing the possibility of generating spurious tuples."
+        "question": "",
+        "answer": ""
       }
     ],
     "mod5": [
       {
-        "question": "What is the significance of concurrency control in transaction processing?",
-        "answer": "Concurrency control in transaction processing is significant as it helps prevent conflicts and ensures data integrity when multiple transactions are executed concurrently. It avoids problems like dirty reads, lost updates, or uncommitted dependency."
-      },
+        "question": "",
+        "answer": ""
+      }
+    ],
+    "mod4": [
       {
-        "question": "What are the desirable properties of transactions?",
-        "answer": "The desirable properties of transactions include atomicity (all-or-nothing execution), consistency (ensuring database remains in a consistent state), isolation (each transaction is executed in isolation from others), and durability (once committed, the effects of a transaction are permanent)."
-      },
-      {
-        "question": "Could you differentiate between serial and concurrent schedules?",
-        "answer": "Serial schedules are those in which transactions are executed one after another, with no overlap. Concurrent schedules, on the other hand, allow transactions to be executed in parallel or overlap in time, increasing system throughput and resource utilization."
-      },
-      {
-        "question": "What is the concept of log-based recovery?",
-        "answer": "Log-based recovery is a technique used in database systems to bring the database back to a consistent state after a failure. It involves keeping track of every change made to the database through a log. In case of a system failure, these logs can be used to restore the database to its previous state."
-      },
-      {
-        "question": "What are some main characteristics of NoSQL Databases such as Key-value DB and Document DB?",
-        "answer": "Key-value databases, like Redis, store data as a collection of key-value pairs, where the key serves as a unique identifier. Document databases, like MongoDB, store data in document-like structures that are more flexible and varied than the rigid tables of relational databases. They are both part of NoSQL databases which are known for their scalability, performance, and ability to handle diverse data types."
+        "question": "",
+        "answer": ""
       }
     ]
   },
-  "flashcards": {
-    "mod3": [
-      {
-        "question": "What does SQL DML provide?",
-        "answer": "The SQL DML provides the ability to query information from the database and to insert tuples into, delete tuples from, and modify tuples in the database."
-      },
-      {
-        "question": "What is the use of the DISTINCT keyword in SQL?",
-        "answer": "The DISTINCT keyword in SQL is used to eliminate duplicate tuples from the result of an SQL query so that only distinct tuples remain in the result."
-      },
-      {
-        "question": "What is the difference between UNION and UNION ALL in SQL?",
-        "answer": "The UNION command in SQL combines the result set of two or more SELECT statements and removes duplicates. On the other hand, UNION ALL combines the result set of two or more SELECT statements but allows duplicate values."
-      },
-      {
-        "question": "What is the purpose of the LIKE comparison operator in SQL?",
-        "answer": "The LIKE comparison operator in SQL is used for string pattern matching. Partial strings are specified using two reserved characters: % replaces an arbitrary number of characters, and the underscore (_) replaces a single character."
-      },
-      {
-        "question": "What does the ORDER BY statement do in SQL?",
-        "answer": "The ORDER BY statement in SQL is used to sort the fetched data in either ascending or descending order according to one or more columns. By default, ORDER BY sorts the data in ascending order. The keyword DESC can be used to sort the data in descending order and the keyword ASC to sort in ascending order."
-      }
-    ],
-    "mod1": [
-      {
-        "question": "What is a Database Management System (DBMS)?",
-        "answer": "A DBMS is a collection of programs that enables users to create and maintain a database. It is a general-purpose software system that facilitates the processes of defining, constructing, manipulating, and sharing databases among various users and applications."
-      },
-      {
-        "question": "What are the characteristics of a DB system?",
-        "answer": "Characteristics of a DB system include self-describing nature, insulation between programs and data, support of multiple views of the data, and the ability to share data and perform multiuser transaction processing."
-      },
-      {
-        "question": "What is the difference between structured, semi-structured, and unstructured data?",
-        "answer": "Structured data is highly organized and resides in a fixed format. Unstructured data does not have a predefined format or organization. Semi-structured data does not fit into a strict relational structure but has some organizational properties, such as tags or markers."
-      },
-      {
-        "question": "What is the Three-Schema-architecture in database systems?",
-        "answer": "The Three-Schema Architecture is a database architecture which separates the conceptual, external, and internal schemas. It allows separation of data from the programs that use the data and enables multiple views of the data."
-      },
-      {
-        "question": "What are the basic concepts of the ER model?",
-        "answer": "The ER model's basic concepts include entities, attributes, and relationships. Entities are objects or concepts that are distinguishable from others. Attributes are properties that help define the characteristics of an entity. Relationships are the associations between entities."
-      }
-    ],
-    "mod2": [
-      {
-        "question": "What is a relational model in databases?",
-        "answer": "A relational model is a type of database model that stores data in a structured format, using rows and columns. Each row represents a real-world entity and its related values, while each column header is an attribute. Relations (or tables) are used in this model to represent data and form the basis of the structure."
-      },
-      {
-        "question": "What are the main components of a relational database structure?",
-        "answer": "The main components of a relational database structure are: Domain, Tuples (rows), Attributes (Columns), Keys, and Relations (Tables)."
-      },
-      {
-        "question": "What is Relational Algebra and what are its main operations?",
-        "answer": "Relational Algebra is a set of operations used to manipulate or retrieve data from a relational database. Its main operations include select, project, Cartesian product, and join operations (Equi-join, Natural join)."
-      },
-      {
-        "question": "What are the key constraints in the relational model?",
-        "answer": "Key constraints in the relational model include Primary key, Candidate key, Secondary/ Alternate key, Composite key, Foreign key, and Super key. These keys are used to identify records uniquely, maintain relationships between tables, and ensure data integrity."
-      },
-      {
-        "question": "What is Structured Query Language (SQL) and what are its main operations?",
-        "answer": "Structured Query Language (SQL) is a language used for managing and manipulating relational databases. Its main operations include Data Definition Language (DDL) commands like CREATE, DROP, ALTER, and Table operations like INSERT, DELETE, UPDATE."
-      }
-    ],
-    "mod4": [
-      {
-        "question": "What is normalization in the context of database design?",
-        "answer": "Normalization is a process in database design that organizes data to reduce redundancy and improve data integrity. It involves decomposing a database into two or more tables and defining relationships between the tables to eliminate redundant data and ensure data dependencies make sense."
-      },
-      {
-        "question": "What are the different anomalies in designing a database?",
-        "answer": "The different anomalies in designing a database are insertion anomaly (an issue that occurs when certain attributes cannot be inserted into the database without the presence of other attributes), deletion anomaly (a problem that occurs when certain attributes are lost from the database due to the deletion of other attributes), and modification anomaly (an issue that arises when changes in some attributes require changes in other attributes)."
-      },
-      {
-        "question": "What is a functional dependency in databases?",
-        "answer": "A functional dependency in databases is a constraint between two sets of attributes. It specifies a condition where the value of one attribute (or a group of attributes) determines the value of another attribute."
-      },
-      {
-        "question": "What are the different normal forms in database normalization?",
-        "answer": "The different normal forms in database normalization are First Normal Form (1NF), Second Normal Form (2NF), Third Normal Form (3NF), and Boyce-Codd Normal Form (BCNF). Each normal form represents a higher level of normalization, reducing redundancy and improving data integrity."
-      },
-      {
-        "question": "What is a lossless join and dependency preserving decomposition in databases?",
-        "answer": "A lossless join decomposition ensures that the splicing of data does not result in the loss of any data. Dependency preserving decomposition means that all functional dependencies can be determined from individual tables. In other words, there is no need to join tables to determine functional dependencies."
-      }
-    ],
-    "mod5": [
-      {
-        "question": "What is a Transaction Model in Transaction Processing Concepts?",
-        "answer": "A transaction model is a logical construct that defines the properties and behavior of a transaction. It ensures data integrity, consistency and reliability during transactions."
-      },
-      {
-        "question": "What is the significance of concurrency control in transaction processing?",
-        "answer": "Concurrency control ensures that correct results for concurrent operations are generated, while getting those results as quickly as possible. It prevents conflicts when multiple users access and manipulate the data concurrently."
-      },
-      {
-        "question": "What does 'recovery' mean in the context of transaction processing?",
-        "answer": "Recovery in transaction processing refers to the process of restoring the database to a correct state in the event of a failure. It ensures that the database remains consistent even if a transaction cannot be completed due to an error or system failure."
-      },
-      {
-        "question": "What are the main characteristics of Key-value and Document NoSQL databases?",
-        "answer": "Key-value NoSQL databases store data as a collection of key-value pairs. Examples include Redis and Amazon DynamoDB. Document NoSQL databases store data as documents, typically in JSON or BSON formats. They are schema-less, which means the structure of these documents can change over time. Examples include MongoDB and Couchbase."
-      },
-      {
-        "question": "What are the main characteristics of Column-Family and Graph NoSQL databases?",
-        "answer": "Column-Family NoSQL databases, like Apache Cassandra and Google Bigtable, store data in tables with rows and columns, but unlike RDBMS, the names and format of the columns can vary from row to row in the same table. Graph NoSQL databases, like Neo4j and Amazon Neptune, represent and store data in terms of entities and the relationships between these entities."
-      }
-    ]
-  }
+  "flashcards": []
 }
