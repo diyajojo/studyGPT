@@ -1,10 +1,11 @@
-import React, { useState, useEffect,useRef } from 'react';
-import { ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronRight, AlertTriangle } from 'lucide-react';
 import { supabase } from '../../utils/supabase';
 import ModuleTopicsModal from './topicsmodal';
 import QuestionAnswerModal from './quesmodal';
 import FlashcardModal from './flashcardmodal';
 import ScheduleModal from './schedulemodal';
+import { Alert, AlertDescription } from '../../components/ui/alert';
 
 interface Flashcard {
   id: string;
@@ -28,6 +29,32 @@ interface Question {
   subject_id: string;
   module_no: number | string;
 }
+interface Schedule {
+  id: string;
+  title: string;
+  start_date: string;
+  end_date: string;
+  created_by: string;
+}
+
+interface ScheduleActivity {
+  id: string;
+  schedule_id: string;
+  time: string;
+  topic: string;
+  description: string;
+  activity_type: string;
+}
+
+interface Assignment {
+  id: string;
+  schedule_id: string;
+  title: string;
+  description: string;
+  duration: string;
+  status: 'pending' | 'completed';
+  date: string;
+}
 
 interface SubjectContentProps
  {
@@ -47,7 +74,12 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState('');
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
+  const [existingSchedule, setExistingSchedule] = useState<Schedule | null>(null);
+  const [scheduleActivities, setScheduleActivities] = useState<ScheduleActivity[]>([]);
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [showScheduleAlert, setShowScheduleAlert] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
+
 
   const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -143,7 +175,7 @@ useEffect(() => {
           console.error('Error fetching questions:', questionsError);
         } else {
           setQuestions(questionsData || []);
-          console.log("questions are", questionsData);
+          //console.log("questions are", questionsData);
         }
 
         if (flashcardsError) {
