@@ -24,7 +24,6 @@ type ValidationResult = {
 
 const UserPage = () => {
   const router = useRouter();
-  const [isUploadComplete, setIsUploadComplete] = useState<boolean>(false);
   const [profile, setProfile] = useState<{ full_name: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [subject, setSubject] = useState<string>('');
@@ -100,7 +99,7 @@ const UserPage = () => {
   };
 
   
-  // passing the tokens via body not headers
+  // passing the tokens via body not headers     
   async function sendData (accessToken: string, refreshToken: string,userId:string,subject:string)  {
 
     console.log("access token:",accessToken);

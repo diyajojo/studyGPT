@@ -45,7 +45,10 @@ const StudyPrepHub = () => {
             }),
             signal: abortController.signal // Add abort signal to fetch
           });
-
+           console.log(JSON.stringify({
+            access_token: session.access_token,
+            refresh_token: session.refresh_token
+          }));
           if (!response.ok) {
             const errorText = await response.text();
             console.error('Token verification failed:', response.status, errorText);

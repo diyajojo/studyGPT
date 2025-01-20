@@ -113,7 +113,7 @@ const Schedule = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#125774]">
+    <div className="flex h-minscreen bg-[#125774]">
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-lg flex flex-col">
         <div className="p-4" style={{ background: primaryColor }}>

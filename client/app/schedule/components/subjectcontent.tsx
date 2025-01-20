@@ -1,9 +1,10 @@
 import React, { useState, useEffect,useRef } from 'react';
-import { ChevronRight,BookOpen,Sparkles } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { supabase } from '../../utils/supabase';
 import ModuleTopicsModal from './topicsmodal';
 import QuestionAnswerModal from './quesmodal';
 import FlashcardModal from './flashcardmodal';
+import ScheduleModal from './schedulemodal';
 
 interface Flashcard {
   id: string;
@@ -43,6 +44,7 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
    const [isFlashcardsModalOpen, setIsFlashcardsModalOpen] = useState(false);
   const [isTopicsModalOpen, setIsTopicsModalOpen] = useState(false);
   const [isQuestionsModalOpen, setIsQuestionsModalOpen] = useState(false);
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState('');
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -52,69 +54,121 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  useEffect(() => {
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
 
-    // Function to fetch both topics and questions
-    const fetchData = async () => {
-      try {
-        // Fetch topics
-        const { data: topicsData, error: topicsError } = await supabase
-          .from('topics')
-          .select('*')
-          .eq('subject_id', selectedSubject.id)
-          .abortSignal(controller.signal);
 
-        // Fetch questions
-        const { data: questionsData, error: questionsError } = await supabase
-          .from('questions')
-          .select('*')
-          .eq('subject_id', selectedSubject.id)
-          .abortSignal(controller.signal);
+useEffect(() => {
+  const controller = new AbortController();
+  abortControllerRef.current = controller;
 
-        if (!controller.signal.aborted) {
-          if (topicsError) {
-            console.error('Error fetching topics:', topicsError);
-          } else {
-            setTopics(topicsData || []);
-          }
+  // Function to fetch data from FastAPI and Supabase
+  const fetchData = async () => {
+    try {
+      // Get user session from Supabase
+      const { data: { session }, error: userError } = await supabase.auth.getSession();
 
-          if (questionsError) {
-            console.error('Error fetching questions:', questionsError);
-          } else {
-            setQuestions(questionsData || []);
-            console.log("questions are",questionsData);
-          }
+      if (userError) {
+        console.error('Error fetching user session:', userError);
+        return;
+      }
 
-          //fetch flashcards
-          const { data: flashcardsData, error: flashcardsError } = await supabase
-  .from('flashcards')
-  .select('*')
-  .eq('subject_id', selectedSubject.id)
-  .abortSignal(controller.signal);
+      const accessToken = session?.access_token;
+      const refreshToken = session?.refresh_token;
 
-if (flashcardsError) {
-  console.error('Error fetching flashcards:', flashcardsError);
-} else {
-  setFlashcards(flashcardsData || []);
-}
+      if (!accessToken || !refreshToken) {
+        console.error('Access or refresh token not available');
+        return;
+      }
+
+      // Prepare request body
+      const requestBody = {
+        user_id: selectedSubject.id,
+        subject: selectedSubject.subject_name,
+        token: {
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        },
+      };
+
+      console.log('Request Body:', requestBody);
+
+      // Fetch from FastAPI
+      const response = await fetch('https://studygpt-z5rq.onrender.com/models/get-output-json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal,
+      });
+
+      if (!response.ok) 
+      {
+        const errorData = await response.json();
+        console.error('FastAPI response error:', errorData);
+        throw new Error('Network response was not ok');
+      }
+
+      const fastApiData = await response.json();
+      console.log('FastAPI data:', fastApiData);
+
+      // Fetch topics
+      const { data: topicsData, error: topicsError } = await supabase
+        .from('topics')
+        .select('*')
+        .eq('subject_id', selectedSubject.id)
+        .abortSignal(controller.signal);
+
+      // Fetch questions
+      const { data: questionsData, error: questionsError } = await supabase
+        .from('questions')
+        .select('*')
+        .eq('subject_id', selectedSubject.id)
+        .abortSignal(controller.signal);
+
+      // Fetch flashcards
+      const { data: flashcardsData, error: flashcardsError } = await supabase
+        .from('flashcards')
+        .select('*')
+        .eq('subject_id', selectedSubject.id)
+        .abortSignal(controller.signal);
+
+      if (!controller.signal.aborted) {
+        if (topicsError) {
+          console.error('Error fetching topics:', topicsError);
+        } else {
+          setTopics(topicsData || []);
         }
-      } catch (error) {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          console.error('Unexpected error fetching data:', error);
+
+        if (questionsError) {
+          console.error('Error fetching questions:', questionsError);
+        } else {
+          setQuestions(questionsData || []);
+          console.log("questions are", questionsData);
+        }
+
+        if (flashcardsError) {
+          console.error('Error fetching flashcards:', flashcardsError);
+        } else {
+          setFlashcards(flashcardsData || []);
         }
       }
-    };
-
-    fetchData();
-
-    return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
+    } catch (error) {
+      if (error instanceof Error && error.name !== 'AbortError') {
+        console.error('Unexpected error fetching data:', error);
       }
-    };
-  }, [selectedSubject.id]);
+    }
+  };
+
+  fetchData();
+
+  return () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+  };
+}, [selectedSubject.id]);
+
+
 
   const getTopicsForModule = (moduleNumber: string): Topic[] => {
     const moduleNum = moduleNumber.split(' ')[1];
@@ -164,11 +218,12 @@ if (flashcardsError) {
           {selectedSubject.subject_name.toUpperCase()} - OVERVIEW 📚
         </h1>
         <button
-          className="px-4 py-2 rounded-lg text-white"
-          style={{ backgroundColor: "rgba(255, 140, 90, 1)" }}
-        >
-          Create schedule
-        </button>
+  onClick={() => setIsScheduleModalOpen(true)}
+  className="px-4 py-2 rounded-lg text-white"
+  style={{ backgroundColor: "rgba(255, 140, 90, 1)" }}
+>
+  Create schedule
+</button>
       </header>
 
       <div className="space-y-6">
@@ -337,6 +392,24 @@ if (flashcardsError) {
   onClose={() => setIsFlashcardsModalOpen(false)}
   module={selectedModule}
   flashcards={getFlashcardsForModule(selectedModule).map(flashcard => ({
+    ...flashcard,
+    module_no: Number(flashcard.module_no)
+  }))}
+/>
+<ScheduleModal 
+  isOpen={isScheduleModalOpen}
+  onClose={() => setIsScheduleModalOpen(false)}
+  subjectId={selectedSubject.id}
+  subjectName={selectedSubject.subject_name}
+  topics={topics.map(topic => ({
+    ...topic,
+    module_number: Number(topic.module_no)
+  }))}
+  questions={questions.map(question => ({
+    ...question,
+    module_no: Number(question.module_no)
+  }))}
+  flashcards={flashcards.map(flashcard => ({
     ...flashcard,
     module_no: Number(flashcard.module_no)
   }))}
