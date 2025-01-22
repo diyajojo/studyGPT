@@ -57,9 +57,17 @@ def main():
         print("Warning: No question papers could be read")
         questions_texts = [""]  # Provide empty fallback
 
+    # If module notes are empty, create fallback notes from syllabus and questions
     if not module_notes:
-        print("Error: Failed to read any module notes")
-        return
+        print("Warning: Failed to read module notes, using syllabus and questions as fallback")
+        # Combine all question texts
+        combined_questions = "\n\n".join(qt for qt in questions_texts if qt)
+        
+        # Create a fallback module notes dictionary using syllabus text and questions
+        module_notes = {
+            "syllabus_content": syllabus_text,
+            "questions_content": combined_questions
+        }
 
     # Generate content
     generator = ContentGenerator()
