@@ -6,6 +6,7 @@ from model.src.utils.pdf_utils import extract_text_from_pdf
 from model.src.generator.content_generator import ContentGenerator
 import sys
 
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 def load_pdf(file_path: str) -> str:
@@ -21,11 +22,8 @@ def load_module_notes(notes_files: list) -> Dict[str, str]:
     """Load notes files and organize them by module"""
     module_notes = {}
     for file_path in notes_files:
-        # Extract module number from filename (assuming format modX.pdf)
+        # Get filename without extension as the key
         module_key = os.path.splitext(os.path.basename(file_path))[0]
-        if not module_key.startswith('mod'):
-            continue
-        
         text = load_pdf(file_path)
         if text:
             module_notes[module_key] = text
@@ -35,22 +33,18 @@ def load_module_notes(notes_files: list) -> Dict[str, str]:
 def main():
     # Define paths
     syllabus_files = [
-        os.path.join(Config.DATA_DIR, "DBMS Syllabus.pdf")
+        os.path.join(Config.DATA_DIR, "OS Syllabus .pdf")
     ]
     
     questions_files = [
-        os.path.join(Config.DATA_DIR, "qp1.pdf"),
-        os.path.join(Config.DATA_DIR, "qp2.pdf"),
-        os.path.join(Config.DATA_DIR, "qp3.pdf"),
-        os.path.join(Config.DATA_DIR, "qp4.pdf"),
+        os.path.join(Config.DATA_DIR, "OS Jan 2024.pdf"),
+        os.path.join(Config.DATA_DIR, "OS June 2023.pdf"),
     ]
     
     notes_files = [
-        os.path.join(Config.DATA_DIR, "mod1.pdf"),
-        os.path.join(Config.DATA_DIR, "mod2.pdf"),
-        os.path.join(Config.DATA_DIR, "mod3.pdf"),
-        os.path.join(Config.DATA_DIR, "mod4.pdf"),
-        os.path.join(Config.DATA_DIR, "mod5.pdf"),
+        os.path.join(Config.DATA_DIR, "OS Mod 5.pdf"),
+        os.path.join(Config.DATA_DIR, "OS Mod 3.pdf"),
+
     ]
 
     # Load content with improved organization
@@ -66,9 +60,17 @@ def main():
         print("Warning: No question papers could be read")
         questions_texts = [""]  # Provide empty fallback
 
+    # If module notes are empty, create fallback notes from syllabus and questions
     if not module_notes:
-        print("Error: Failed to read any module notes")
-        return
+        print("Warning: Failed to read module notes, using syllabus and questions as fallback")
+        # Combine all question texts
+        combined_questions = "\n\n".join(qt for qt in questions_texts if qt)
+        
+        # Create a fallback module notes dictionary using syllabus text and questions
+        module_notes = {
+            "syllabus_content": syllabus_text,
+            "questions_content": combined_questions
+        }
 
     # Generate content
     generator = ContentGenerator()
