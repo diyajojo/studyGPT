@@ -113,7 +113,7 @@ const Schedule = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#125774]">
+    <div className="flex h-minscreen bg-[#125774]">
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-lg flex flex-col">
         <div className="p-4" style={{ background: primaryColor }}>
@@ -187,10 +187,10 @@ const Schedule = () => {
             <Bell className="h-5 w-5" />
             <span>Notifications</span>
           </button>
-          <button className="w-full flex items-center gap-3 px-4 py-2 text-left rounded-lg text-gray-700 hover:bg-gray-50">
+         {/* <button className="w-full flex items-center gap-3 px-4 py-2 text-left rounded-lg text-gray-700 hover:bg-gray-50">
             <Calendar className="h-5 w-5" />
             <span>Schedule</span>
-          </button>
+          </button> */}
         </nav>
       
         <div className="mb-5 p-6">
