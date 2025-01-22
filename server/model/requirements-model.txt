@@ -1,4 +1,4 @@
-openai
+openai==1.59.9
 python-dotenv
 PyPDF2
 langchain
@@ -73,7 +73,7 @@ mypy-extensions
 numpy
 oauthlib
 onnxruntime
-openai
+openai==1.59.9
 opentelemetry-api
 opentelemetry-exporter-otlp-proto-common
 opentelemetry-exporter-otlp-proto-grpc
@@ -158,7 +158,6 @@ aiofiles==23.2.1
 
 PyPDF2==3.0.1
 
-openai==1.12.0
 tiktoken==0.8.0
 
 typing_extensions==4.12.2
@@ -172,4 +171,4 @@ google-auth-oauthlib
 google-auth-httplib2 
 google-api-python-client 
 #python-supabase 
-openai
+openai==1.59.9
