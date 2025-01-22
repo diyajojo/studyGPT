@@ -2138,3 +2138,192 @@ subject_id
 2025-01-19 17:47:58 - app.routers.models - INFO - Total files in response: 10
 2025-01-19 17:47:58 - app.routers.models - INFO - === Upload process completed successfully ===
 2025-01-19 17:47:58 - app.routers.models - INFO - Background processing completed for user 783a6ce0-c6da-4998-b89f-da2a69836f74
+2025-01-22 10:39:27 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-22 10:39:27 - app.routers.models - INFO - Checking if subject dbms exists for user fcf471e4-ffcd-4093-8a52-540af1dbb667
+2025-01-22 10:39:30 - app.routers.models - INFO - Subject not found, adding to subjects table
+2025-01-22 10:39:30 - app.routers.models - INFO - Successfully added subject to table
+2025-01-22 10:39:30 - app.routers.models - INFO - === Updating user's current subject ===
+2025-01-22 10:39:31 - app.routers.models - INFO - Successfully updated user's current subject
+2025-01-22 10:39:31 - app.routers.models - INFO - === Starting background processing ===
+2025-01-22 10:39:31 - app.routers.models - INFO - === Starting upload process ===
+2025-01-22 10:39:31 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-22 10:39:31 - app.routers.models - INFO - Authentication successful for user: fcf471e4-ffcd-4093-8a52-540af1dbb667
+2025-01-22 10:39:31 - app.routers.models - INFO - Processing subject: dbms
+2025-01-22 10:39:31 - app.routers.models - INFO - === Starting file processing ===
+2025-01-22 10:39:31 - app.routers.models - INFO - Processing category: notes
+2025-01-22 10:39:31 - app.routers.models - DEBUG - Listing files from path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes
+2025-01-22 10:39:34 - app.routers.models - INFO - Found 5 files in notes category
+2025-01-22 10:39:34 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes
+2025-01-22 10:39:34 - app.routers.models - INFO - Processing file: mod5.pdf
+2025-01-22 10:39:34 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod5.pdf?
+2025-01-22 10:39:34 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod5.pdf?
+2025-01-22 10:39:34 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod5.pdf?
+2025-01-22 10:39:34 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod5.pdf
+2025-01-22 10:39:38 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod5.pdf
+2025-01-22 10:39:38 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod5.pdf
+2025-01-22 10:39:38 - app.routers.models - INFO - Processing file: mod4.pdf
+2025-01-22 10:39:38 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod4.pdf?
+2025-01-22 10:39:38 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod4.pdf?
+2025-01-22 10:39:38 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod4.pdf?
+2025-01-22 10:39:38 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod4.pdf
+2025-01-22 10:39:42 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod4.pdf
+2025-01-22 10:39:42 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod4.pdf
+2025-01-22 10:39:42 - app.routers.models - INFO - Processing file: mod3.pdf
+2025-01-22 10:39:42 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod3.pdf?
+2025-01-22 10:39:42 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod3.pdf?
+2025-01-22 10:39:42 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod3.pdf?
+2025-01-22 10:39:42 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod3.pdf
+2025-01-22 10:39:48 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod3.pdf
+2025-01-22 10:39:48 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod3.pdf
+2025-01-22 10:39:48 - app.routers.models - INFO - Processing file: mod2.pdf
+2025-01-22 10:39:48 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod2.pdf?
+2025-01-22 10:39:48 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod2.pdf?
+2025-01-22 10:39:48 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod2.pdf?
+2025-01-22 10:39:48 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod2.pdf
+2025-01-22 10:39:52 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod2.pdf
+2025-01-22 10:39:52 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod2.pdf
+2025-01-22 10:39:52 - app.routers.models - INFO - Processing file: mod1.pdf
+2025-01-22 10:39:52 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod1.pdf?
+2025-01-22 10:39:52 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod1.pdf?
+2025-01-22 10:39:52 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/notes/mod1.pdf?
+2025-01-22 10:39:52 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod1.pdf
+2025-01-22 10:39:57 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod1.pdf
+2025-01-22 10:39:57 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\notes\mod1.pdf
+2025-01-22 10:39:57 - app.routers.models - INFO - Processing category: pyq
+2025-01-22 10:39:57 - app.routers.models - DEBUG - Listing files from path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq
+2025-01-22 10:39:58 - app.routers.models - INFO - Found 4 files in pyq category
+2025-01-22 10:39:58 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq
+2025-01-22 10:39:58 - app.routers.models - INFO - Processing file: qp4.pdf
+2025-01-22 10:39:58 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp4.pdf?
+2025-01-22 10:39:58 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp4.pdf?
+2025-01-22 10:39:58 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp4.pdf?
+2025-01-22 10:39:58 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp4.pdf
+2025-01-22 10:40:02 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp4.pdf
+2025-01-22 10:40:02 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp4.pdf
+2025-01-22 10:40:02 - app.routers.models - INFO - Processing file: qp3.pdf
+2025-01-22 10:40:02 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp3.pdf?
+2025-01-22 10:40:02 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp3.pdf?
+2025-01-22 10:40:02 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp3.pdf?
+2025-01-22 10:40:02 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp3.pdf
+2025-01-22 10:40:04 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp3.pdf
+2025-01-22 10:40:04 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp3.pdf
+2025-01-22 10:40:04 - app.routers.models - INFO - Processing file: qp2.pdf
+2025-01-22 10:40:04 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp2.pdf?
+2025-01-22 10:40:04 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp2.pdf?
+2025-01-22 10:40:04 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp2.pdf?
+2025-01-22 10:40:04 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp2.pdf
+2025-01-22 10:40:09 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp2.pdf
+2025-01-22 10:40:09 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp2.pdf
+2025-01-22 10:40:09 - app.routers.models - INFO - Processing file: qp1.pdf
+2025-01-22 10:40:09 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp1.pdf?
+2025-01-22 10:40:09 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp1.pdf?
+2025-01-22 10:40:09 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/pyq/qp1.pdf?
+2025-01-22 10:40:09 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp1.pdf
+2025-01-22 10:40:14 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp1.pdf
+2025-01-22 10:40:14 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\pyq\qp1.pdf
+2025-01-22 10:40:14 - app.routers.models - INFO - Processing category: syllabus
+2025-01-22 10:40:14 - app.routers.models - DEBUG - Listing files from path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/syllabus
+2025-01-22 10:40:14 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-22 10:40:14 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\syllabus
+2025-01-22 10:40:14 - app.routers.models - INFO - Processing file: DBMS Syllabus.pdf
+2025-01-22 10:40:14 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/syllabus/DBMS Syllabus.pdf?
+2025-01-22 10:40:14 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/syllabus/DBMS Syllabus.pdf?
+2025-01-22 10:40:14 - app.routers.models - DEBUG - Extracted bucket path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/syllabus/DBMS Syllabus.pdf?
+2025-01-22 10:40:14 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\syllabus\DBMS Syllabus.pdf
+2025-01-22 10:40:18 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\syllabus\DBMS Syllabus.pdf
+2025-01-22 10:40:18 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\syllabus\DBMS Syllabus.pdf
+2025-01-22 10:40:18 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-22 10:40:18 - app.routers.models - INFO - Processing syllabus files...
+2025-01-22 10:40:19 - app.routers.models - INFO - Processing question papers...
+2025-01-22 10:40:20 - app.routers.models - INFO - Processing notes...
+2025-01-22 10:40:29 - app.routers.models - INFO - Generating content from processed PDFs
+2025-01-22 10:41:34 - app.routers.models - INFO - Saving generated content to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\fcf471e4-ffcd-4093-8a52-540af1dbb667\dbms\output.json
+2025-01-22 10:41:34 - app.routers.models - INFO - Starting upload of output.json to storage path: fcf471e4-ffcd-4093-8a52-540af1dbb667/dbms/output.json
+2025-01-22 10:41:36 - app.routers.models - INFO - Successfully uploaded output.json to storage
+2025-01-22 10:41:36 - app.routers.models - INFO - Inserting generated content into database
+2025-01-22 10:41:36 - app.routers.models - INFO - === Starting database insertion process ===
+2025-01-22 10:41:37 - app.routers.models - INFO - Retrieved subject_id: efb8f5ce-987a-4f8d-9a07-52b2b4ddbfe5
+2025-01-22 10:41:37 - app.routers.models - INFO - Inserting module topics...
+2025-01-22 10:41:37 - app.routers.models - INFO - Successfully inserted topics for module 2
+2025-01-22 10:41:37 - app.routers.models - INFO - Successfully inserted topics for module 4
+2025-01-22 10:41:38 - app.routers.models - INFO - Successfully inserted topics for module 1
+2025-01-22 10:41:38 - app.routers.models - INFO - Successfully inserted topics for module 3
+2025-01-22 10:41:38 - app.routers.models - INFO - Successfully inserted topics for module 5
+2025-01-22 10:41:38 - app.routers.models - INFO - Inserting module Q&A...
+2025-01-22 10:41:39 - app.routers.models - INFO - Successfully inserted Q&A for module 2
+2025-01-22 10:41:39 - app.routers.models - INFO - Successfully inserted Q&A for module 4
+2025-01-22 10:41:40 - app.routers.models - INFO - Successfully inserted Q&A for module 1
+2025-01-22 10:41:40 - app.routers.models - INFO - Successfully inserted Q&A for module 3
+2025-01-22 10:41:41 - app.routers.models - INFO - Successfully inserted Q&A for module 5
+2025-01-22 10:41:41 - app.routers.models - INFO - Inserting flashcards...
+2025-01-22 10:41:41 - app.routers.models - INFO - Successfully inserted flashcards
+2025-01-22 10:41:41 - app.routers.models - INFO - === Database insertion process completed ===
+2025-01-22 10:41:41 - app.routers.models - INFO - Successfully saved and stored content for dbms
+2025-01-22 10:41:41 - app.routers.models - INFO - === Preparing response ===
+2025-01-22 10:41:41 - app.routers.models - INFO - Total files in response: 10
+2025-01-22 10:41:41 - app.routers.models - INFO - === Upload process completed successfully ===
+2025-01-22 10:41:41 - app.routers.models - INFO - Background processing completed for user fcf471e4-ffcd-4093-8a52-540af1dbb667
+2025-01-22 18:50:39,188 - app.routers.schedules - INFO - Token scopes: None
+2025-01-22 18:50:39,188 - app.routers.schedules - ERROR - Error in sync_to_google_calendar: argument of type 'NoneType' is not iterable
+2025-01-22 18:51:35,905 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 18:51:35,905 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 18:51:35,905 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 18:51:36,604 - app.routers.schedules - INFO - Token scopes: None
+2025-01-22 18:51:36,609 - app.routers.schedules - ERROR - Error in sync_to_google_calendar: argument of type 'NoneType' is not iterable
+2025-01-22 18:52:48,116 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 18:52:48,116 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 18:52:48,136 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 18:52:49,652 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/schedules?select=%2A&created_by=eq.ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c&subject_id=eq.bd62be76-594d-4c6b-90b6-1fbd5f282fc8 "HTTP/2 200 OK"
+2025-01-22 18:52:49,675 - app.routers.schedules - INFO - Token scopes: None
+2025-01-22 18:52:49,675 - app.routers.schedules - ERROR - Error in sync_to_google_calendar: argument of type 'NoneType' is not iterable
+2025-01-22 18:57:20,482 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/schedules?select=%2A&created_by=eq.ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c&subject_id=eq.bd62be76-594d-4c6b-90b6-1fbd5f282fc8 "HTTP/2 200 OK"
+2025-01-22 18:57:20,499 - app.routers.schedules - INFO - Token scopes: None
+2025-01-22 18:57:20,499 - app.routers.schedules - ERROR - Error in sync_to_google_calendar: argument of type 'NoneType' is not iterable
+2025-01-22 19:15:42,596 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/schedules?select=%2A&created_by=eq.ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c&subject_id=eq.bd62be76-594d-4c6b-90b6-1fbd5f282fc8 "HTTP/2 200 OK"
+2025-01-22 19:15:42,627 - app.routers.schedules - INFO - Token scopes: None
+2025-01-22 19:15:42,630 - app.routers.schedules - ERROR - Error in sync_to_google_calendar: argument of type 'NoneType' is not iterable
+2025-01-22 19:19:20,306 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:20,309 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:31,732 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:31,962 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:32,000 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:43,682 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:43,692 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:43,902 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:54,546 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:54,602 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:19:54,664 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:20:00,263 - app.routers.schedules - ERROR - Error in sync_to_google_calendar: 401: Invalid refresh token
+2025-01-22 19:21:09,703 - app.routers.schedules - ERROR - Error in sync_to_google_calendar: 401: Invalid token: The token is not yet valid (iat)
+2025-01-22 19:21:13,491 - app.routers.schedules - ERROR - Error in sync_to_google_calendar: 401: Invalid token: The token is not yet valid (iat)
+2025-01-22 19:22:01,278 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/schedules?select=%2A&created_by=eq.ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c&subject_id=eq.bd62be76-594d-4c6b-90b6-1fbd5f282fc8 "HTTP/2 200 OK"
+2025-01-22 19:22:01,362 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-01-22 19:22:04,453 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
+2025-01-22 19:22:07,463 - app.routers.schedules - ERROR - Failed to sync event for schedule_id 89993367-dc74-4dff-96e5-8029f2669ae3: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-01-22 19:22:08,033 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
+2025-01-22 19:22:08,443 - app.routers.schedules - ERROR - Failed to sync event for schedule_id ea3aaae1-d55f-4ef0-87fa-fb4b533c62bd: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-01-22 19:22:09,062 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
+2025-01-22 19:22:09,262 - app.routers.schedules - ERROR - Failed to sync event for schedule_id 233739a1-0d66-4d2b-b714-5bbd8d24876c: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-01-22 19:22:09,879 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
+2025-01-22 19:22:10,177 - app.routers.schedules - ERROR - Failed to sync event for schedule_id a10a3a35-1a13-4ca5-bc9e-5d89ea666a69: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-01-22 19:22:13,872 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
+2025-01-22 19:22:14,013 - app.routers.schedules - ERROR - Failed to sync event for schedule_id 21f71541-e54d-4530-9c4e-a32d5d5c1630: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-01-22 19:22:14,538 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
+2025-01-22 19:22:14,663 - app.routers.schedules - ERROR - Failed to sync event for schedule_id 594a670f-d940-4344-987d-c9ddee5d788f: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-01-22 19:24:32,543 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:24:32,543 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:24:44,054 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:24:44,105 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:24:44,133 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:24:45,536 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/schedules?select=%2A&created_by=eq.ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c&subject_id=eq.bd62be76-594d-4c6b-90b6-1fbd5f282fc8 "HTTP/2 200 OK"
+2025-01-22 19:24:45,583 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-01-22 19:24:47,264 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
+2025-01-22 19:24:48,493 - app.routers.schedules - ERROR - Failed to access Google Calendar: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-01-22 19:28:05,432 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:28:05,432 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:28:05,433 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-22 19:28:05,523 - app.routers.schedules - INFO - Attempting calendar sync for user ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c
+2025-01-22 19:28:08,325 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/schedules?select=%2A&created_by=eq.ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c&subject_id=eq.bd62be76-594d-4c6b-90b6-1fbd5f282fc8 "HTTP/2 200 OK"
+2025-01-22 19:28:08,363 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-01-22 19:28:10,616 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
+2025-01-22 19:28:13,302 - app.routers.schedules - ERROR - Failed to initialize calendar service: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
