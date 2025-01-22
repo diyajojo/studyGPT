@@ -7,7 +7,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 import json
-import aiohttp
+
 import aiofiles
 from app.services.supabase_service import supabase
 from app.routers.auth import verify_auth
