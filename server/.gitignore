@@ -1,5 +1,5 @@
 venv/
-
+testvenv/
 # Ignore Python bytecode files
 *.pyc
 __pycache__/

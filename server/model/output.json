@@ -1,262 +1,264 @@
 {
   "important_topics": {
     "mod3": [
-      "Multiplication of Binary Numbers",
+      "Instruction and Arithmetic Pipelines",
       "Booth’s Multiplication Algorithm",
-      "Array Multiplier",
-      "Classification of Pipeline Processors",
-      "Instruction and Arithmetic Pipelines"
-    ],
-    "mod5": [
-      "Memory System: Basic Concepts –Semiconductor RAMs",
-      "Mapping Functions, Replacement Algorithms, Write Policies",
-      "Microinstructions",
-      "Register Transfer Language",
-      "Memory System Design: Semiconductor Memory Technologies"
-    ],
-    "mod1": [
-      "Functional Units",
-      "Micro Programmed CPU Organization",
-      "Microinstructions",
-      "Logic and Shift Micro Operations",
-      "Basic Structure of Computers"
+      "Basic Principles of Pipelining",
+      "Pipelining",
+      "Hazard Detection and Resolution"
     ],
     "mod4": [
-      "Micro Programmed CPU Organization",
-      "Microinstructions",
-      "Multiple Bus Organization",
-      "Processor Logic Design",
-      "Basic Principles of Pipelining"
+      "Memory System Considerations - ROMs",
+      "Design of Shifter - Processor Unit",
+      "Design of Arithmetic Logic Unit",
+      "Pipelining: Basic Principles",
+      "Control Logic Design"
     ],
     "mod2": [
-      "Algorithm for Division (Restoring Method) of Binary Numbers",
-      "Processor Logic Design",
-      "Hazard Detection and Resolution",
-      "Processor Organization",
-      "Hardwired Control vs Microprogram Control"
+      "Design of Shifter - Processor Unit",
+      "PLA-Based Control Organization",
+      "Design of Arithmetic Logic Unit",
+      "Instruction - Single Bus and Multiple Bus Organization",
+      "Register Transfer Logic"
+    ],
+    "mod1": [
+      "Design of Shifter - Processor Unit",
+      "Design of Arithmetic Logic Unit",
+      "Pipelining: Basic Principles",
+      "Memory System Considerations – ROMs",
+      "Accessing of I/O Devices – Interrupts"
+    ],
+    "mod5": [
+      "Write Policies",
+      "Pipelining: Basic Concepts",
+      "Hierarchical Memory Organization",
+      "Semiconductor Memory Technologies",
+      "Memory System Considerations – ROMs"
     ]
   },
   "important_qna": {
     "mod3": [
       {
-        "question": "What is the principle behind binary number multiplication algorithm?",
-        "answer": "The principle behind binary multiplication algorithm is similar to the traditional multiplication method. Each digit in the multiplier is multiplied with the multiplicand, shifted according to its position, and then all results are added to get the final result."
+        "question": "What is the restoring method of division in binary numbers?",
+        "answer": "The restoring method of division in binary numbers is an algorithm where the divisor is repeatedly subtracted from the dividend. If the result is negative, the divisor is added back. The procedure is repeated until the dividend is less than the divisor. The quotient is obtained by counting the number of subtractions."
       },
       {
-        "question": "What does the restoring method of binary number division entail?",
-        "answer": "The restoring method of binary division involves a series of subtractions and shifts. It subtracts the divisor from the dividend, and if the result is positive, it is kept. If it's negative, the original value is restored, and a zero bit is written to the quotient."
+        "question": "What is Booth’s multiplication algorithm?",
+        "answer": "Booth's multiplication algorithm is a multiplication algorithm that multiplies two signed binary numbers in two's complement notation. The algorithm reduces the number of multiplications by treating two bits of the multiplier at once, thereby reducing the time complexity."
       },
       {
-        "question": "Can you briefly describe Booth’s multiplication algorithm?",
-        "answer": "Booth's multiplication algorithm is an efficient algorithm for multiplying binary integers. It reduces the number of additions by examining the multiplier bit-by-bit. It takes advantage of the fact that sequences of 0s in the multiplier require no addition, and sequences of 1s require only one addition."
+        "question": "What are the basic principles of pipelining?",
+        "answer": "The basic principles of pipelining involve dividing a process into several stages, where each stage processes its operation concurrently with the other stages. This helps to increase the throughput and efficiency of the system. The principles include instruction fetch, instruction decode, execute, memory access, and register write back."
       },
       {
-        "question": "What is the basic principle of pipelining?",
-        "answer": "Pipelining is a technique where multiple instructions are overlapped in execution. It works on the basic principle of dividing the processor's tasks into a series of independent steps or stages, with input flowing from one stage to the next much like items in a factory assembly line."
+        "question": "What is hazard detection and resolution in pipelining?",
+        "answer": "Hazard detection and resolution in pipelining refer to the process of identifying and managing conditions that can cause instruction execution to behave differently than expected. These hazards can be data hazards, structural hazards, or control hazards. Resolution techniques include stalling, pipeline flush, and data forwarding."
       },
       {
-        "question": "What is hazard detection and resolution in the context of pipelining?",
-        "answer": "Hazard detection and resolution refers to the identification and management of situations that prevent the next instruction in the instruction stream from executing in the designated clock cycle. Hazards can be of different types like data, control or structural hazards, and different techniques are used to resolve them, such as stalling or instruction reordering."
+        "question": "What is microprogram control logic in the context of processor unit control?",
+        "answer": "Microprogram control logic refers to a method of implementing the control logic of a computer as a miniature program. In the context of processor unit control, it involves an approach where the control signals are generated by a program similar to machine language programming, which allows for flexibility and ease of designing and modifying the control logic."
+      }
+    ],
+    "mod4": [
+      {
+        "question": "What is the purpose of a microprogram sequencer in control logic design?",
+        "answer": "A microprogram sequencer is used to determine the sequence of microinstructions that need to be executed in a microprogrammed control unit. It helps in controlling the flow of microinstructions, facilitating efficient functioning of the processor."
+      },
+      {
+        "question": "What is the difference between horizontal and vertical microinstructions?",
+        "answer": "Horizontal microinstructions have large width and provide detailed control signals for each component of a computer system, enabling parallel operations. Vertical microinstructions, on the other hand, are more compact and specify operations in a more encoded manner, thus requiring a decoder for interpretation."
+      },
+      {
+        "question": "What role does Direct Memory Access (DMA) play in computer engineering?",
+        "answer": "Direct Memory Access (DMA) allows input/output devices to send or receive data directly to or from the main memory, bypassing the CPU. This reduces the load on the processor and improves the overall performance of the computer system."
+      },
+      {
+        "question": "What are the basic principles of Pipelining?",
+        "answer": "Pipelining is a technique where multiple instructions are overlapped during execution. The basic principles involve dividing the operations into separate pipeline stages and executing them concurrently. This increases the instruction throughput of the processor and improves system performance."
+      },
+      {
+        "question": "What is the design of hardwired control logic?",
+        "answer": "Design of hardwired control logic involves creating a controller to manage the operations of a system directly through hardware. The control signals are generated by the hardware itself, without the need for a control program, resulting in faster operation speeds."
+      }
+    ],
+    "mod2": [
+      {
+        "question": "What are inter register transfer – arithmetic, logic and shift micro operations in register transfer logic?",
+        "answer": "In register transfer logic, inter register transfer – arithmetic, logic and shift micro operations refer to the basic operations carried out within a processor. Arithmetic micro operations perform mathematical calculations, logic operations execute boolean logic, and shift operations move the bits within a register to the left or right."
+      },
+      {
+        "question": "What is the significance of the design of an arithmetic logic unit in processor logic design?",
+        "answer": "The Arithmetic Logic Unit (ALU) is a fundamental part of a processor. It performs both arithmetic and logical operations on binary data. The design of the ALU is crucial as it impacts the processing power and efficiency of a processor."
+      },
+      {
+        "question": "What is the role of the accumulator in a processor unit?",
+        "answer": "The accumulator is a special register within a processor unit that stores intermediate results during computation. It's integral to arithmetic and logic operations, as it temporarily holds data that needs to be accessed quickly during processing."
+      },
+      {
+        "question": "What are the key steps involved in the restoring method for binary division in the context of arithmetic algorithms?",
+        "answer": "The restoring method for binary division involves: 1. Initialize the quotient and remainder. 2. Shift the divisor one place right. 3. Subtract the divisor from the remainder and check the sign. 4. If the sign is negative, restore the previous value of the remainder, shift the quotient one place right, and write a 0 in the quotient. 5. If the sign is positive, shift the quotient one place right and write a 1 in the quotient. 6. Repeat steps 2-5 until the desired precision is reached."
+      },
+      {
+        "question": "How can one differentiate between instruction and arithmetic pipelines?",
+        "answer": "Instruction pipelines and arithmetic pipelines are both techniques for improving CPU performance. Instruction pipelining involves breaking the processing of a CPU instruction into a series of independent steps, with each step being handled by a different part of the CPU. Arithmetic pipelining, on the other hand, allows a CPU to start executing a second instruction before the first has been completed. This involves breaking down a complex arithmetic operation into a series of simpler operations that can be executed concurrently."
+      }
+    ],
+    "mod1": [
+      {
+        "question": "What are the basic operational concepts in the structure of computers?",
+        "answer": "The basic operational concepts in the structure of computers include functional units, bus structures, memory locations and addresses, memory operations, instructions and instruction sequencing, and addressing modes."
+      },
+      {
+        "question": "What does the execution of a complete instruction involve in a single bus organization?",
+        "answer": "The execution of a complete instruction in a single bus organization involves the process of fetching the instruction from memory, decoding it, executing it, and storing the result back into memory. This process is known as the instruction cycle."
+      },
+      {
+        "question": "What is the difference between single bus and multiple bus organization in the execution of a complete instruction?",
+        "answer": "In a single bus organization, all data and instructions travel on the same bus, which can lead to bottlenecks. In a multiple bus organization, there are separate buses for data and instructions, which can improve efficiency and speed."
+      },
+      {
+        "question": "What is the function of register transfer logic in computer structure?",
+        "answer": "Register transfer logic is used to move data between registers within a computer's CPU. It supports operations like arithmetic, logic, and shift micro-operations."
+      },
+      {
+        "question": "What is the role of interrupts in accessing I/O devices?",
+        "answer": "Interrupts play a crucial role in accessing I/O devices. They allow an I/O device to signal the CPU that it needs its attention, effectively interrupting the current process. This allows the CPU to manage multiple tasks efficiently without being idle or wasting resources."
       }
     ],
     "mod5": [
       {
         "question": "What are the basic processing units in computer science and engineering?",
-        "answer": "The basic processing units in computer science and engineering are the fundamental components that perform operations in a computer. They include the Central Processing Unit (CPU), Input/Output (I/O) devices, and memory."
+        "answer": "The basic processing units in computer science and engineering include the Central Processing Unit (CPU), Arithmetic Logic Unit (ALU), and Control Unit (CU)."
       },
       {
-        "question": "What is the purpose of interrupts in accessing I/O devices?",
-        "answer": "Interrupts are signals sent by I/O devices to the processor to alert it that an event requiring immediate attention has occurred. They are used to ensure efficient use of the processor by preventing it from waiting for slower I/O devices."
+        "question": "Can you explain the concept of accessing of I/O devices through interrupts?",
+        "answer": "Interrupts are signals sent by hardware devices or software programs to the CPU indicating that they require immediate attention. When an I/O device sends an interrupt, the CPU stops its current tasks and attends to the interrupt."
       },
       {
         "question": "What is direct memory access?",
         "answer": "Direct Memory Access (DMA) is a method that allows input/output (I/O) devices to send or receive data directly to or from the main memory, bypassing the CPU to speed up memory operations."
       },
       {
-        "question": "What is the concept of cache memories mapping functions?",
-        "answer": "Cache memories mapping functions are techniques used to determine the location where data will be stored in the cache memory. The types of mapping functions include direct, associative, and set-associative mapping."
+        "question": "What is the difference between ROM and RAM in memory system considerations?",
+        "answer": "RAM (Random Access Memory) is a type of volatile memory that is used for temporary storage of data and instructions that the computer is currently working on. ROM (Read-Only Memory), on the other hand, is non-volatile memory that contains data or programs that can be read but not written to. ROM is used to store firmware or software that is required to boot up the computer."
       },
       {
-        "question": "What is the role of interrupts in process state transitions?",
-        "answer": "Interrupts play a critical role in process state transitions. They can cause a process to change its state from running to waiting or vice versa. This happens when an interrupt signals the completion of an I/O operation or the occurrence of an event, causing the operating system to reassess the state of processes."
-      }
-    ],
-    "mod1": [
-      {
-        "question": "What are the functional units of a computer's basic structure?",
-        "answer": "The functional units of a computer's basic structure include the central processing unit (CPU), memory, and input/output (I/O) devices. The CPU is responsible for executing instructions and performing computations, while the memory stores data and instructions. I/O devices allow the computer to interact with the external environment."
-      },
-      {
-        "question": "What are memory locations and addresses in the context of computer structure?",
-        "answer": "Memory locations are specific places where data is stored within a computer's memory. Each location is identified with a unique address. When a computer performs memory operations, it uses these addresses to specify where data should be read from or written to."
-      },
-      {
-        "question": "What is the concept of instruction execution and instruction cycle?",
-        "answer": "Instruction execution refers to the process of a CPU carrying out the instructions of a program. The instruction cycle, also known as the fetch-decode-execute cycle, is the process by which a computer retrieves a program instruction from its memory, determines what actions the instruction requires, and carries out those actions."
-      },
-      {
-        "question": "What is the role of the bus in a computer's structure?",
-        "answer": "In a computer's structure, a bus is a communication system that transfers data between different components. There can be multiple bus structures in a computer, including a data bus to carry the data, an address bus to determine where it should go, and a control bus to manage the communication process."
-      },
-      {
-        "question": "What is the purpose of the 'register transfer logic' in Module 2?",
-        "answer": "Register Transfer Logic is a type of digital circuit design, and it is used to move data between registers (storage locations in a computer's CPU). It includes operations such as inter-register transfer, arithmetic operations, logical operations, and shift operations."
-      }
-    ],
-    "mod4": [
-      {
-        "question": "What is the main focus of Control Logic Design?",
-        "answer": "Control Logic Design is primarily focused on the design of hardwired control logic and the design of microprogram control logic, including the control of processor units. It also delves into concepts like microprogram sequencer, micro programmed CPU organization, and the difference between horizontal and vertical micro instructions."
-      },
-      {
-        "question": "What are the key elements of microprogram control logic design?",
-        "answer": "The key elements of microprogram control logic design include the control of the processor unit, the use of a microprogram sequencer, the organization of the micro programmed CPU, and an understanding of microinstructions, both horizontal and vertical."
-      },
-      {
-        "question": "Can you explain what is meant by 'hardwired control logic'?",
-        "answer": "Hardwired control logic refers to a design methodology for control circuits where the control signals are generated by hardware devices such as logic gates and flip-flops, rather than by a microprogram or software. The logic is 'hardwired' into the circuitry, meaning it cannot be easily changed or reprogrammed."
-      },
-      {
-        "question": "What is the main difference between horizontal and vertical microinstructions?",
-        "answer": "Horizontal and vertical microinstructions refer to different formats of microcode. Horizontal microcode has wide instruction words and allows several operations to be specified in parallel, offering more control over the hardware but requiring more memory. Vertical microcode has narrower instruction words and specifies fewer operations, which makes it more memory-efficient but less flexible."
-      },
-      {
-        "question": "What is the role of the microprogram sequencer in microprogram control logic?",
-        "answer": "A microprogram sequencer is responsible for determining the order in which microinstructions are executed in a microprogrammed control unit. It generates the address of the next microinstruction based on the current instruction and the status of the system, thereby controlling the flow of the microprogram."
-      }
-    ],
-    "mod2": [
-      {
-        "question": "What are the types of inter register transfers in register transfer logic?",
-        "answer": "The types of inter register transfers in register transfer logic are arithmetic micro operations and logic and shift micro operations."
-      },
-      {
-        "question": "What is the function of an arithmetic logic unit in processor logic design?",
-        "answer": "In processor logic design, an arithmetic logic unit (ALU) performs arithmetic and logic operations on the data stored in the processor's registers."
-      },
-      {
-        "question": "What role does the accumulator play in a processor unit?",
-        "answer": "The accumulator in a processor unit is a special register that stores the results of arithmetic and logic operations performed by the arithmetic logic unit."
-      },
-      {
-        "question": "Can you explain Booth’s multiplication algorithm in the context of arithmetic algorithms?",
-        "answer": "Booth's multiplication algorithm is a method for multiplying binary integers. It reduces the number of arithmetic operations needed to perform a multiplication, hence improving efficiency."
-      },
-      {
-        "question": "What is the difference between instruction and arithmetic pipelines in the context of pipelining?",
-        "answer": "Instruction pipelines deal with the processing of computer instructions, including fetching, decoding, and executing instructions. Arithmetic pipelines, on the other hand, deal specifically with the execution of arithmetic operations."
+        "question": "What is cache memory and how does it work?",
+        "answer": "Cache memory is a small-sized type of volatile computer memory that provides high-speed data access to the CPU and stores frequently used computer programs, applications and data. Cache memory is faster than main memory, and it uses the locality of reference principle to predict which data should be stored in cache memory. The data in the cache memory can be accessed faster, increasing the overall speed of the computer."
       }
     ]
   },
   "flashcards": {
+    "mod1": [
+      {
+        "question": "What are the functional units in the basic structure of computers according to module mod1?",
+        "answer": "The functional units in the basic structure of computers are the central processing unit (CPU), memory, and the input and output devices (I/O)."
+      },
+      {
+        "question": "What is meant by 'Memory locations and addresses' in the context of Module mod1?",
+        "answer": "'Memory locations and addresses' refers to the specific spots within memory where data and instructions can be stored and retrieved. Each location has a unique address for identification."
+      },
+      {
+        "question": "What is 'instruction sequencing' in the context of module mod1?",
+        "answer": "'Instruction sequencing' refers to the order in which instructions are executed in a computer program."
+      },
+      {
+        "question": "What are 'addressing modes' as described in Module mod1?",
+        "answer": "'Addressing modes' refer to the ways in which a computer can access data in memory or registers, such as direct, indirect, immediate, and register addressing modes."
+      },
+      {
+        "question": "What is meant by the 'instruction cycle' in the context of module mod1?",
+        "answer": "The 'instruction cycle' refers to the process that a computer goes through to execute an instruction, which typically involves fetching the instruction from memory, decoding it, executing it, and then storing the result."
+      }
+    ],
     "mod3": [
       {
-        "question": "What is an Array Multiplier in the context of binary number multiplication?",
-        "answer": "An Array Multiplier is a type of binary multiplication algorithm that uses a grid of AND and OR gates to quickly multiply binary numbers."
+        "question": "What is an Array Multiplier in the context of Arithmetic Algorithms?",
+        "answer": "An Array Multiplier is an important digital circuit used for the multiplication of binary numbers. It uses a set of adders and shifters to perform the operation."
       },
       {
-        "question": "What are the types of pipeline processors as per the module?",
-        "answer": "The types of pipeline processors include instruction pipelines and arithmetic pipelines."
+        "question": "What does the Classification of Pipeline Processors entail in Lecture 1 and 2?",
+        "answer": "The Classification of Pipeline Processors involves categorizing processors based on their ability to execute multiple instructions simultaneously. Lecture 1 and 2 cover various types of classifications like scalar or superscalar, and single-issue or multi-issue pipelines."
       },
       {
-        "question": "What is the role of instruction pipelines as discussed in the module?",
-        "answer": "Instruction pipelines are used in the design of modern processors, microprocessors, and CPUs to increase their instruction throughput."
+        "question": "What is the purpose of Instruction and Arithmetic Pipelines?",
+        "answer": "Instruction and Arithmetic Pipelines are used to improve the performance of a computer's CPU. They allow multiple instructions to be in different stages of execution simultaneously, thus increasing throughput and efficiency."
       },
       {
-        "question": "What are arithmetic pipelines as per the module content?",
-        "answer": "Arithmetic pipelines are a type of pipeline architecture used in the design of computers and CPUs to perform arithmetic operations on binary numbers."
+        "question": "How is the Restoring Method used for Division of Binary Numbers?",
+        "answer": "The Restoring Method for Division is an algorithm used for binary number division. It involves a sequence of subtraction and shift operations, and 'restoring' the dividend when a subtraction operation results in a negative number."
       },
       {
-        "question": "What is the classification of pipeline processors discussed in Lecture 1 and 2?",
-        "answer": "The classification of pipeline processors in Lecture 1 and 2 cover various types and architectures of pipeline processors, including instruction and arithmetic pipelines."
+        "question": "What is the key concept of Hazard Detection and Resolution in the context of Pipelining?",
+        "answer": "Hazard Detection and Resolution refers to the process of identifying and handling potential conflicts or dependencies between instructions in a pipeline. This ensures smooth and correct execution of instructions."
+      }
+    ],
+    "mod2": {
+      "flashcards": [
+        {
+          "question": "What are the primary components in the design of an arithmetic circuit?",
+          "answer": "The primary components in the design of an arithmetic circuit are an arithmetic logic unit, status register, shifter, and accumulator."
+        },
+        {
+          "question": "Define the term 'Processor Organization' in the context of processor logic design.",
+          "answer": "Processor Organization refers to the arrangement and interconnection of components in a computer’s central processing unit. This includes the control unit, arithmetic logic unit, and registers."
+        },
+        {
+          "question": "What is the role of a status register in a processor unit?",
+          "answer": "The status register in a processor unit holds information about the state of the processor. It provides status flags that indicate the outcomes of various operations performed by the processor."
+        },
+        {
+          "question": "Explain 'Inter register transfer – logic and shift micro operations' in Register Transfer Logic.",
+          "answer": "Inter register transfer – logic and shift micro operations refer to the operations that move data between registers, perform logical operations, and shift data in registers."
+        },
+        {
+          "question": "What is the function of a 'shifter' in a processor unit?",
+          "answer": "A 'shifter' in a processor unit is used to perform shift operations on data. This includes shifting bits to the left or right, which can be used for tasks such as multiplication or division by powers of two."
+        }
+      ]
+    },
+    "mod4": [
+      {
+        "question": "What are the key components in the design of microprogram control logic?",
+        "answer": "The key components in the design of microprogram control logic include a microprogram sequencer, microinstructions, and a micro programmed CPU organization."
+      },
+      {
+        "question": "What is the function of a micro programmed CPU organization?",
+        "answer": "A micro programmed CPU organization is responsible for controlling the processor unit. It uses a set of microinstructions stored in a microprogram to control the hardware of the computer."
+      },
+      {
+        "question": "What are microinstructions and why are they important?",
+        "answer": "Microinstructions are the basic set of instructions that control the hardware of a computer. They are important because they direct the operation of the processor unit and define the machine's instruction set."
+      },
+      {
+        "question": "What does a microprogram sequencer do?",
+        "answer": "A microprogram sequencer is responsible for controlling the sequence of execution of the microinstructions. It ensures that the microinstructions are executed in the correct order."
+      },
+      {
+        "question": "What is the role of hardwired control logic in control organization?",
+        "answer": "Hardwired control logic is responsible for the execution of instructions in a processor. It uses a fixed logic circuit to interpret and execute instructions."
       }
     ],
     "mod5": [
       {
-        "question": "What is the role of I/O subsystems in computer science and engineering?",
-        "answer": "I/O subsystems are responsible for controlling and coordinating the use of I/O devices such as keyboards, monitors, printers, etc. They manage I/O operations and convert between the computer's internal data representation and the format used by I/O devices."
+        "question": "What is the concept of Memory Interleaving in Memory System Design?",
+        "answer": "Memory interleaving is a technique used to simultaneously access multiple memory modules, improving processing speed by allowing next data fetch to occur while the first memory module is still being accessed."
       },
       {
-        "question": "What is the concept of memory interleaving in computer science and engineering?",
-        "answer": "Memory interleaving is a technique that increases the rate of data transfer between the main memory and the CPU. It allows the CPU to access a new memory module while the previous one is still being refreshed, which improves the overall system performance."
+        "question": "What is the role of interrupts in process state transitions?",
+        "answer": "Interrupts are signals that inform the CPU of a high-priority condition requiring the interruption of the current code execution. They play a crucial role in process state transitions as they can pause a process, saving its state so it can be resumed later, allowing for multitasking."
       },
       {
-        "question": "What are the basic concepts of pipelining in computer science and engineering?",
-        "answer": "Pipelining is a technique used in advanced microprocessors where the processor begins executing a second instruction before the first has been completed. This is done by dividing the instructions into different stages which are processed concurrently, increasing the overall execution speed."
+        "question": "What is the difference between privileged and non-privileged instructions in I/O transfers?",
+        "answer": "Privileged instructions are only executable in kernel mode (by the operating system), while non-privileged instructions can be executed in both user and kernel modes. In I/O transfers, privileged instructions might include commands that control hardware devices, whereas non-privileged instructions might handle data transfer."
       },
       {
-        "question": "What is the concept of cache size vs. block size in computer science and engineering?",
-        "answer": "Cache size and block size are key parameters in the design of a cache memory system. Cache size is the total amount of storage available in the cache, while block size (or line size) is the unit of data that the cache can read or write. The choice of block size impacts the cache's hit rate and its complexity."
+        "question": "What are Pipeline Hazards and how do they impact the performance of a computer system?",
+        "answer": "Pipeline hazards are situations that prevent the next instruction in the instruction stream from executing in the designed clock cycle. They can lead to performance issues as they cause delays in the pipeline, reducing processor throughput."
       },
       {
-        "question": "What is the concept of concurrent access to memory and cache coherency in computer science and engineering?",
-        "answer": "Concurrent access to memory refers to multiple processors accessing the memory simultaneously. Cache coherence is a consistency mechanism for multiple caches to a shared memory in multiprocessor systems. It ensures that changes in the value of shared operand data are propagated throughout the system to maintain the consistency."
-      }
-    ],
-    "mod1": [
-      {
-        "question": "What are the basic operational concepts in the structure of computers?",
-        "answer": "The basic operational concepts in the structure of computers include how the functional units interact, how memory is accessed and manipulated, instruction sequencing, and how instructions are executed within a single or multiple bus organization."
-      },
-      {
-        "question": "What is meant by 'addressing modes' in the context of computer structure?",
-        "answer": "Addressing modes in computer structure refer to the methods used to determine the location of an operand of an instruction."
-      },
-      {
-        "question": "What is the difference between single bus and multiple bus organization?",
-        "answer": "In a single bus organization, all data transfers occur over a common bus which connects all major components of the computer. In contrast, a multiple bus organization has more than one bus, allowing simultaneous data transfers between multiple components and thus potentially increasing the speed and efficiency of operations."
-      },
-      {
-        "question": "What happens during an instruction cycle in the basic processing unit?",
-        "answer": "During an instruction cycle, the basic processing unit fetches an instruction from memory, decodes it to determine what operation to perform, retrieves any necessary operands from memory, executes the operation, and stores the result back to memory."
-      },
-      {
-        "question": "What are memory operations in the context of computer structure?",
-        "answer": "Memory operations in the context of computer structure refer to the processes of storing data to and retrieving data from memory. These operations form a fundamental part of how a computer functions."
-      }
-    ],
-    "mod2": [
-      {
-        "question": "What are the key steps involved in the design of an arithmetic logic unit?",
-        "answer": "The design process of an Arithmetic Logic Unit (ALU) involves the following key steps: 1. Determine the required operations such as addition, subtraction, multiplication, division, logical AND, OR, NOT, and shift. 2. Design the circuitry for each operation. 3. Combine all operations into a single unit. 4. Implement control logic to select the appropriate operation based on the inputs."
-      },
-      {
-        "question": "What is the purpose of a status register in a processor?",
-        "answer": "A status register, also known as a flag register, is used to indicate the outcome of an operation. It holds information about the result of the most recent arithmetic or logic operation. This can include flags such as zero, carry, overflow, and sign."
-      },
-      {
-        "question": "What is the role of a shifter in processor design?",
-        "answer": "A shifter is an important component of a processor design. It is used to perform shift operations on data. These operations can include logical shifts, arithmetic shifts, and circular shifts. Shifting can be used for tasks such as multiplication and division by powers of two, rotating bits, and manipulating individual bits within a word."
-      },
-      {
-        "question": "What are the steps involved in the execution of a complete instruction in a multiple bus organization?",
-        "answer": "The steps involved in the execution of a complete instruction in a multiple bus organization include: 1. Fetch the instruction from memory. 2. Decode the instruction to determine what operation to perform. 3. Fetch any operands from memory. 4. Perform the operation. 5. Store the result back in memory."
-      },
-      {
-        "question": "What is the difference between arithmetic micro operations and logic and shift micro operations in inter register transfer?",
-        "answer": "Arithmetic micro operations are those that perform mathematical operations, such as addition, subtraction, increment, or decrement. Logic and shift micro operations, on the other hand, involve logical operations (AND, OR, NOT) and shifting bits to the left or right."
-      }
-    ],
-    "mod4": [
-      {
-        "question": "What does Control Organization in Control Logic Design involve?",
-        "answer": "Control Organization in Control Logic Design involves the design of hardwired control logic, which is the physical interconnection of logic gates to perform a specific operation."
-      },
-      {
-        "question": "What is the purpose of microprogram control logic in processor unit design?",
-        "answer": "Microprogram control logic in processor unit design handles the control of the processor unit. It uses a stored program of microinstructions to generate the control signals required for operation."
-      },
-      {
-        "question": "What role does a Microprogram Sequencer play in a microprogram control logic?",
-        "answer": "A Microprogram Sequencer is responsible for controlling the order of microinstruction execution. It dictates the sequence in which the CPU's control unit performs microoperations."
-      },
-      {
-        "question": "Can you explain the concept of Micro Programmed CPU organization?",
-        "answer": "In Micro Programmed CPU organization, the control unit of a CPU is implemented as a microprogram stored in a control memory, which allows the CPU to execute machine instructions through a series of microinstructions."
-      },
-      {
-        "question": "What is the distinction between horizontal and vertical microinstructions?",
-        "answer": "Horizontal microinstructions specify control signals in a wide format, allowing for simultaneous operations. Vertical microinstructions, on the other hand, are more compact and specify operations in a serialized manner."
+        "question": "What is the concept of Concurrent access to memory in the context of Parallel Processors?",
+        "answer": "Concurrent access to memory refers to the ability of multiple processors to simultaneously access memory modules. This is common in parallel processors where multiple processors function concurrently, each accessing and executing instructions independently from the same memory module."
       }
     ]
   }
