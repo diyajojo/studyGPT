@@ -1,0 +1,288 @@
+{
+  "important_topics": {
+    "mod1": [
+      "Introduction to Operating System",
+      "System calls, Types",
+      "Operating System Structure: Simple, Layered, Microkernel, Modules",
+      "System Boot Process",
+      "Operating System operations, functions, service"
+    ],
+    "mod2": [
+      "First come First Served, Shortest Job First",
+      "Priority scheduling, Round Robin Scheduling",
+      "Scheduling",
+      "Processes",
+      "Process Scheduling – Basic concepts, Scheduling Criteria"
+    ],
+    "mod5": [
+      "Allocation Methods",
+      "Magnetic Disks, Solid-State Disks, Disk Structure",
+      "File-System Implementation",
+      "Access Methods",
+      "Disk Scheduling"
+    ],
+    "mod3": [
+      "Process synchronization",
+      "Resource Allocation Graphs",
+      "Deadlocks: Necessary conditions",
+      "Synchronization hardware",
+      "Peterson’s solution"
+    ],
+    "mod4": [
+      "Monitors",
+      "Page replacement algorithms",
+      "Semaphores",
+      "Protection",
+      "Critical Section problem, Peterson’s solution"
+    ]
+  },
+  "important_qna": {
+    "mod1": [
+      {
+        "question": "What are the key operations and functions of an Operating System?",
+        "answer": "The key operations and functions of an Operating System include managing hardware and software resources, providing a user interface, executing and providing services for applications, and ensuring security and efficiency in the execution of tasks."
+      },
+      {
+        "question": "What are the types of system calls in an Operating System?",
+        "answer": "System calls in an Operating System can be categorized into four types: Process Control, File Management, Device Management, and Information Maintenance."
+      },
+      {
+        "question": "What are the different structures of an Operating System?",
+        "answer": "Operating Systems can have different structures such as Simple Structure, Layered Structure, Microkernel Structure, and Modular Structure."
+      },
+      {
+        "question": "What is the System Boot Process in an Operating System?",
+        "answer": "The System Boot Process is the initial set of operations that the computer performs when power is switched on. The boot loader loads the operating system into the computer's main memory or random access memory (RAM)."
+      },
+      {
+        "question": "What is process synchronization and why is it important?",
+        "answer": "Process synchronization ensures that multiple processes are able to execute in the correct sequence to prevent data inconsistency. It is important in systems where multiple processes share common resources."
+      }
+    ],
+    "mod2": [
+      {
+        "question": "What is process scheduling in computer science and engineering?",
+        "answer": "Process scheduling is the method that operating systems use to allocate CPU time to processes. It involves basic concepts, scheduling criteria, and various algorithms such as First Come First Served, Shortest Job First, Priority scheduling, and Round Robin Scheduling."
+      },
+      {
+        "question": "What are the different types of process scheduling algorithms?",
+        "answer": "The different types of process scheduling algorithms include First Come First Served, Shortest Job First, Priority scheduling, and Round Robin Scheduling."
+      },
+      {
+        "question": "What is process synchronization in the context of computer science?",
+        "answer": "Process synchronization refers to the handling of the situation when multiple processes access the same resource simultaneously. It involves addressing race conditions and critical section problems. Solutions can include Peterson's solution, synchronization hardware, Mutex Locks, Semaphores, and Monitors."
+      },
+      {
+        "question": "What are deadlocks in computer science and how can they be managed?",
+        "answer": "Deadlocks are a condition in a system where two or more processes are unable to proceed because each is waiting for the other to release a resource. Deadlock management involves understanding necessary conditions, using resource allocation graphs, and implementing deadlock prevention, avoidance, and detection strategies. Recovery from deadlocks can be achieved through methods like the Banker’s algorithm."
+      },
+      {
+        "question": "What is memory management in computer science?",
+        "answer": "Memory management refers to the handling of computer's memory resources, including the management of address spaces, swapping, contiguous memory allocation, fixed and variable partitions, segmentation, and paging. It also includes concepts of virtual memory, demand paging, and page replacement algorithms."
+      }
+    ],
+    "mod5": [
+      {
+        "question": "What are the key attributes of a file in a computer system?",
+        "answer": "File attributes can include the file name, type, location, size, creation date and time, last modification date and time, and access permissions."
+      },
+      {
+        "question": "What are the different access methods for files?",
+        "answer": "The different access methods for files include sequential access, direct (or random) access, and indexed access."
+      },
+      {
+        "question": "How is file protection implemented in a computer system?",
+        "answer": "File protection is usually implemented through setting access permissions and user rights. This may include read, write, execute, delete, and other permissions."
+      },
+      {
+        "question": "What are the different types of disk scheduling algorithms?",
+        "answer": "The different types of disk scheduling algorithms include First-Come, First-Served (FCFS), Shortest Seek Time First (SSTF), SCAN, C-SCAN, LOOK, and C-LOOK."
+      },
+      {
+        "question": "What is the difference between magnetic disks and solid-state disks?",
+        "answer": "Magnetic disks store data on a magnetized surface and are mechanically read, making them slower but cheaper. Solid-state disks store data in flash memory, which makes them faster but more expensive."
+      }
+    ],
+    "mod3": [
+      {
+        "question": "What is process synchronization and what are race conditions?",
+        "answer": "Process synchronization refers to the idea that multiple processes are to join up or handshake at a certain point, so as to reach an agreement or commit to a certain sequence of action. Race condition is a situation that occurs in a concurrent system when the system's substantive behavior is dependent on the sequence or timing of other uncontrollable events."
+      },
+      {
+        "question": "What is the critical section problem and Peterson’s solution?",
+        "answer": "The critical section problem refers to the problem of ensuring that no two processes run their critical sections at the same time when the processes' execution is overlapped. Peterson's solution is a concurrent programming algorithm for mutual exclusion that allows two or more processes to share a single-use resource without conflict, using only shared memory for communication."
+      },
+      {
+        "question": "What are Deadlocks and their necessary conditions?",
+        "answer": "A deadlock is a state in which each member of a group is waiting for some other member to take action, like releasing a lock. The four necessary conditions for deadlock are mutual exclusion, hold and wait, no preemption, and circular wait."
+      },
+      {
+        "question": "Can you explain what is Banker’s algorithm?",
+        "answer": "The Banker’s algorithm is a resource allocation and deadlock avoidance algorithm that tests for safety by simulating the allocation of predetermined maximum possible amounts of all resources, and then makes an 's-state' check to test for possible activities, before deciding whether allocation should be allowed to continue."
+      },
+      {
+        "question": "What is Memory Management and the Concept of Address spaces?",
+        "answer": "Memory Management is the process of controlling and coordinating computer memory, assigning portions known as blocks to various running programs to optimize the performance of system. The concept of address spaces refers to the range of discrete addresses that an application is allowed to access."
+      }
+    ],
+    "mod4": [
+      {
+        "question": "What is the concept of Address Spaces in Memory Management?",
+        "answer": "Address Spaces in Memory Management refers to the range of discrete addresses that a processor or memory management unit (MMU) can generate, i.e., the total memory that can be addressed."
+      },
+      {
+        "question": "Can you explain the process of Swapping in Memory Management?",
+        "answer": "Swapping in Memory Management is a method where a process can be swapped temporarily out of main memory (or move) to secondary storage (disk) and make that memory available to other processes. Later, the system swaps back the process from the secondary storage to main memory."
+      },
+      {
+        "question": "What is Segmentation in Memory Management?",
+        "answer": "Segmentation in Memory Management is a method of dividing the computer's main memory into different segments or sections. Each segment can be allocated to a process and hence, allows the memory to be utilized efficiently."
+      },
+      {
+        "question": "What does the term 'Demand Paging' refer to in the context of Virtual Memory?",
+        "answer": "Demand Paging is a method in Virtual Memory, where a page is loaded into memory only if an attempt is made to access it and it is not already in memory, i.e., pages are only loaded on demand."
+      },
+      {
+        "question": "Could you define the term 'Deadlock' in the context of Process Synchronization?",
+        "answer": "In the context of Process Synchronization, a Deadlock is a situation where two or more processes are unable to proceed because each is waiting for the other to release a resource."
+      }
+    ]
+  },
+  "flashcards": {
+    "mod4": [
+      {
+        "question": "What does Contiguous memory allocation refer to in Memory Management?",
+        "answer": "Contiguous memory allocation refers to a classical memory management model where each job is run in contiguous blocks of memory. It can have fixed or variable partition sizes.",
+        "module_number": "4"
+      },
+      {
+        "question": "What is Paging in the context of Memory Management?",
+        "answer": "Paging is a memory management scheme that permits the physical-address space of a process to be noncontiguous. It avoids the considerable problem of fitting varying sized memory chunks onto the backing store.",
+        "module_number": "4"
+      },
+      {
+        "question": "What are Page replacement algorithms in Memory Management?",
+        "answer": "Page replacement algorithms are used in a computer operating system to decide which memory pages to swap out, write to disk when a page of memory needs to be allocated.",
+        "module_number": "4"
+      },
+      {
+        "question": "What is the concept of Virtual Memory in Memory Management?",
+        "answer": "Virtual memory is a memory management technique that creates an illusion to users of a very large (main) memory. It uses hardware and software to allow a computer to compensate for physical memory shortages, by temporarily transferring data from RAM to disk storage.",
+        "module_number": "4"
+      },
+      {
+        "question": "What is the role of Mutex Locks in Process Synchronization?",
+        "answer": "Mutex Locks in Process Synchronization provide a method for multiple processes to mutually exclude each other during execution, enabling process synchronization. They are used to prevent race conditions in concurrent processing.",
+        "module_number": "4"
+      }
+    ],
+    "mod1": [
+      {
+        "question": "Define the term 'Operating System' as used in Module 1.1.",
+        "answer": "An operating system is a software that manages computer hardware and software resources and provides various services for computer programs.",
+        "module_number": "1"
+      },
+      {
+        "question": "What are the four types of Operating System Structures discussed in Module 1.4?",
+        "answer": "The four types of Operating System Structures are Simple Structure, Layered Structure, Microkernel Structure, and Modules Structure.",
+        "module_number": "1"
+      },
+      {
+        "question": "What is the 'System Boot Process' as mentioned in Module 1.5?",
+        "answer": "The System Boot Process is the set of operations that the computer performs when it is switched on, which loads the operating system.",
+        "module_number": "1"
+      },
+      {
+        "question": "What is a 'Process' and its states as mentioned in Module 2.1?",
+        "answer": "In computing, a process is the instance of a computer program that is being executed. The states of a process are: New, Ready, Running, Waiting, Terminated.",
+        "module_number": "1"
+      },
+      {
+        "question": "What is a 'Process Control Block' as discussed in Module 2.2?",
+        "answer": "A Process Control Block is a data structure maintained by the Operating System for every process that contains important information about the process such as process state, program counter, CPU registers, etc.",
+        "module_number": "1"
+      }
+    ],
+    "mod3": [
+      {
+        "question": "What is Mutex Locks in the context of process synchronization?",
+        "answer": "Mutex Locks are a synchronization hardware used to prevent race conditions by ensuring that only one process can access a critical section at a time.",
+        "module_number": "3"
+      },
+      {
+        "question": "What are Semaphores in process synchronization?",
+        "answer": "Semaphores are a synchronization tool which are integer variables used for signaling among processes to solve critical section problems.",
+        "module_number": "3"
+      },
+      {
+        "question": "Can you explain what is deadlock prevention?",
+        "answer": "Deadlock prevention is a set of methods for ensuring that at least one of the necessary conditions for a deadlock cannot hold. This is done by constraining how requests for resources can be made.",
+        "module_number": "3"
+      },
+      {
+        "question": "What is the concept of swapping in Memory Management?",
+        "answer": "Swapping is a method used in Memory Management where a process can be swapped temporarily out of memory to a backing store, and then brought back into memory for continued execution.",
+        "module_number": "3"
+      },
+      {
+        "question": "What is the concept of contiguous memory allocation?",
+        "answer": "Contiguous memory allocation is a type of memory management where each process is contained in a single contiguous section of memory. It can be further divided into fixed and variable partitions.",
+        "module_number": "3"
+      }
+    ],
+    "mod2": [
+      {
+        "question": "What are the states of a process in computer science?",
+        "answer": "In computer science, a process can exist in one of five states: New, Ready, Running, Waiting, or Terminated.",
+        "module_number": "2"
+      },
+      {
+        "question": "What is a Process Control Block (PCB) in the context of computer science?",
+        "answer": "In computer science, a Process Control Block (PCB) is a data structure used by the operating system to store all the information needed to manage a particular process.",
+        "module_number": "2"
+      },
+      {
+        "question": "What are the operations on processes in computer science?",
+        "answer": "In computer science, operations on processes include process creation and termination.",
+        "module_number": "2"
+      },
+      {
+        "question": "What is inter-process communication and its types in computer science?",
+        "answer": "Inter-process communication is a mechanism that allows processes to communicate and synchronize their actions. The types of inter-process communication include shared memory systems and message passing.",
+        "module_number": "2"
+      },
+      {
+        "question": "What are the different scheduling algorithms discussed in module mod2?",
+        "answer": "The different scheduling algorithms discussed in module mod2 include First Come First Served, Shortest Job First, Priority scheduling, and Round Robin Scheduling.",
+        "module_number": "2"
+      }
+    ],
+    "mod5": [
+      {
+        "question": "What are the different types of file operations in a computer system?",
+        "answer": "The different types of file operations in a computer system include creation, reading, writing, repositioning (seeking), deleting, and truncating.",
+        "module_number": "5"
+      },
+      {
+        "question": "Explain the concept of file-system implementation in computer systems.",
+        "answer": "File-system implementation refers to the various ways in which file systems are organized and stored on a disk. It includes aspects such as metadata, directory structure, and protection mechanisms.",
+        "module_number": "5"
+      },
+      {
+        "question": "What is directory implementation in the context of file and disk management?",
+        "answer": "Directory implementation refers to the method of storing and organizing directories in a file system. It includes aspects such as directory structure, directory contents, and directory entry.",
+        "module_number": "5"
+      },
+      {
+        "question": "Describe the different allocation methods in file and disk management.",
+        "answer": "The different allocation methods in file and disk management include contiguous allocation, linked allocation, and indexed allocation.",
+        "module_number": "5"
+      },
+      {
+        "question": "What does disk formatting entail in the context of file and disk management?",
+        "answer": "Disk formatting is the process of preparing a data storage device such as a hard disk drive, solid-state drive, floppy disk or USB flash drive for initial use. It involves creating an empty file system, including a boot sector, directory table and other elements needed for storing and retrieving data.",
+        "module_number": "5"
+      }
+    ]
+  }
+}

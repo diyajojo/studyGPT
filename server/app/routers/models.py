@@ -125,19 +125,10 @@ def load_module_notes(notes_files: list) -> Dict[str, str]:
 
 
 async def insert_content_to_database(user_id: str, subject: str, content: Dict[str, Any], logger: logging.Logger):
-    """
-    Insert generated content into Supabase database tables.
-    
-    Args:
-        user_id: User ID for the current request
-        subject: Subject name
-        content: Dictionary containing generated content
-        logger: Logger instance for tracking operations
-    """
     try:
         logger.info("=== Starting database insertion process ===")
         
-        # First, get the subject_id
+        # Get subject_id from database
         subject_response = supabase.table("subjects")\
             .select("id")\
             .eq("user_id", user_id)\
@@ -149,8 +140,38 @@ async def insert_content_to_database(user_id: str, subject: str, content: Dict[s
             raise ValueError("Subject not found in database")
             
         subject_id = subject_response.data[0]['id']
-        logger.info(f"Retrieved subject_id: {subject_id}")
-
+        
+        # Insert flashcards
+        logger.info("Inserting flashcards...")
+        flashcards_dict = content.get("flashcards", {})
+        
+        if flashcards_dict:
+            try:
+                # Convert flashcards to list format
+                flashcards_list = []
+                for module_key, cards in flashcards_dict.items():
+                    if isinstance(cards, list):
+                        for card in cards:
+                            if isinstance(card, dict):
+                                flashcards_list.append({
+                                    "question": str(card.get("question", "")),
+                                    "answer": str(card.get("answer", "")),
+                                    "module_no": str(module_key).replace("mod", "").strip()
+                                })
+                
+                if flashcards_list:
+                    # Insert using RPC call
+                    response = supabase.rpc(
+                        "insert_flashcards",
+                        {
+                            "p_subject_id": subject_id,
+                            "p_flashcards": flashcards_list
+                        }
+                    ).execute()
+                    logger.info(f"Successfully inserted {len(flashcards_list)} flashcards")
+            except Exception as e:
+                logger.error(f"Error inserting flashcards: {str(e)}")
+        
         # Insert module topics
         logger.info("Inserting module topics...")
         for module_name, module_data in content.get("important_topics", {}).items():
@@ -198,30 +219,6 @@ async def insert_content_to_database(user_id: str, subject: str, content: Dict[s
                     logger.info(f"Successfully inserted Q&A for module {module_no}")
                 except Exception as e:
                     logger.error(f"Error inserting Q&A for module {module_no}: {str(e)}")
-
-        # Insert flashcards
-        logger.info("Inserting flashcards...")
-        flashcards = content.get("flashcards", [])
-        if flashcards:
-            try:
-                # Convert flashcards to JSONB format with module_no
-                flashcards_jsonb = [
-                    {
-                        "question": card["question"],
-                        "answer": card["answer"],
-                        "module_no": card.get("module_no", "1")  # Get module_no from card or default to "1"
-                    } for card in flashcards
-                ]
-                response = supabase.rpc(
-                    "insert_flashcards",
-                    {
-                        "p_subject_id": subject_id,
-                        "p_flashcards": flashcards_jsonb
-                    }
-                ).execute()
-                logger.info("Successfully inserted flashcards")
-            except Exception as e:
-                logger.error(f"Error inserting flashcards: {str(e)}")
 
         logger.info("=== Database insertion process completed ===")
         return True
@@ -421,9 +418,21 @@ async def process_files_background(request: PostRequest, user_id: str):
                 logger.error("Failed to read syllabus file")
                 raise HTTPException(status_code=500, detail="Failed to process syllabus file")
 
+            # If module notes are empty, create fallback notes from syllabus and questions
             if not module_notes:
-                logger.error("Failed to read any module notes")
-                raise HTTPException(status_code=500, detail="Failed to process module notes")
+                logger.warning("Failed to read module notes, using syllabus and questions as fallback")
+                # Combine all question texts
+                combined_questions = "\n\n".join(qt for qt in questions_texts if qt)
+                
+                # Create a fallback module notes dictionary using syllabus text and questions
+                module_notes = {
+                    "syllabus_content": syllabus_text,
+                    "questions_content": combined_questions
+                }
+                
+            #if not module_notes:
+                #logger.error("Failed to read any module notes")
+                #raise HTTPException(status_code=500, detail="Failed to process module notes")
 
             # Generate content
             logger.info("Generating content from processed PDFs")
@@ -431,7 +440,7 @@ async def process_files_background(request: PostRequest, user_id: str):
             content = generator.generate_all_content(
                 syllabus_text=syllabus_text,
                 questions_texts=questions_texts,
-                notes_texts=module_notes
+                module_notes=module_notes  # Changed from notes_texts to module_notes
             )
             
             # Save output to file
@@ -932,3 +941,59 @@ async def get_output_json(request: PostRequest):
     except Exception as e:
         logger.error(f"Error in get_output_json: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+def generate_module_flashcards(self, module_key: str, module_content: str, notes_text: str, 
+                             existing_qa: List[Dict[str, str]] = None) -> List[Dict[str, str]]:
+    try:
+        context = self.get_cached_context(module_content, notes_text)
+        context = self.truncate_text(context, self.max_chunk_size)
+        
+        # Format prompt
+        prompt = f"""Generate exactly {self.flashcards_per_module} flashcard pairs for module {module_key}.
+        Make sure each flashcard tests a different concept.
+        Focus on key terminology, definitions, and core concepts.
+        Return in this exact JSON format:
+        [
+            {{"question": "question text", "answer": "answer text"}},
+            ...
+        ]
+        
+        Module content: {module_content}
+        Additional context: {context}"""
+
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "You are an expert in creating educational flashcards."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+            max_tokens=1000
+        )
+
+        # Parse and validate response
+        try:
+            flashcards = json.loads(response.choices[0].message.content)
+            if not isinstance(flashcards, list):
+                raise ValueError("Expected list of flashcards")
+                
+            # Validate and format each flashcard
+            validated_flashcards = []
+            for card in flashcards:
+                if isinstance(card, dict) and "question" in card and "answer" in card:
+                    validated_flashcards.append({
+                        "question": str(card["question"]),
+                        "answer": str(card["answer"]),
+                        "module_number": module_key.replace("mod", "").strip()
+                    })
+            
+            return validated_flashcards
+
+        except json.JSONDecodeError as e:
+            logging.error(f"Failed to parse flashcards JSON for module {module_key}: {str(e)}")
+            return []
+            
+    except Exception as e:
+        logging.error(f"Error generating flashcards for module {module_key}: {str(e)}")
+        return []
