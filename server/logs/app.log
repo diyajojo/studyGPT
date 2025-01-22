@@ -2327,3 +2327,7 @@ subject_id
 2025-01-22 19:28:08,363 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
 2025-01-22 19:28:10,616 - google_auth_httplib2 - INFO - Refreshing credentials due to a 401 response. Attempt 1/2.
 2025-01-22 19:28:13,302 - app.routers.schedules - ERROR - Failed to initialize calendar service: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-01-23 01:10:15,935 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:10:15,935 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:12:38,768 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:12:38,769 - app.routers.schedules - INFO - Logging initialized successfully

@@ -21,11 +21,8 @@ def load_module_notes(notes_files: list) -> Dict[str, str]:
     """Load notes files and organize them by module"""
     module_notes = {}
     for file_path in notes_files:
-        # Extract module number from filename (assuming format modX.pdf)
+        # Get filename without extension as the key
         module_key = os.path.splitext(os.path.basename(file_path))[0]
-        if not module_key.startswith('mod'):
-            continue
-        
         text = load_pdf(file_path)
         if text:
             module_notes[module_key] = text
@@ -35,22 +32,16 @@ def load_module_notes(notes_files: list) -> Dict[str, str]:
 def main():
     # Define paths
     syllabus_files = [
-        os.path.join(Config.DATA_DIR, "DBMS Syllabus.pdf")
+        os.path.join(Config.DATA_DIR, "COA Syllabus.pdf")
     ]
     
     questions_files = [
-        os.path.join(Config.DATA_DIR, "qp1.pdf"),
-        os.path.join(Config.DATA_DIR, "qp2.pdf"),
-        os.path.join(Config.DATA_DIR, "qp3.pdf"),
-        os.path.join(Config.DATA_DIR, "qp4.pdf"),
+        os.path.join(Config.DATA_DIR, "coaqp1.pdf"),
+        os.path.join(Config.DATA_DIR, "coaqp2.pdf"),
     ]
     
     notes_files = [
-        os.path.join(Config.DATA_DIR, "mod1.pdf"),
-        os.path.join(Config.DATA_DIR, "mod2.pdf"),
-        os.path.join(Config.DATA_DIR, "mod3.pdf"),
-        os.path.join(Config.DATA_DIR, "mod4.pdf"),
-        os.path.join(Config.DATA_DIR, "mod5.pdf"),
+        os.path.join(Config.DATA_DIR, "notes.pdf"),
     ]
 
     # Load content with improved organization
