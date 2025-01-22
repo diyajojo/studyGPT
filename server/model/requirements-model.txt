@@ -8,7 +8,7 @@ faiss-cpu
 python-dotenv
 langchain_community
 
-
+aiofiles
 
 aiohappyeyeballs
 aiohttp
