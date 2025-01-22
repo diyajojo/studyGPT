@@ -500,11 +500,11 @@ async def handle_upload(
         verification = await verify_auth(request.token)
         if not verification.authenticated:
             raise HTTPException(status_code=401)
-            
-        user_id = verification.user.id
-        background_tasks.add_task(process_files_background, request, user_id)
         
-
+        current_user = verification.user
+        #user_id = verification.user.id  #current_user.id
+        background_tasks.add_task(process_files_background, request, current_user.id)
+        
         # Add subject to subjects table
         logger.info("=== Updating subjects table ===")
         try:
@@ -564,7 +564,7 @@ async def handle_upload(
             status_code=202,
             content={
                 "message": "Processing started",
-                "status_endpoint": f"/status/{user_id}"
+                "status_endpoint": f"/status/{current_user.id}"
             }
         )
     except Exception as e:
