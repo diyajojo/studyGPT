@@ -1,27 +1,15 @@
-from fastapi import FastAPI, HTTPException, Depends
-from fastapi.security import OAuth2AuthorizationCodeBearer
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import Flow
-from googleapiclient.discovery import build
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, UUID4
 from typing import List, Optional
-import json
-import openai
-from datetime import datetime, timedelta
+from datetime import datetime, timezone
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from supabase import create_client, Client
+import json
 
 app = FastAPI()
-
-# Configure Google OAuth2 settings
-GOOGLE_CLIENT_CONFIG = {
-    "web": {
-        "client_id": "YOUR_CLIENT_ID",
-        "client_secret": "YOUR_CLIENT_SECRET",
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://oauth2.googleapis.com/token",
-        "redirect_uris": ["YOUR_REDIRECT_URI"]
-    }
-}
 
 # Initialize Supabase client
 supabase: Client = create_client(
@@ -29,119 +17,119 @@ supabase: Client = create_client(
     "YOUR_SUPABASE_KEY"
 )
 
-# Pydantic models
-class StudyTopic(BaseModel):
-    name: str
-    duration: int  # in minutes
-    priority: int
+class ScheduleEvent(BaseModel):
+    title: str
+    description: Optional[str]
+    start_time: datetime
+    end_time: datetime
+    subject_id: Optional[UUID4]
 
-class ScheduleRequest(BaseModel):
+class CalendarIntegrationRequest(BaseModel):
     user_id: str
-    topics: List[StudyTopic]
-    preferred_start_time: str
-    preferred_end_time: str
-    preferred_days: List[str]
+    events: List[ScheduleEvent]
 
-class ScheduleResponse(BaseModel):
-    calendar_events: List[dict]
-    success: bool
-    message: str
-
-# Helper function to get user's Google credentials from Supabase
-async def get_user_credentials(user_id: str) -> Credentials:
-    response = supabase.table("user_calendar_tokens").select("*").eq("user_id", user_id).execute()
-    
-    if not response.data:
-        raise HTTPException(status_code=404, message="User credentials not found")
-    
-    token_info = response.data[0]
-    
-    return Credentials(
-        token=token_info['access_token'],
-        refresh_token=token_info['refresh_token'],
-        token_uri="https://oauth2.googleapis.com/token",
-        client_id=GOOGLE_CLIENT_CONFIG['web']['client_id'],
-        client_secret=GOOGLE_CLIENT_CONFIG['web']['client_secret'],
-        scopes=['https://www.googleapis.com/auth/calendar']
-    )
-
-# Initialize Google Calendar Flow
-flow = Flow.from_client_config(
-    GOOGLE_CLIENT_CONFIG,
-    scopes=['https://www.googleapis.com/auth/calendar'],
-    redirect_uri=GOOGLE_CLIENT_CONFIG['web']['redirect_uris'][0]
-)
-
-@app.post("/auth/google/callback")
-async def google_auth_callback(code: str, user_id: str):
+async def get_valid_credentials(user_id: str) -> Credentials:
+    """Get and validate Google credentials for a user."""
     try:
-        flow.fetch_token(code=code)
-        credentials = flow.credentials
-
-        # Store credentials in Supabase
-        token_data = {
-            "user_id": user_id,
-            "access_token": credentials.token,
-            "refresh_token": credentials.refresh_token,
-            "token_uri": credentials.token_uri,
-            "expiry": credentials.expiry.isoformat() if credentials.expiry else None
-        }
-
-        supabase.table("user_calendar_tokens").upsert(token_data).execute()
-
-        return {"success": True, "message": "Successfully authenticated with Google Calendar"}
+        # Fetch tokens from database
+        response = supabase.table("user_calendar_tokens").select("*").eq("user_id", user_id).execute()
+        
+        if not response.data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Google Calendar tokens not found"
+            )
+            
+        token_data = response.data[0]
+        
+        # Check if token is expired
+        if datetime.now(timezone.utc) >= datetime.fromisoformat(token_data['expiry']):
+            # Implement token refresh logic here
+            credentials = Credentials(
+                token=token_data['access_token'],
+                refresh_token=token_data['refresh_token'],
+                token_uri=token_data['token_uri'],
+                client_id="YOUR_GOOGLE_CLIENT_ID",
+                client_secret="YOUR_GOOGLE_CLIENT_SECRET",
+                scopes=['https://www.googleapis.com/auth/calendar']
+            )
+            
+            # Refresh token
+            credentials.refresh(Request())
+            
+            # Update tokens in database
+            supabase.table("user_calendar_tokens").update({
+                "access_token": credentials.token,
+                "expiry": credentials.expiry.isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }).eq("user_id", user_id).execute()
+            
+            return credentials
+        
+        return Credentials(
+            token=token_data['access_token'],
+            refresh_token=token_data['refresh_token'],
+            token_uri=token_data['token_uri'],
+            client_id="YOUR_GOOGLE_CLIENT_ID",
+            client_secret="YOUR_GOOGLE_CLIENT_SECRET",
+            scopes=['https://www.googleapis.com/auth/calendar']
+        )
+        
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-async def generate_study_schedule(request: ScheduleRequest) -> List[dict]:
-    try:
-        # Create prompt for OpenAI
-        prompt = f"""
-        Create a study schedule for the following topics:
-        {json.dumps(request.topics)}
-        
-        Preferred study times:
-        Start: {request.preferred_start_time}
-        End: {request.preferred_end_time}
-        Days: {request.preferred_days}
-        
-        Return a JSON array of events with:
-        - summary (string)
-        - description (string)
-        - start_time (ISO string)
-        - end_time (ISO string)
-        - topic_name (string)
-        """
-
-        response = await openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a scheduling assistant. Respond only with valid JSON."},
-                {"role": "user", "content": prompt}
-            ]
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error getting credentials: {str(e)}"
         )
 
-        # Parse the response into a list of events
-        events = json.loads(response.choices[0].message['content'])
-        return events
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating schedule: {str(e)}")
-
-async def add_events_to_calendar(credentials: Credentials, events: List[dict]) -> List[dict]:
+async def save_schedule_to_db(user_id: str, events: List[dict]) -> List[dict]:
+    """Save schedule events to database."""
     try:
-        service = build('calendar', 'v3', credentials=credentials)
-        created_events = []
-
+        saved_events = []
         for event in events:
+            data = {
+                "user_id": user_id,
+                "subject_id": event.get("subject_id"),
+                "start_time": event["start_time"],
+                "end_time": event["end_time"],
+                "title": event["title"],
+                "description": event.get("description"),
+                "google_event_id": event["google_event_id"],
+                "is_synced": True,
+                "last_sync_at": datetime.now(timezone.utc).isoformat()
+            }
+            
+            response = supabase.table("study_schedule").insert(data).execute()
+            saved_events.append(response.data[0])
+            
+        return saved_events
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error saving to database: {str(e)}"
+        )
+
+@app.post("/api/calendar/integrate")
+async def integrate_with_calendar(request: CalendarIntegrationRequest):
+    try:
+        # Get valid credentials
+        credentials = await get_valid_credentials(request.user_id)
+        
+        # Build Google Calendar service
+        service = build('calendar', 'v3', credentials=credentials)
+        
+        created_events = []
+        
+        # Create each event in Google Calendar
+        for event in request.events:
             calendar_event = {
-                'summary': event['summary'],
-                'description': event['description'],
+                'summary': event.title,
+                'description': event.description or "",
                 'start': {
-                    'dateTime': event['start_time'],
+                    'dateTime': event.start_time.isoformat(),
                     'timeZone': 'UTC',
                 },
                 'end': {
-                    'dateTime': event['end_time'],
+                    'dateTime': event.end_time.isoformat(),
                     'timeZone': 'UTC',
                 },
                 'reminders': {
@@ -150,36 +138,109 @@ async def add_events_to_calendar(credentials: Credentials, events: List[dict]) -
                         {'method': 'popup', 'minutes': 30},
                         {'method': 'email', 'minutes': 60},
                     ],
-                },
+                }
             }
-
-            created_event = service.events().insert(
-                calendarId='primary',
-                body=calendar_event
-            ).execute()
             
-            created_events.append(created_event)
-
-        return created_events
+            try:
+                created_event = service.events().insert(
+                    calendarId='primary',
+                    body=calendar_event
+                ).execute()
+                
+                # Add Google event ID and other metadata
+                event_data = event.dict()
+                event_data["google_event_id"] = created_event["id"]
+                created_events.append(event_data)
+                
+            except HttpError as e:
+                print(f"Error creating event: {str(e)}")
+                continue
+        
+        # Save events to database
+        saved_events = await save_schedule_to_db(request.user_id, created_events)
+        
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={
+                "success": True,
+                "message": f"Successfully added {len(created_events)} events to Google Calendar",
+                "events": saved_events
+            }
+        )
+        
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error adding events to calendar: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
 
-@app.post("/create-study-schedule", response_model=ScheduleResponse)
-async def create_study_schedule(request: ScheduleRequest):
+@app.get("/api/calendar/schedule/{user_id}")
+async def get_user_schedule(user_id: str):
+    """Get user's schedule with sync status."""
     try:
-        # Get user's Google credentials
-        credentials = await get_user_credentials(request.user_id)
-        
-        # Generate study schedule using OpenAI
-        events = await generate_study_schedule(request)
-        
-        # Add events to Google Calendar
-        created_events = await add_events_to_calendar(credentials, events)
-        
-        return ScheduleResponse(
-            calendar_events=created_events,
-            success=True,
-            message="Successfully created study schedule and added to calendar"
+        response = supabase.table("study_schedule")\
+            .select("*, subjects(name)")\
+            .eq("user_id", user_id)\
+            .order("start_time", desc=False)\
+            .execute()
+            
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={
+                "success": True,
+                "schedule": response.data
+            }
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching schedule: {str(e)}"
+        )
+
+@app.delete("/api/calendar/event/{event_id}")
+async def delete_calendar_event(event_id: str, user_id: str):
+    """Delete an event from both Google Calendar and database."""
+    try:
+        # Get event details from database
+        event_response = supabase.table("study_schedule")\
+            .select("google_event_id")\
+            .eq("id", event_id)\
+            .eq("user_id", user_id)\
+            .execute()
+            
+        if not event_response.data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Event not found"
+            )
+            
+        google_event_id = event_response.data[0]["google_event_id"]
+        
+        # Delete from Google Calendar
+        if google_event_id:
+            credentials = await get_valid_credentials(user_id)
+            service = build('calendar', 'v3', credentials=credentials)
+            service.events().delete(
+                calendarId='primary',
+                eventId=google_event_id
+            ).execute()
+        
+        # Delete from database
+        supabase.table("study_schedule")\
+            .delete()\
+            .eq("id", event_id)\
+            .execute()
+            
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={
+                "success": True,
+                "message": "Event deleted successfully"
+            }
+        )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error deleting event: {str(e)}"
+        )

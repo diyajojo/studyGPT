@@ -319,6 +319,7 @@ async def process_files_background(request: PostRequest, user_id: str):
         current_user = verification.user
         logger.info(f"Authentication successful for user: {current_user.id}")
         
+  
         # Define paths for different file categories
         paths = {
             "notes": f"{current_user.id}/{request.subject}/notes",
@@ -393,60 +394,6 @@ async def process_files_background(request: PostRequest, user_id: str):
                     detail=f"Error accessing storage for {key}: {str(e)}"
                 )
 
-        # Add subject to subjects table
-        logger.info("=== Updating subjects table ===")
-        try:
-            logger.info(f"Checking if subject {request.subject} exists for user {current_user.id}")
-            existing_entry = supabase.table("subjects").select("*")\
-                .eq("user_id", current_user.id)\
-                .eq("subject_name", request.subject)\
-                .execute()
-
-            if not existing_entry.data:
-                logger.info("Subject not found, adding to subjects table")
-                supabase.table("subjects").insert({
-                    "user_id": current_user.id,
-                    "subject_name": request.subject
-                }).execute()
-                logger.info("Successfully added subject to table")
-        except Exception as e:
-            logger.error(f"Failed to insert subject: {str(e)}")
-            raise HTTPException(
-                status_code=500,
-                detail=f"Failed to insert subject: {str(e)}"
-            )
-
-        # Update user's current subject
-        logger.info("=== Updating user's current subject ===")
-        try:
-            # Get the subject_id
-            subject_response = supabase.table("subjects").select("id")\
-                .eq("user_id", current_user.id)\
-                .eq("subject_name", request.subject)\
-                .execute()
-            
-            if not subject_response.data:
-                logger.error("Subject ID not found")
-                raise ValueError("Subject not found in database")
-        
-            subject_id = subject_response.data[0]['id']
-            
-            # Update or insert into user_current_subject
-            supabase.rpc(
-                "upsert_user_current_subject",
-                {
-                    "p_user_id": current_user.id,
-                    "p_subject_id": subject_id,
-                    "p_subject_name": request.subject
-                }
-            ).execute()
-            logger.info("Successfully updated user's current subject")
-        except Exception as e:
-            logger.error(f"Error updating user's current subject: {str(e)}")
-            raise HTTPException(
-                status_code=500,
-                detail=f"Failed to update current subject: {str(e)}"
-            )
 
         # Process PDFs and generate content & store to database
         logger.info("=== Starting PDF processing and content generation ===")
@@ -557,6 +504,62 @@ async def handle_upload(
         user_id = verification.user.id
         background_tasks.add_task(process_files_background, request, user_id)
         
+
+        # Add subject to subjects table
+        logger.info("=== Updating subjects table ===")
+        try:
+            logger.info(f"Checking if subject {request.subject} exists for user {current_user.id}")
+            existing_entry = supabase.table("subjects").select("*")\
+                .eq("user_id", current_user.id)\
+                .eq("subject_name", request.subject)\
+                .execute()
+
+            if not existing_entry.data:
+                logger.info("Subject not found, adding to subjects table")
+                supabase.table("subjects").insert({
+                    "user_id": current_user.id,
+                    "subject_name": request.subject
+                }).execute()
+                logger.info("Successfully added subject to table")
+        except Exception as e:
+            logger.error(f"Failed to insert subject: {str(e)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to insert subject: {str(e)}"
+            )
+
+        # Update user's current subject
+        logger.info("=== Updating user's current subject ===")
+        try:
+            # Get the subject_id
+            subject_response = supabase.table("subjects").select("id")\
+                .eq("user_id", current_user.id)\
+                .eq("subject_name", request.subject)\
+                .execute()
+            
+            if not subject_response.data:
+                logger.error("Subject ID not found")
+                raise ValueError("Subject not found in database")
+        
+            subject_id = subject_response.data[0]['id']
+            
+            # Update or insert into user_current_subject
+            supabase.rpc(
+                "upsert_user_current_subject",
+                {
+                    "p_user_id": current_user.id,
+                    "p_subject_id": subject_id,
+                    "p_subject_name": request.subject
+                }
+            ).execute()
+            logger.info("Successfully updated user's current subject")
+        except Exception as e:
+            logger.error(f"Error updating user's current subject: {str(e)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to update current subject: {str(e)}"
+            )
+
         return JSONResponse(
             status_code=202,
             content={
