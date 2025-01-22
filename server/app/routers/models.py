@@ -505,7 +505,6 @@ async def handle_upload(
         #user_id = verification.user.id  #current_user.id
         background_tasks.add_task(process_files_background, request, current_user.id)
         
-
         # Add subject to subjects table
         logger.info("=== Updating subjects table ===")
         try:
