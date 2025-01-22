@@ -32,16 +32,18 @@ def load_module_notes(notes_files: list) -> Dict[str, str]:
 def main():
     # Define paths
     syllabus_files = [
-        os.path.join(Config.DATA_DIR, "COA Syllabus.pdf")
+        os.path.join(Config.DATA_DIR, "OS Syllabus.pdf")
     ]
     
     questions_files = [
-        os.path.join(Config.DATA_DIR, "coaqp1.pdf"),
-        os.path.join(Config.DATA_DIR, "coaqp2.pdf"),
+        os.path.join(Config.DATA_DIR, "OS Jan 2024.pdf"),
+        os.path.join(Config.DATA_DIR, "OS June 2023.pdf"),
     ]
     
     notes_files = [
-        os.path.join(Config.DATA_DIR, "notes.pdf"),
+        os.path.join(Config.DATA_DIR, "OS Mod 5.pdf"),
+        os.path.join(Config.DATA_DIR, "OS Mod 3.pdf"),
+
     ]
 
     # Load content with improved organization
