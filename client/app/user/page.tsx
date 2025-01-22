@@ -17,9 +17,13 @@ type UploadType = {
   desc: string;
 };
 
+type ValidationResult = {
+  isValid: boolean;
+  errors: string[];
+};
+
 const UserPage = () => {
   const router = useRouter();
-  const [isUploadComplete, setIsUploadComplete] = useState<boolean>(false);
   const [profile, setProfile] = useState<{ full_name: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [subject, setSubject] = useState<string>('');
@@ -67,8 +71,39 @@ const UserPage = () => {
     }
   };
 
-  // passing the tokens via body not headers
-  const sendData = async (accessToken: string, refreshToken: string,userId:string,subject:string) => {
+  const validateUploads = (selectedFiles: SelectedFiles, subject: string): ValidationResult => {
+    const errors: string[] = [];
+    
+    // Check if subject is entered
+    if (!subject.trim()) {
+      errors.push("Please enter a subject name");
+    }
+  
+    // Check if at least one file is uploaded in each category
+    if (selectedFiles.syllabus.length === 0) {
+      errors.push("Please upload at least one Syllabus PDF");
+    }
+    
+    if (selectedFiles.pyq.length === 0) {
+      errors.push("Please upload at least one PYQ paper PDF");
+    }
+    
+    if (selectedFiles.notes.length === 0) {
+      errors.push("Please upload at least one Notes PDF");
+    }
+  
+    return {
+      isValid: errors.length === 0,
+      errors
+    };
+  };
+
+  
+  // passing the tokens via body not headers     
+  async function sendData (accessToken: string, refreshToken: string,userId:string,subject:string)  {
+
+    console.log("access token:",accessToken);
+    console.log("refresh token:",refreshToken);
     try {
       const response = await fetch('https://studygpt-z5rq.onrender.com/models/upload ', {
         method: 'POST',
@@ -102,28 +137,28 @@ const UserPage = () => {
  
 
   const uploadToSupabase = async (file: File, type: keyof SelectedFiles) => {
-    if (!subject.trim()) {
+
+    if (!subject.trim())
+       {
       alert('Please enter a subject before uploading files');
       return;
     }
   
     try {
-      // Get session and user details
-      const { data: { session } } = await supabase.auth.getSession();
+      
       const { data: { user } } = await supabase.auth.getUser();
   
-      if (!session || !user) 
+      if (!user) 
       {
         console.log("No active session or user found");
         return false;
       }
   
-      await sendData(session.access_token, session.refresh_token, user.id, subject);
   
       setUploadLoading(prev => ({ ...prev, [type]: true }));
   
       const timestamp = new Date().getTime();
-      const fileName = `${user.id}/${subject}/${type}/${timestamp}-${file.name}`;
+      const fileName = `${user.id}/${subject}/${type}/${file.name}`;
   
       const { error } = await supabase.storage
         .from('study_materials')
@@ -160,13 +195,6 @@ const UserPage = () => {
         const success = await uploadToSupabase(file, type);
         if (success) successCount++;
       }
-
-      // Show upload results
-      //if (successCount === fileArray.length) {
-       // alert(`All ${fileArray.length} files uploaded successfully!`);
-     // } else {
-       // alert(`${successCount} out of ${fileArray.length} files uploaded successfully.`);
-     // }
       
       setUploadLoading(prev => ({ ...prev, [type]: false }));
     }
@@ -183,64 +211,141 @@ const UserPage = () => {
     }
 };
 
-  const handleDeleteFile = (type: keyof SelectedFiles, index: number) => {
+const handleDeleteFile = async (type: keyof SelectedFiles, index: number) => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      console.error("No active session or user found");
+      return;
+    }
+
+    // Get the file to delete
+    const fileToDelete = selectedFiles[type][index];
+    const filePath = `${user.id}/${subject}/${type}/${fileToDelete.name}`;
+
+    // Delete the file from Supabase
+    const { error } = await supabase.storage
+      .from('study_materials')
+      .remove([filePath]);
+
+    if (error) {
+      console.error('Error deleting file from Supabase:', error);
+      return;
+    }
+
+    // Update the selectedFiles state to remove the file
     setSelectedFiles(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index)
     }));
-  };
 
-  const handleButtonClick=()=>
-  {
-    router.push('/schedule');
+    console.log(`File ${fileToDelete.name} successfully deleted`);
+  } catch (error) {
+    console.error('Error in handleDeleteFile:', error);
   }
+};
+
+
+const handleUploadButton = async () => {
+  try {
+    // First validate all requirements
+    const validation = validateUploads(selectedFiles, subject);
+    
+    if (!validation.isValid) {
+      setErrorMessage(validation.errors.join('\n'));
+      return; // Stop execution if validation fails
+    }
+
+    // Clear any existing error messages
+    setErrorMessage(null);
+
+    // Get user session
+    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user || !session) {
+      setErrorMessage("Session expired. Please login again.");
+      return;
+    }
+
+    // Show loading state
+    setUploadLoading({
+      syllabus: true,
+      pyq: true,
+      notes: true
+    });
+
+    // Send data to backend
+    await sendData(session.access_token, session.refresh_token, user.id, subject);
+
+    // If everything is successful, navigate to next page
+    router.push('/preparation');
+  } catch (error) {
+    console.error('Error in handleUploadButton:', error);
+    setErrorMessage("An error occurred while processing your upload. Please try again.");
+  } finally {
+    // Reset loading state
+    setUploadLoading({
+      syllabus: false,
+      pyq: false,
+      notes: false
+    });
+  }
+};
+
+const LoadingOverlay = () => (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-xl">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FF8C5A]"></div>
+      <p className="mt-4 text-gray-700">Processing your uploads...</p>
+    </div>
+  </div>
+);
 
   const uploadTypes: UploadType[] = [
     { type: 'syllabus', title: "Syllabus", desc: "Upload your syllabus pdf" },
     { type: 'pyq', title: "PYQ papers", desc: "Upload all the PYQ's papers pdf" },
     { type: 'notes', title: "Notes", desc: "Upload all module's study notes pdf" }
   ];
+
+  
   return (
     <div className="min-h-screen bg-[#125774] relative overflow-hidden">
-      {/* Navbar remains the same */}
-      <nav className="relative z-10 flex items-center h-20">
-        <div
-          className="w-1/2 h-full flex items-center pl-8"
-          style={{ background: "rgba(255, 140, 90, 1)" }}
-        >
-          <div className="flex items-center gap-2">
-            <Book className="h-6 w-6 text-gray-800" />
-            <div className="text-2xl font-bold">
-              <span className="font-montserrat text-white">Study</span>
-              <span className="font-montserrat" style={{ color: "rgba(18, 87, 116, 1)" }}>GPT</span>
-            </div>
+    {/* Navbar */}
+    <nav className="relative z-10 flex items-center h-20">
+      <div className="w-1/2 h-full flex items-center pl-8" style={{ background: "rgba(255, 140, 90, 1)" }}>
+        <div className="flex items-center gap-2">
+          <Book className="h-6 w-6 text-gray-800" />
+          <div className="text-2xl font-bold">
+            <span className="font-montserrat text-white">Study</span>
+            <span className="font-montserrat" style={{ color: "rgba(18, 87, 116, 1)" }}>GPT</span>
           </div>
         </div>
-        <div className="w-1/2 h-full bg-white" />
-      </nav>
+      </div>
+      <div className="w-1/2 h-full bg-white" />
+    </nav>
 
-      <div className="container mx-auto relative">
-        {/* Welcome Section with adjusted spacing and larger profile picture */}
-        <div className="flex items-start gap-4 mt-20">
+    <div className="container mx-auto p-4">
+      {/* Welcome Section with Centered Layout */}
+      <div className="flex justify-center items-start gap-4 mt-20">
+        {/* Profile Section */}
+        <div className="flex items-start gap-8">
+          {/* Profile Picture */}
           <div className="w-40 h-40 rounded-full overflow-hidden bg-white flex-shrink-0">
-            <Image
+            <img
               src="/assets/pfp.png"
               alt="Profile Picture"
-              width={240}
-              height={240}
-              className="object-cover w-full h-full"
+              className="w-full h-full object-cover"
             />
           </div>
 
-          <div className="flex flex-col ml-4">
-            <div
-              className="w-[568px] h-[130px] rounded-[30px_0_0_0] p-6"
-              style={{
-                background: "rgba(218, 236, 244, 0.49)",
-              }}
-            >
+          {/* Welcome Text */}
+          <div>
+            <div className="w-[568px] h-[130px] rounded-[30px_0_0_0] p-6"
+              style={{ background: "rgba(218, 236, 244, 0.49)" }}>
               <h2 className="text-4xl font-bold text-white mb-2">
-                HEY {profile?.full_name}👋
+                HEY {profile?.full_name?.toLocaleUpperCase()}👋
               </h2>
             </div>
             <p className="text-white/90 mt-2 text-lg font-semibold">
@@ -248,55 +353,75 @@ const UserPage = () => {
             </p>
           </div>
 
-          {/* Updated Organize Button with new positioning */}
-          <button
-            className="flex items-center gap-12 px-12 py-10 rounded-[20px] absolute right-0 mr-8"
-            style={{
-              background: "rgba(218, 236, 244, 0.49)",
-              transform: "translateX(-50%)",
-              top: "32px"
-            }}
-            onClick={handleButtonClick}
-          >
-            <span className="text-white font-semibold">Organize Your Study Patterns 💡</span>
-          </button>
+          {/* Action Buttons */}
+          <div className="flex flex-col gap-4 ml-8">
+            <button
+              className="flex items-center gap-12 px-12 py-7 rounded-[20px] shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl"
+              style={{
+                background: "linear-gradient(135deg, rgba(218, 236, 244, 0.8), rgba(173, 216, 230, 0.8))",
+              }}
+              onClick={handleUploadButton}
+              disabled={Object.values(uploadLoading).some(loading => loading)}
+            >
+              <span className="text-white text-2xl font-semibold">
+                {Object.values(uploadLoading).some(loading => loading) 
+                  ? "Processing..." 
+                  : "Done Uploading? Let's Proceed"}
+              </span>
+            </button>
 
+            <button
+              className="flex items-center gap-12 px-12 py-7 rounded-[20px] shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl"
+              style={{
+                background: "linear-gradient(135deg, rgba(218, 236, 244, 0.8), rgba(173, 216, 230, 0.8))",
+              }}
+              onClick={() => router.push('/schedule')}
+            >
+              <span className="text-white text-2xl font-semibold">
+                Continue to Dashboard 🚀
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Upload Section - Centered */}
+      <div className="mt-16 flex flex-col items-center">
+        <h3 className="text-[#FF8C5A] text-2xl font-bold mb-6">
+          Upload your essentials:
+        </h3>
+
+        {/* Subject Input */}
+        <div className="mb-8">
+          <input
+            type="text"
+            placeholder="Enter subject name"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className="w-[465px] px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 border-2 border-white/20 focus:outline-none focus:border-[#FF8C5A]"
+          />
         </div>
 
-        {/* Upload Section with improved scrollbar styling */}
-        <div className="mt-16 ml-8">
-          <h3 className="text-[#FF8C5A] text-2xl font-bold mb-6 flex justify-center">
-            Upload your essentials:
-          </h3>
-
-          {/* Subject Input Field remains the same */}
-          <div className="mb-8 flex justify-center">
-            <input
-              type="text"
-              placeholder="Enter subject name"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="w-[465px] px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 border-2 border-white/20 focus:outline-none focus:border-[#FF8C5A]"
-            />
-          </div>
-
-          {errorMessage && (
-      <div className="text-red-500 text-center mb-4">
-        {errorMessage}
-      </div>
-          )}
-
-          {/* Step Bar remains the same */}
-          <div className="flex justify-center items-center gap-10 mb-10">
-            {[0, 1, 2].map((step) => (
-              <div
-                key={step}
-                className={`w-6 h-6 rounded-full transition ${
-                  activeStep === step ? "bg-white" : "bg-white/40"
-                }`}
-              />
+        {/* Error Message */}
+        {errorMessage && (
+          <div className="fixed top-5 right-5 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-lg max-w-md">
+            {errorMessage.split('\n').map((error, index) => (
+              <p key={index} className="mb-1">{error}</p>
             ))}
           </div>
+        )}
+
+        {/* Step Indicators */}
+        <div className="flex justify-center items-center gap-10 mb-10">
+          {[0, 1, 2].map((step) => (
+            <div
+              key={step}
+              className={`w-6 h-6 rounded-full transition ${
+                activeStep === step ? "bg-white" : "bg-white/40"
+              }`}
+            />
+          ))}
+        </div>
 
           {/* Updated Upload Boxes with improved scrollbar */}
           <div className="flex flex-row gap-10">
@@ -388,17 +513,6 @@ const UserPage = () => {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Laptop Image remains the same */}
-      <div className="absolute right-0 top-[100px] w-[700px] h-[700px]">
-        <Image
-          src="/assets/userpg.png"
-          alt="Laptop"
-          width={700}
-          height={700}
-          className="object-contain"
-        />
       </div>
     </div>
   );

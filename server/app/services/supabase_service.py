@@ -7,9 +7,10 @@ load_dotenv()
 
 SUPABASE_URL = os.getenv('SUPABASE_URL')
 SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+SUPABASE_SECRET_KEY = os.getenv('SUPABASE_SECRET_KEY')
 
 # Create a Supabase client
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_SECRET_KEY)
 
 '''
 # Example function to fetch data from a table
@@ -22,4 +23,4 @@ if __name__ == "__main__":
     data = fetch_data("your_table_name")
     print(data)
 
-    '''
+'''
