@@ -187,10 +187,10 @@ const Schedule = () => {
             <Bell className="h-5 w-5" />
             <span>Notifications</span>
           </button>
-          <button className="w-full flex items-center gap-3 px-4 py-2 text-left rounded-lg text-gray-700 hover:bg-gray-50">
+         {/* <button className="w-full flex items-center gap-3 px-4 py-2 text-left rounded-lg text-gray-700 hover:bg-gray-50">
             <Calendar className="h-5 w-5" />
             <span>Schedule</span>
-          </button>
+          </button> */}
         </nav>
       
         <div className="mb-5 p-6">

@@ -45,11 +45,8 @@ const StudyPrepHub = () => {
             }),
             signal: abortController.signal // Add abort signal to fetch
           });
-           console.log(JSON.stringify({
-            access_token: session.access_token,
-            refresh_token: session.refresh_token
-          }));
-          if (!response.ok) {
+          if (!response.ok) 
+          {
             const errorText = await response.text();
             console.error('Token verification failed:', response.status, errorText);
             throw new Error(`Token verification failed: ${response.status}`);
@@ -58,11 +55,13 @@ const StudyPrepHub = () => {
           if (isMounted) 
            {
             const res = await response.json();
-            console.log("RESPONSE FROM FAST API REQUEST:", res);
+            console.log("RESPONSE FROM FAST API REQUEST AT PREFERENCE PAGE:", res);
             setSubjectId(res.subject_id);
             console.log(subjectId);
           }
-        } catch (error) {
+        }
+         catch (error) 
+        {
           if (error === 'AbortError') {
             console.log('Fetch aborted');
             return;
