@@ -127,13 +127,26 @@ class ContentGenerator:
                 'result': [] if chunk_type == 'topics' else [{"question": "", "answer": ""}]
             }
 
-    def generate_module_flashcards(self, module_key: str, module_content: str, notes_text: str) -> List[Dict[str, str]]:
-        """Generate flashcards specific to a module"""
+    def generate_module_flashcards(self, module_key: str, module_content: str, notes_text: str, 
+                                 existing_qa: List[Dict[str, str]] = None) -> List[Dict[str, str]]:
+        """Generate flashcards specific to a module, ensuring they're different from existing QA pairs"""
         context = self.get_cached_context(module_content, notes_text)
         context = self.truncate_text(context, self.max_chunk_size)
+        
+        # If we have existing QA pairs, include them to avoid duplication
+        existing_qa_prompt = ""
+        if existing_qa:
+            existing_questions = [qa['question'] for qa in existing_qa]
+            existing_qa_prompt = f"""
+            Please ensure the flashcards are different from these existing questions:
+            {json.dumps(existing_questions)}
+            """
 
         prompt = f"""Generate exactly {self.flashcards_per_module} flashcard pairs for module {module_key}. 
         Use only the content and topics from this specific module.
+        Make sure each flashcard tests a different concept.
+        Focus on key terminology, definitions, and core concepts.
+        {existing_qa_prompt}
         Module content: {module_content}
         Additional context: {context}
         
@@ -152,7 +165,30 @@ class ContentGenerator:
             return json.loads(response.choices[0].message.content)
         except Exception as e:
             print(f"Error generating flashcards for module {module_key}: {str(e)}")
-            return []
+            # Generate alternative flashcards from module content
+            try:
+                # Create a different prompt focusing on terminology and basic concepts
+                backup_prompt = f"""Generate exactly {self.flashcards_per_module} basic terminology flashcards for module {module_key}.
+                Focus on definitions, key terms, and fundamental concepts.
+                Ensure these are different from any existing Q&A pairs.
+                {existing_qa_prompt}
+                Content: {module_content}
+                
+                Return the flashcards in JSON format with 'question' and 'answer' fields."""
+                
+                backup_response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": "You are an expert in creating terminology-focused flashcards."},
+                        {"role": "user", "content": backup_prompt}
+                    ],
+                    temperature=0.8,  # Slightly higher temperature for more variety
+                    max_tokens=1000
+                )
+                return json.loads(backup_response.choices[0].message.content)
+            except Exception as backup_error:
+                print(f"Backup flashcard generation failed for module {module_key}: {str(backup_error)}")
+                return []
 
     def process_content_parallel(self, chunk_data: Dict) -> Dict:
         """Process content chunks in parallel"""
@@ -206,7 +242,7 @@ class ContentGenerator:
                 except Exception as e:
                     print(f"Error processing future: {str(e)}")
 
-        # Generate module-specific flashcards in parallel
+        # Generate module-specific flashcards in parallel with existing QA reference
         flashcards = {}
         with ThreadPoolExecutor(max_workers=5) as executor:
             future_to_module = {
@@ -214,7 +250,8 @@ class ContentGenerator:
                     self.generate_module_flashcards,
                     module_key,
                     module_content,
-                    notes_texts.get(module_key, "")
+                    notes_texts.get(module_key, ""),
+                    results[module_key]['qa'] if module_key in results else None
                 ): module_key
                 for module_key, module_content in modules.items()
             }

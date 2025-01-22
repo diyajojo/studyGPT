@@ -1,262 +1,262 @@
 {
   "important_topics": {
     "mod3": [
-      "SQL DML",
-      "Views, assertions",
-      "SQL queries on single and multiple tables",
-      "Multi-level-indices",
-      "Spanned and Unspanned Organization"
-    ],
-    "mod2": [
-      "Synthesizing ER Diagram to Relational Schema",
-      "Query Examples",
-      "Table Definitions and Operations: CREATE, DROP, ALTER, INSERT, DELETE, UPDATE",
-      "Important SQL Data Types",
-      "Data Definition Language (DDL)"
-    ],
-    "mod4": [
-      "The Idea of Normalization",
-      "Armstrong’s Axioms",
-      "Lossless Join and Dependency Preserving Decomposition",
-      "Minimal Cover",
-      "First Normal Form (1NF)"
+      "Multiplication of Binary Numbers",
+      "Booth’s Multiplication Algorithm",
+      "Array Multiplier",
+      "Classification of Pipeline Processors",
+      "Instruction and Arithmetic Pipelines"
     ],
     "mod5": [
-      "Graph DB (ArangoDB)",
-      "Check-pointing",
-      "Strict 2PL",
-      "Concurrent and Serializable Schedules",
-      "Desirable Properties of Transactions"
+      "Memory System: Basic Concepts –Semiconductor RAMs",
+      "Mapping Functions, Replacement Algorithms, Write Policies",
+      "Microinstructions",
+      "Register Transfer Language",
+      "Memory System Design: Semiconductor Memory Technologies"
     ],
     "mod1": [
-      "Characteristics of DB System",
-      "Notations",
-      "Entity Set & Attributes",
-      "ER Diagram Exercises",
-      "Relationships of Degree 3"
+      "Functional Units",
+      "Micro Programmed CPU Organization",
+      "Microinstructions",
+      "Logic and Shift Micro Operations",
+      "Basic Structure of Computers"
+    ],
+    "mod4": [
+      "Micro Programmed CPU Organization",
+      "Microinstructions",
+      "Multiple Bus Organization",
+      "Processor Logic Design",
+      "Basic Principles of Pipelining"
+    ],
+    "mod2": [
+      "Algorithm for Division (Restoring Method) of Binary Numbers",
+      "Processor Logic Design",
+      "Hazard Detection and Resolution",
+      "Processor Organization",
+      "Hardwired Control vs Microprogram Control"
     ]
   },
   "important_qna": {
     "mod3": [
       {
-        "question": "What is SQL DML?",
-        "answer": "SQL DML (Data Manipulation Language) provides the ability to query information from the database and to insert tuples into, delete tuples from, and modify tuples in the database."
+        "question": "What is the principle behind binary number multiplication algorithm?",
+        "answer": "The principle behind binary multiplication algorithm is similar to the traditional multiplication method. Each digit in the multiplier is multiplied with the multiplicand, shifted according to its position, and then all results are added to get the final result."
       },
       {
-        "question": "What are the types of SQL queries that can be performed on single and multiple tables?",
-        "answer": "SQL queries on single and multiple tables can involve nested queries (both correlated and non-correlated), aggregation and grouping, views, assertions, and triggers."
+        "question": "What does the restoring method of binary number division entail?",
+        "answer": "The restoring method of binary division involves a series of subtractions and shifts. It subtracts the divisor from the dividend, and if the result is positive, it is kept. If it's negative, the original value is restored, and a zero bit is written to the quotient."
       },
       {
-        "question": "What is the difference between physical and logical records in the context of Physical Data Organization?",
-        "answer": "Physical records refer to the actual data stored on the storage medium, while logical records refer to the data as seen by a user or application, which may be different from how the data is physically stored."
+        "question": "Can you briefly describe Booth’s multiplication algorithm?",
+        "answer": "Booth's multiplication algorithm is an efficient algorithm for multiplying binary integers. It reduces the number of additions by examining the multiplier bit-by-bit. It takes advantage of the fact that sequences of 0s in the multiplier require no addition, and sequences of 1s require only one addition."
       },
       {
-        "question": "What is a B-Tree and B+Tree in the context of Physical Data Organization?",
-        "answer": "In the context of physical data organization, B-Trees and B+Trees are types of data structures used in databases for efficient data retrieval. They allow for quick lookups and insertions of data."
+        "question": "What is the basic principle of pipelining?",
+        "answer": "Pipelining is a technique where multiple instructions are overlapped in execution. It works on the basic principle of dividing the processor's tasks into a series of independent steps or stages, with input flowing from one stage to the next much like items in a factory assembly line."
       },
       {
-        "question": "What is the difference between fixed-length and variable-length records?",
-        "answer": "If every record in the file has exactly the same size (in bytes), the file is said to be made up of fixed-length records. If different records in the file have different sizes, the file is said to be made up of variable-length records."
-      }
-    ],
-    "mod2": [
-      {
-        "question": "What is the relational model in databases?",
-        "answer": "The relational model was first introduced by Ted Codd in 1970. It represents a database as a collection of relations. A relation is a table with values, and each row in the table is a collection of related data values representing a real-world entity. A row in a relational table is called a tuple, a column header is an attribute, and the table itself is a relation."
-      },
-      {
-        "question": "What is relational algebra in the context of databases?",
-        "answer": "Relational algebra is a set of operations used to manipulate or query data within a relational database. It includes operations like select, project, Cartesian product, and join, including equi-join and natural join."
-      },
-      {
-        "question": "What does the ER diagram represent in the context of databases?",
-        "answer": "An ER (Entity-Relationship) diagram represents the structure of a database. It includes entity sets, attributes, relationships, constraints, cardinality, participation, weak entities, and relationships of degree 3. The ER diagram is then synthesized into a relational schema."
-      },
-      {
-        "question": "What is the Structured Query Language (SQL) and what are some of its operations?",
-        "answer": "SQL is a programming language used to manage and manipulate relational databases. It includes operations defined by Data Definition Language (DDL) such as CREATE, DROP, ALTER, INSERT, DELETE, and UPDATE, which respectively create, delete, modify, insert data into, delete data from, and update data in a database."
-      },
-      {
-        "question": "What is the role of integrity constraints in relational databases?",
-        "answer": "Integrity constraints in relational databases ensure the accuracy and consistency of the data. They enforce certain conditions that data in the database must comply with. For example, they can prevent duplicate data, manage null values, and uphold the relationship between tables."
-      }
-    ],
-    "mod4": [
-      {
-        "question": "What are the different anomalies in designing a database?",
-        "answer": "Anomalies in database design are issues that arise when a database is not properly normalized. These include update anomalies, where changes in data can lead to inconsistencies; insertion anomalies, where certain data cannot be inserted without the presence of other data; and deletion anomalies, where the deletion of certain data can result in unintended loss of other data."
-      },
-      {
-        "question": "What is the concept of normalization in database design?",
-        "answer": "Normalization is a systematic approach of decomposing tables to eliminate data redundancy and undesirable characteristics like insertion, update and deletion anomalies. It is a multi-step process that puts data into tabular form by removing duplicated data from the relation tables."
-      },
-      {
-        "question": "What are the four normal forms in database design?",
-        "answer": "The four normal forms in database design are First Normal Form (1NF), Second Normal Form (2NF), Third Normal Form (3NF), and Boyce Codd Normal Form (BCNF). Each form has a specific set of rules and requirements that must be met for a database to be considered in that form."
-      },
-      {
-        "question": "What is lossless join and dependency preserving decomposition?",
-        "answer": "Lossless join property ensures that the spurious tuples are not generated when relations are joined back. Dependency preserving property ensures that all functional dependencies are preserved while decomposing. These properties are crucial to maintain data integrity."
-      },
-      {
-        "question": "What is the purpose of algorithms for checking Lossless Join and Dependency preserving properties?",
-        "answer": "The algorithms for checking Lossless Join and Dependency Preserving properties are used to verify the correctness of the decomposition. They are used to ensure that the decomposition of a database schema, into multiple schemas, does not result in the loss of information, and that it preserves all functional dependencies of the original schema."
+        "question": "What is hazard detection and resolution in the context of pipelining?",
+        "answer": "Hazard detection and resolution refers to the identification and management of situations that prevent the next instruction in the instruction stream from executing in the designated clock cycle. Hazards can be of different types like data, control or structural hazards, and different techniques are used to resolve them, such as stalling or instruction reordering."
       }
     ],
     "mod5": [
       {
-        "question": "What is the significance of concurrency control in transaction processing?",
-        "answer": "Concurrency control in transaction processing is significant as it ensures that database transactions are performed concurrently without violating the data integrity. It prevents conflicts which could arise when multiple transactions are executed simultaneously, and ensures the consistency and isolation of each transaction."
+        "question": "What are the basic processing units in computer science and engineering?",
+        "answer": "The basic processing units in computer science and engineering are the fundamental components that perform operations in a computer. They include the Central Processing Unit (CPU), Input/Output (I/O) devices, and memory."
       },
       {
-        "question": "What are the desirable properties of transactions?",
-        "answer": "The desirable properties of transactions, often referred to as ACID properties, include Atomicity (the whole transaction is processed or none of it is), Consistency (ensuring data remains consistent before and after the transaction), Isolation (each transaction is executed in isolation from other transactions), and Durability (the results of a transaction are permanent, even in cases of system failure)."
+        "question": "What is the purpose of interrupts in accessing I/O devices?",
+        "answer": "Interrupts are signals sent by I/O devices to the processor to alert it that an event requiring immediate attention has occurred. They are used to ensure efficient use of the processor by preventing it from waiting for slower I/O devices."
       },
       {
-        "question": "How does two-phase locking contribute to transaction processing?",
-        "answer": "Two-phase locking (2PL) is a concurrency control method that ensures serializability in transaction processing. It has two phases, the expanding phase where locks are acquired and no locks are released, and the shrinking phase where locks are released and no new locks are acquired. This protocol prevents conflicts and ensures that transactions do not overlap, maintaining data integrity."
+        "question": "What is direct memory access?",
+        "answer": "Direct Memory Access (DMA) is a method that allows input/output (I/O) devices to send or receive data directly to or from the main memory, bypassing the CPU to speed up memory operations."
       },
       {
-        "question": "What is the purpose of log-based recovery in transaction processing?",
-        "answer": "Log-based recovery in transaction processing is a technique to bring the database back to a consistent state after a failure or system crash. It involves keeping a log of all changes made to the database during the transaction execution. If a failure occurs, the system can use the log to undo the changes from incomplete transactions and restore the database to its previous consistent state."
+        "question": "What is the concept of cache memories mapping functions?",
+        "answer": "Cache memories mapping functions are techniques used to determine the location where data will be stored in the cache memory. The types of mapping functions include direct, associative, and set-associative mapping."
       },
       {
-        "question": "What are the main characteristics of NoSQL databases such as Key-value DB and Document DB?",
-        "answer": "NoSQL databases such as Key-value DB and Document DB are designed to handle large data sets efficiently. Key-value DB, like Redis, stores data as a collection of key-value pairs, making it highly efficient for lookup operations. Document DB, like MongoDB, stores data in a semi-structured document format, usually JSON, which allows for greater flexibility in data modeling and handling complex hierarchical data structures."
+        "question": "What is the role of interrupts in process state transitions?",
+        "answer": "Interrupts play a critical role in process state transitions. They can cause a process to change its state from running to waiting or vice versa. This happens when an interrupt signals the completion of an I/O operation or the occurrence of an event, causing the operating system to reassess the state of processes."
       }
     ],
     "mod1": [
       {
-        "question": "What is the ER model in DBMS?",
-        "answer": "The ER (Entity-Relationship) model in DBMS is a conceptual data model that views the real world as entities and relationships. It includes basic concepts such as entities, attributes, and relationships and uses specific notations to represent these components."
+        "question": "What are the functional units of a computer's basic structure?",
+        "answer": "The functional units of a computer's basic structure include the central processing unit (CPU), memory, and input/output (I/O) devices. The CPU is responsible for executing instructions and performing computations, while the memory stores data and instructions. I/O devices allow the computer to interact with the external environment."
       },
       {
-        "question": "What is the difference between structured, semi-structured, and unstructured data?",
-        "answer": "Structured data is highly organized and easily searchable in relational databases. Semi-structured data, while not as organized as structured data, contains tags or other markers to enforce hierarchy and order. Unstructured data lacks a predefined model or organization, making it more complex to analyze and process."
+        "question": "What are memory locations and addresses in the context of computer structure?",
+        "answer": "Memory locations are specific places where data is stored within a computer's memory. Each location is identified with a unique address. When a computer performs memory operations, it uses these addresses to specify where data should be read from or written to."
       },
       {
-        "question": "What is the three-schema-architecture in DBMS?",
-        "answer": "The three-schema-architecture in DBMS is a database architecture that separates the conceptual, external, and internal schemas. The conceptual schema defines all database entities, relationships, and constraints. The external schema defines how users view the data. The internal schema defines physical storage methods and structures."
+        "question": "What is the concept of instruction execution and instruction cycle?",
+        "answer": "Instruction execution refers to the process of a CPU carrying out the instructions of a program. The instruction cycle, also known as the fetch-decode-execute cycle, is the process by which a computer retrieves a program instruction from its memory, determines what actions the instruction requires, and carries out those actions."
       },
       {
-        "question": "What are weak entities in the context of an ER model?",
-        "answer": "Weak entities in the ER model are entities that cannot be uniquely identified by their attributes alone. They depend on some other entity, known as the owner or parent entity. The relationship between a weak entity and its owner entity is called an identifying relationship."
+        "question": "What is the role of the bus in a computer's structure?",
+        "answer": "In a computer's structure, a bus is a communication system that transfers data between different components. There can be multiple bus structures in a computer, including a data bus to carry the data, an address bus to determine where it should go, and a control bus to manage the communication process."
       },
       {
-        "question": "What is the role of cardinality and participation in the context of an ER model?",
-        "answer": "In the context of an ER model, cardinality defines the numerical attributes of the relationship between two entities, while participation determines if all or only some instances of an entity are involved in the relationship. Both concepts help to more accurately model real-world relationships in the database."
+        "question": "What is the purpose of the 'register transfer logic' in Module 2?",
+        "answer": "Register Transfer Logic is a type of digital circuit design, and it is used to move data between registers (storage locations in a computer's CPU). It includes operations such as inter-register transfer, arithmetic operations, logical operations, and shift operations."
+      }
+    ],
+    "mod4": [
+      {
+        "question": "What is the main focus of Control Logic Design?",
+        "answer": "Control Logic Design is primarily focused on the design of hardwired control logic and the design of microprogram control logic, including the control of processor units. It also delves into concepts like microprogram sequencer, micro programmed CPU organization, and the difference between horizontal and vertical micro instructions."
+      },
+      {
+        "question": "What are the key elements of microprogram control logic design?",
+        "answer": "The key elements of microprogram control logic design include the control of the processor unit, the use of a microprogram sequencer, the organization of the micro programmed CPU, and an understanding of microinstructions, both horizontal and vertical."
+      },
+      {
+        "question": "Can you explain what is meant by 'hardwired control logic'?",
+        "answer": "Hardwired control logic refers to a design methodology for control circuits where the control signals are generated by hardware devices such as logic gates and flip-flops, rather than by a microprogram or software. The logic is 'hardwired' into the circuitry, meaning it cannot be easily changed or reprogrammed."
+      },
+      {
+        "question": "What is the main difference between horizontal and vertical microinstructions?",
+        "answer": "Horizontal and vertical microinstructions refer to different formats of microcode. Horizontal microcode has wide instruction words and allows several operations to be specified in parallel, offering more control over the hardware but requiring more memory. Vertical microcode has narrower instruction words and specifies fewer operations, which makes it more memory-efficient but less flexible."
+      },
+      {
+        "question": "What is the role of the microprogram sequencer in microprogram control logic?",
+        "answer": "A microprogram sequencer is responsible for determining the order in which microinstructions are executed in a microprogrammed control unit. It generates the address of the next microinstruction based on the current instruction and the status of the system, thereby controlling the flow of the microprogram."
+      }
+    ],
+    "mod2": [
+      {
+        "question": "What are the types of inter register transfers in register transfer logic?",
+        "answer": "The types of inter register transfers in register transfer logic are arithmetic micro operations and logic and shift micro operations."
+      },
+      {
+        "question": "What is the function of an arithmetic logic unit in processor logic design?",
+        "answer": "In processor logic design, an arithmetic logic unit (ALU) performs arithmetic and logic operations on the data stored in the processor's registers."
+      },
+      {
+        "question": "What role does the accumulator play in a processor unit?",
+        "answer": "The accumulator in a processor unit is a special register that stores the results of arithmetic and logic operations performed by the arithmetic logic unit."
+      },
+      {
+        "question": "Can you explain Booth’s multiplication algorithm in the context of arithmetic algorithms?",
+        "answer": "Booth's multiplication algorithm is a method for multiplying binary integers. It reduces the number of arithmetic operations needed to perform a multiplication, hence improving efficiency."
+      },
+      {
+        "question": "What is the difference between instruction and arithmetic pipelines in the context of pipelining?",
+        "answer": "Instruction pipelines deal with the processing of computer instructions, including fetching, decoding, and executing instructions. Arithmetic pipelines, on the other hand, deal specifically with the execution of arithmetic operations."
       }
     ]
   },
   "flashcards": {
-    "mod4": [
-      {
-        "question": "What are the different anomalies in designing a database?",
-        "answer": "The different anomalies in designing a database are insertion anomalies, deletion anomalies, and modification anomalies."
-      },
-      {
-        "question": "What is functional dependency in the context of databases?",
-        "answer": "Functional dependency is a constraint between two sets of attributes in a database. It exists when a relation between two attributes allows you to uniquely determine the corresponding attribute's value, given the value of the other attribute."
-      },
-      {
-        "question": "What is Armstrong’s Axioms in the context of databases?",
-        "answer": "Armstrong's Axioms are a set of rules that are used to infer all the functional dependencies on a relational database. They are used to define the properties of functional dependencies which are used in normalization of relational schema."
-      },
-      {
-        "question": "What is meant by the term 'normalization' in databases?",
-        "answer": "Normalization is the process of organizing data in a database. This includes creating tables and establishing relationships between those tables according to rules designed to protect data integrity, and to make the database more flexible by eliminating redundancy and inconsistent dependency."
-      },
-      {
-        "question": "What are the algorithms for checking Lossless Join and Dependency preserving properties?",
-        "answer": "Lossless Join and Dependency preserving properties are checked using decomposition algorithms. These algorithms ensure that no information is lost during the decomposition process and all functional dependencies are preserved."
-      }
-    ],
     "mod3": [
       {
-        "question": "What does SQL DML provide?",
-        "answer": "The SQL DML provides the ability to query information from the database and to insert tuples into, delete tuples from, and modify tuples in the database."
+        "question": "What is an Array Multiplier in the context of binary number multiplication?",
+        "answer": "An Array Multiplier is a type of binary multiplication algorithm that uses a grid of AND and OR gates to quickly multiply binary numbers."
       },
       {
-        "question": "What is the SELECT statement in SQL?",
-        "answer": "SQL has one basic statement for retrieving information from a database; the SELECT statement."
+        "question": "What are the types of pipeline processors as per the module?",
+        "answer": "The types of pipeline processors include instruction pipelines and arithmetic pipelines."
       },
       {
-        "question": "What is the role of the WHERE clause in SQL?",
-        "answer": "The WHERE clause in SQL is a conditional (Boolean) expression that identifies the tuples to be retrieved by the query."
+        "question": "What is the role of instruction pipelines as discussed in the module?",
+        "answer": "Instruction pipelines are used in the design of modern processors, microprocessors, and CPUs to increase their instruction throughput."
       },
       {
-        "question": "What is the concept of Physical Data Organization in SQL?",
-        "answer": "Physical Data Organization involves the review of terms: physical and logical records, blocking factor, pinned and unpinned organization. Heap files, Indexing, Single level indices, numerical examples, Multi-level-indices, numerical examples, B-Trees & B+-Trees, Extendible Hashing, Indexing on multiple keys – grid files."
+        "question": "What are arithmetic pipelines as per the module content?",
+        "answer": "Arithmetic pipelines are a type of pipeline architecture used in the design of computers and CPUs to perform arithmetic operations on binary numbers."
       },
       {
-        "question": "What does the INTERSECT operator do in SQL?",
-        "answer": "The INTERSECT operator in SQL is used to return the records that are in common between two SELECT statements or data sets."
-      }
-    ],
-    "mod2": [
-      {
-        "question": "What is the structure of relational databases?",
-        "answer": "The structure of relational databases is based on the relational model, where data is organized into one or more tables (or 'relations') of columns and rows, with a unique key identifying each row. Each table/relation represents an entity set."
-      },
-      {
-        "question": "What is relational algebra?",
-        "answer": "Relational algebra is a set of operations on relations (databases). These operations (select, project, Cartesian product, join operations - Equi-join, natural join) help manipulate the data to give meaningful results."
-      },
-      {
-        "question": "What is an ER diagram and how is it synthesized to a relational schema?",
-        "answer": "An Entity-Relationship (ER) diagram represents the structure of a database with entities, attributes, and relationships. It is synthesized to a relational schema by creating a table for each entity and relationship, and mapping attributes to the fields of these tables."
-      },
-      {
-        "question": "What are the key operations in SQL and their functions?",
-        "answer": "Key operations in SQL include CREATE (to create a new table), DROP (to delete a table), ALTER (to modify existing table), INSERT (to insert new data), DELETE (to remove data), and UPDATE (to modify existing data). These operations help in managing the database effectively."
-      },
-      {
-        "question": "What are integrity constraints in the context of a relational database?",
-        "answer": "Integrity constraints are rules that help ensure the quality of the information in a relational database. They enforce the correctness of a data and prevent the entry of incorrect information into tables. Examples include domain constraints, primary key constraints, and referential integrity constraints."
+        "question": "What is the classification of pipeline processors discussed in Lecture 1 and 2?",
+        "answer": "The classification of pipeline processors in Lecture 1 and 2 cover various types and architectures of pipeline processors, including instruction and arithmetic pipelines."
       }
     ],
     "mod5": [
       {
-        "question": "What is the Transaction Model in Transaction Processing Concepts?",
-        "answer": "A transaction model is a unit of work that is performed against a database. It is the propagation of one or more changes to the database. Transactions are units of work that can be committed or rolled back. If a failure occurs during the processing of a transaction, all changes can be rolled back."
+        "question": "What is the role of I/O subsystems in computer science and engineering?",
+        "answer": "I/O subsystems are responsible for controlling and coordinating the use of I/O devices such as keyboards, monitors, printers, etc. They manage I/O operations and convert between the computer's internal data representation and the format used by I/O devices."
       },
       {
-        "question": "What is the significance of concurrency control and recovery in a transaction processing system?",
-        "answer": "Concurrency control ensures that correct results for concurrent operations are generated, while preserving data integrity. Recovery ensures that the database is restored to a consistent state after a failure."
+        "question": "What is the concept of memory interleaving in computer science and engineering?",
+        "answer": "Memory interleaving is a technique that increases the rate of data transfer between the main memory and the CPU. It allows the CPU to access a new memory module while the previous one is still being refreshed, which improves the overall system performance."
       },
       {
-        "question": "What are Transaction States in a transaction processing system?",
-        "answer": "Transaction States are the stages of a transaction's life cycle. They include the Active State (transaction is executing), Partially Committed (transaction has executed its final operation), Committed (after successful completion), Failed (when normal execution can no longer proceed), and Aborted (after transaction has been rolled back)."
+        "question": "What are the basic concepts of pipelining in computer science and engineering?",
+        "answer": "Pipelining is a technique used in advanced microprocessors where the processor begins executing a second instruction before the first has been completed. This is done by dividing the instructions into different stages which are processed concurrently, increasing the overall execution speed."
       },
       {
-        "question": "What are desirable properties of transactions?",
-        "answer": "Desirable properties of transactions include Atomicity (all-or-nothing execution), Consistency (ensuring system moves from one consistent state to another), Isolation (ensuring each transaction is executed independently), and Durability (ensuring effect of committed transaction persists in case of a system failure)."
+        "question": "What is the concept of cache size vs. block size in computer science and engineering?",
+        "answer": "Cache size and block size are key parameters in the design of a cache memory system. Cache size is the total amount of storage available in the cache, while block size (or line size) is the unit of data that the cache can read or write. The choice of block size impacts the cache's hit rate and its complexity."
       },
       {
-        "question": "What are the main characteristics of NoSQL databases?",
-        "answer": "NoSQL databases are schema-less, allowing for more flexible data models. They are designed for scalability, with two types: vertical scaling (adding more resources to a single server) and horizontal scaling (adding more servers to a system). NoSQL databases support a wide range of data models, including key-value, document, wide-column, and graph formats."
+        "question": "What is the concept of concurrent access to memory and cache coherency in computer science and engineering?",
+        "answer": "Concurrent access to memory refers to multiple processors accessing the memory simultaneously. Cache coherence is a consistency mechanism for multiple caches to a shared memory in multiprocessor systems. It ensures that changes in the value of shared operand data are propagated throughout the system to maintain the consistency."
       }
     ],
     "mod1": [
       {
-        "question": "What is a Database Management System (DBMS)?",
-        "answer": "A DBMS is a collection of programs that enables users to create and maintain a database. It facilitates the processes of defining, constructing, manipulating, and sharing databases among various users and applications."
+        "question": "What are the basic operational concepts in the structure of computers?",
+        "answer": "The basic operational concepts in the structure of computers include how the functional units interact, how memory is accessed and manipulated, instruction sequencing, and how instructions are executed within a single or multiple bus organization."
       },
       {
-        "question": "What are the characteristics of a DBMS?",
-        "answer": "Characteristics of a DBMS include system protection against hardware or software malfunctions, security protection against unauthorized or malicious access, and the ability to evolve and maintain the database system over time."
+        "question": "What is meant by 'addressing modes' in the context of computer structure?",
+        "answer": "Addressing modes in computer structure refer to the methods used to determine the location of an operand of an instruction."
       },
       {
-        "question": "What is the difference between structured, semi-structured, and unstructured data?",
-        "answer": "Structured data is highly organized and resides in a fixed format like tables with rows and columns. Unstructured data has no predefined format or organization, often including text, images, audio, and video. Semi-structured data does not fit into a strict relational structure but has some organizational properties, such as tags or markers."
+        "question": "What is the difference between single bus and multiple bus organization?",
+        "answer": "In a single bus organization, all data transfers occur over a common bus which connects all major components of the computer. In contrast, a multiple bus organization has more than one bus, allowing simultaneous data transfers between multiple components and thus potentially increasing the speed and efficiency of operations."
       },
       {
-        "question": "What is the Entity-Relationship (ER) model in the context of databases?",
-        "answer": "The ER model is a conceptual tool used in illustrating the logical structure of databases. It includes the basic concepts of entities, attributes, and relationships. In addition, it also involves constraints such as cardinality and participation, and notations for weak entities and relationships of degree 3."
+        "question": "What happens during an instruction cycle in the basic processing unit?",
+        "answer": "During an instruction cycle, the basic processing unit fetches an instruction from memory, decodes it to determine what operation to perform, retrieves any necessary operands from memory, executes the operation, and stores the result back to memory."
       },
       {
-        "question": "Who are the database users and what are their roles?",
-        "answer": "Database users include database administrators, responsible for authorizing access and maintaining resources; database designers, who identify and structure the data to be stored; end users, who access the database for querying, updating, and generating reports; system analysts and application programmers, who develop specifications for transactions and implement them as programs."
+        "question": "What are memory operations in the context of computer structure?",
+        "answer": "Memory operations in the context of computer structure refer to the processes of storing data to and retrieving data from memory. These operations form a fundamental part of how a computer functions."
+      }
+    ],
+    "mod2": [
+      {
+        "question": "What are the key steps involved in the design of an arithmetic logic unit?",
+        "answer": "The design process of an Arithmetic Logic Unit (ALU) involves the following key steps: 1. Determine the required operations such as addition, subtraction, multiplication, division, logical AND, OR, NOT, and shift. 2. Design the circuitry for each operation. 3. Combine all operations into a single unit. 4. Implement control logic to select the appropriate operation based on the inputs."
+      },
+      {
+        "question": "What is the purpose of a status register in a processor?",
+        "answer": "A status register, also known as a flag register, is used to indicate the outcome of an operation. It holds information about the result of the most recent arithmetic or logic operation. This can include flags such as zero, carry, overflow, and sign."
+      },
+      {
+        "question": "What is the role of a shifter in processor design?",
+        "answer": "A shifter is an important component of a processor design. It is used to perform shift operations on data. These operations can include logical shifts, arithmetic shifts, and circular shifts. Shifting can be used for tasks such as multiplication and division by powers of two, rotating bits, and manipulating individual bits within a word."
+      },
+      {
+        "question": "What are the steps involved in the execution of a complete instruction in a multiple bus organization?",
+        "answer": "The steps involved in the execution of a complete instruction in a multiple bus organization include: 1. Fetch the instruction from memory. 2. Decode the instruction to determine what operation to perform. 3. Fetch any operands from memory. 4. Perform the operation. 5. Store the result back in memory."
+      },
+      {
+        "question": "What is the difference between arithmetic micro operations and logic and shift micro operations in inter register transfer?",
+        "answer": "Arithmetic micro operations are those that perform mathematical operations, such as addition, subtraction, increment, or decrement. Logic and shift micro operations, on the other hand, involve logical operations (AND, OR, NOT) and shifting bits to the left or right."
+      }
+    ],
+    "mod4": [
+      {
+        "question": "What does Control Organization in Control Logic Design involve?",
+        "answer": "Control Organization in Control Logic Design involves the design of hardwired control logic, which is the physical interconnection of logic gates to perform a specific operation."
+      },
+      {
+        "question": "What is the purpose of microprogram control logic in processor unit design?",
+        "answer": "Microprogram control logic in processor unit design handles the control of the processor unit. It uses a stored program of microinstructions to generate the control signals required for operation."
+      },
+      {
+        "question": "What role does a Microprogram Sequencer play in a microprogram control logic?",
+        "answer": "A Microprogram Sequencer is responsible for controlling the order of microinstruction execution. It dictates the sequence in which the CPU's control unit performs microoperations."
+      },
+      {
+        "question": "Can you explain the concept of Micro Programmed CPU organization?",
+        "answer": "In Micro Programmed CPU organization, the control unit of a CPU is implemented as a microprogram stored in a control memory, which allows the CPU to execute machine instructions through a series of microinstructions."
+      },
+      {
+        "question": "What is the distinction between horizontal and vertical microinstructions?",
+        "answer": "Horizontal microinstructions specify control signals in a wide format, allowing for simultaneous operations. Vertical microinstructions, on the other hand, are more compact and specify operations in a serialized manner."
       }
     ]
   }
