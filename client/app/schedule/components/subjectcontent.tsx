@@ -5,7 +5,7 @@ import ModuleTopicsModal from './topicsmodal';
 import QuestionAnswerModal from './quesmodal';
 import FlashcardModal from './flashcardmodal';
 import ScheduleModal from './schedulemodal';
-import { Alert, AlertDescription } from '../../components/ui/alert';
+import AssignmentCard from './assignmentcard';
 
 interface Flashcard {
   id: string;
@@ -88,6 +88,8 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
 
 
 
+
+
 useEffect(() => {
   const controller = new AbortController();
   abortControllerRef.current = controller;
@@ -164,6 +166,26 @@ useEffect(() => {
         .eq('subject_id', selectedSubject.id)
         .abortSignal(controller.signal);
 
+      // Add assignments fetching
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: assignmentsData, error: assignmentsError } = await supabase
+          .from('assignments')
+          .select('*')
+          .eq('subject_id', selectedSubject.id)
+          .eq('created_by', user.id)
+          .order('date', { ascending: true })
+          .abortSignal(controller.signal);
+
+        if (!controller.signal.aborted) {
+          if (assignmentsError) {
+            console.error('Error fetching assignments:', assignmentsError);
+          } else {
+            setAssignments(assignmentsData || []);
+          }
+        }
+      }
+
       if (!controller.signal.aborted) {
         if (topicsError) {
           console.error('Error fetching topics:', topicsError);
@@ -175,7 +197,6 @@ useEffect(() => {
           console.error('Error fetching questions:', questionsError);
         } else {
           setQuestions(questionsData || []);
-          //console.log("questions are", questionsData);
         }
 
         if (flashcardsError) {
@@ -199,7 +220,6 @@ useEffect(() => {
     }
   };
 }, [selectedSubject.id]);
-
 
 
   const getTopicsForModule = (moduleNumber: string): Topic[] => {
@@ -242,6 +262,31 @@ useEffect(() => {
   const handleNextMonth = () => {
     setCurrentMonth((prevMonth) => (prevMonth === 11 ? 0 : prevMonth + 1));
   };
+
+  const handleAssignmentStatusUpdate = async (assignmentId: string, newStatus: 'pending' | 'completed') => {
+    try {
+      const { error } = await supabase
+        .from('assignments')
+        .update({ status: newStatus })
+        .eq('id', assignmentId);
+
+      if (error) {
+        console.error('Error updating assignment status:', error);
+        return;
+      }
+
+      setAssignments(prev =>
+        prev.map(assignment =>
+          assignment.id === assignmentId
+            ? { ...assignment, status: newStatus }
+            : assignment
+        )
+      );
+    } catch (error) {
+      console.error('Error updating assignment status:', error);
+    }
+  };
+
 
   return (
     <div>
@@ -346,7 +391,7 @@ useEffect(() => {
         {/* Calendar and Assignments Grid */}
         <div className="grid grid-cols-3 gap-6">
           {/* Calendar */}
-          <div className="col-span-2 bg-white p-6 rounded-xl shadow-sm">
+          <div className="col-span-2 bg-white p-6 rounded-xl shadow-sm max-h-[400px]">
             <div className="flex justify-between items-center mb-4">
               <button onClick={handlePreviousMonth} className="text-gray-600 font-semibold hover:text-gray-800">
                 &lt;
@@ -372,29 +417,23 @@ useEffect(() => {
           </div>
 
           {/* Assignments */}
-          <div className="bg-white p-6 rounded-xl shadow-sm">
+           {/* Assignments Section - Modified with scrolling */}
+           <div className="bg-white p-6 rounded-xl shadow-sm max-h-[400px] flex flex-col">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Assignments</h2>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
-                <div>
-                  <h4 className="font-medium text-gray-800">Chemistry</h4>
-                  <p className="text-sm text-gray-500">14 Jan, 12:00 PM</p>
-                </div>
-                <span className="text-sm text-orange-600 bg-orange-100 px-2 py-1 rounded">In progress</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                <div>
-                  <h4 className="font-medium text-gray-800">Physics</h4>
-                  <p className="text-sm text-gray-500">12 Jan, 11:30 AM</p>
-                </div>
-                <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded">Completed</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                <div>
-                  <h4 className="font-medium text-gray-800">LSD</h4>
-                  <p className="text-sm text-gray-500">16 Jan, 7:00 PM</p>
-                </div>
-                <span className="text-sm text-blue-600 bg-blue-100 px-2 py-1 rounded">Upcoming</span>
+            {/* Scrollable container */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="space-y-3 pr-2"> {/* Added right padding for scrollbar spacing */}
+                {assignments.length === 0 ? (
+                  <p className="text-gray-500 text-center py-4">No assignments yet</p>
+                ) : (
+                  assignments.map(assignment => (
+                    <AssignmentCard
+                      key={assignment.id}
+                      assignment={assignment}
+                      onStatusUpdate={(id, status) => handleAssignmentStatusUpdate(id, status as "pending" | "completed")}
+                    />
+                  ))
+                )}
               </div>
             </div>
           </div>
