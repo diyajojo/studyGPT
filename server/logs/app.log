@@ -2331,3 +2331,172 @@ subject_id
 2025-01-23 01:10:15,935 - app.routers.schedules - INFO - Logging initialized successfully
 2025-01-23 01:12:38,768 - app.routers.schedules - INFO - Logging initialized successfully
 2025-01-23 01:12:38,769 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:17:58,012 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:18:04,707 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:18:04,742 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:20:12,305 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:25:33 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-23 01:25:33,928 - app.routers.models - INFO - === Updating subjects table ===
+2025-01-23 01:25:33 - app.routers.models - INFO - Checking if subject ostest exists for user ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c
+2025-01-23 01:25:33,950 - app.routers.models - INFO - Checking if subject ostest exists for user ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c
+2025-01-23 01:25:35,668 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/subjects?select=%2A&user_id=eq.ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c&subject_name=eq.ostest "HTTP/2 200 OK"
+2025-01-23 01:25:35 - app.routers.models - INFO - Subject not found, adding to subjects table
+2025-01-23 01:25:35,743 - app.routers.models - INFO - Subject not found, adding to subjects table
+2025-01-23 01:25:36,776 - httpx - INFO - HTTP Request: POST https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/subjects "HTTP/2 201 Created"
+2025-01-23 01:25:36 - app.routers.models - INFO - Successfully added subject to table
+2025-01-23 01:25:36,781 - app.routers.models - INFO - Successfully added subject to table
+2025-01-23 01:25:36 - app.routers.models - INFO - === Updating user's current subject ===
+2025-01-23 01:25:36,783 - app.routers.models - INFO - === Updating user's current subject ===
+2025-01-23 01:25:37,735 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/subjects?select=id&user_id=eq.ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c&subject_name=eq.ostest "HTTP/2 200 OK"
+2025-01-23 01:25:38,216 - httpx - INFO - HTTP Request: POST https://bpvptmiuavdwtfumyurb.supabase.co/rest/v1/rpc/upsert_user_current_subject "HTTP/2 204 No Content"
+2025-01-23 01:25:38 - app.routers.models - INFO - Successfully updated user's current subject
+2025-01-23 01:25:38,230 - app.routers.models - INFO - Successfully updated user's current subject
+2025-01-23 01:25:38 - app.routers.models - INFO - === Starting background processing ===
+2025-01-23 01:25:38,235 - app.routers.models - INFO - === Starting background processing ===
+2025-01-23 01:25:38 - app.routers.models - INFO - === Starting upload process ===
+2025-01-23 01:25:38,238 - app.routers.models - INFO - === Starting upload process ===
+2025-01-23 01:25:38 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-23 01:25:38,240 - app.routers.models - INFO - Verifying authentication for user request
+2025-01-23 01:25:38 - app.routers.models - INFO - Authentication successful for user: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c
+2025-01-23 01:25:38,245 - app.routers.models - INFO - Authentication successful for user: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c
+2025-01-23 01:25:38 - app.routers.models - INFO - Processing subject: ostest
+2025-01-23 01:25:38,248 - app.routers.models - INFO - Processing subject: ostest
+2025-01-23 01:25:38 - app.routers.models - INFO - === Starting file processing ===
+2025-01-23 01:25:38,250 - app.routers.models - INFO - === Starting file processing ===
+2025-01-23 01:25:38 - app.routers.models - INFO - Processing category: notes
+2025-01-23 01:25:38,253 - app.routers.models - INFO - Processing category: notes
+2025-01-23 01:25:38 - app.routers.models - DEBUG - Listing files from path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes
+2025-01-23 01:25:40,302 - httpx - INFO - HTTP Request: POST https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/list/study_materials "HTTP/2 200 OK"
+2025-01-23 01:25:40 - app.routers.models - INFO - Found 4 files in notes category
+2025-01-23 01:25:40,302 - app.routers.models - INFO - Found 4 files in notes category
+2025-01-23 01:25:40 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes
+2025-01-23 01:25:40 - app.routers.models - INFO - Processing file: OS Mod 5.pdf
+2025-01-23 01:25:40,318 - app.routers.models - INFO - Processing file: OS Mod 5.pdf
+2025-01-23 01:25:40 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 5.pdf?
+2025-01-23 01:25:40 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 5.pdf?
+2025-01-23 01:25:40,318 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 5.pdf?
+2025-01-23 01:25:40 - app.routers.models - DEBUG - Extracted bucket path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 5.pdf?
+2025-01-23 01:25:40 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 5.pdf
+2025-01-23 01:25:43,853 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS%20Mod%205.pdf? "HTTP/2 200 OK"
+2025-01-23 01:25:44 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 5.pdf
+2025-01-23 01:25:44,289 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 5.pdf
+2025-01-23 01:25:44 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 5.pdf
+2025-01-23 01:25:44,295 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 5.pdf
+2025-01-23 01:25:44 - app.routers.models - INFO - Processing file: OS Mod 3.pdf
+2025-01-23 01:25:44,298 - app.routers.models - INFO - Processing file: OS Mod 3.pdf
+2025-01-23 01:25:44 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 3.pdf?
+2025-01-23 01:25:44 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 3.pdf?
+2025-01-23 01:25:44,302 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 3.pdf?
+2025-01-23 01:25:44 - app.routers.models - DEBUG - Extracted bucket path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 3.pdf?
+2025-01-23 01:25:44 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 3.pdf
+2025-01-23 01:25:47,969 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS%20Mod%203.pdf? "HTTP/2 200 OK"
+2025-01-23 01:25:49 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 3.pdf
+2025-01-23 01:25:49,099 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 3.pdf
+2025-01-23 01:25:49 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 3.pdf
+2025-01-23 01:25:49,099 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 3.pdf
+2025-01-23 01:25:49 - app.routers.models - INFO - Processing file: OS Mod 2.pdf
+2025-01-23 01:25:49,099 - app.routers.models - INFO - Processing file: OS Mod 2.pdf
+2025-01-23 01:25:49 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 2.pdf?
+2025-01-23 01:25:49 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 2.pdf?
+2025-01-23 01:25:49,108 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 2.pdf?
+2025-01-23 01:25:49 - app.routers.models - DEBUG - Extracted bucket path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 2.pdf?
+2025-01-23 01:25:49 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 2.pdf
+2025-01-23 01:25:52,768 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS%20Mod%202.pdf? "HTTP/2 200 OK"
+2025-01-23 01:25:53 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 2.pdf
+2025-01-23 01:25:53,894 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 2.pdf
+2025-01-23 01:25:53 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 2.pdf
+2025-01-23 01:25:53,902 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 2.pdf
+2025-01-23 01:25:53 - app.routers.models - INFO - Processing file: OS Mod 1.pdf
+2025-01-23 01:25:53,902 - app.routers.models - INFO - Processing file: OS Mod 1.pdf
+2025-01-23 01:25:53 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 1.pdf?
+2025-01-23 01:25:53 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 1.pdf?
+2025-01-23 01:25:53,902 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 1.pdf?
+2025-01-23 01:25:53 - app.routers.models - DEBUG - Extracted bucket path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS Mod 1.pdf?
+2025-01-23 01:25:53 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 1.pdf
+2025-01-23 01:25:57,569 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/notes/OS%20Mod%201.pdf? "HTTP/2 200 OK"
+2025-01-23 01:25:58 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 1.pdf
+2025-01-23 01:25:58,409 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 1.pdf
+2025-01-23 01:25:58 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 1.pdf
+2025-01-23 01:25:58,412 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\notes\OS Mod 1.pdf
+2025-01-23 01:25:58 - app.routers.models - INFO - Processing category: pyq
+2025-01-23 01:25:58,413 - app.routers.models - INFO - Processing category: pyq
+2025-01-23 01:25:58 - app.routers.models - DEBUG - Listing files from path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq
+2025-01-23 01:25:58,858 - httpx - INFO - HTTP Request: POST https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/list/study_materials "HTTP/2 200 OK"
+2025-01-23 01:25:58 - app.routers.models - INFO - Found 2 files in pyq category
+2025-01-23 01:25:58,858 - app.routers.models - INFO - Found 2 files in pyq category
+2025-01-23 01:25:58 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq
+2025-01-23 01:25:58 - app.routers.models - INFO - Processing file: OS June 2023.pdf
+2025-01-23 01:25:58,858 - app.routers.models - INFO - Processing file: OS June 2023.pdf
+2025-01-23 01:25:58 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS June 2023.pdf?
+2025-01-23 01:25:58 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS June 2023.pdf?
+2025-01-23 01:25:58,858 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS June 2023.pdf?
+2025-01-23 01:25:58 - app.routers.models - DEBUG - Extracted bucket path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS June 2023.pdf?
+2025-01-23 01:25:58 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS June 2023.pdf
+2025-01-23 01:26:02,700 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS%20June%202023.pdf? "HTTP/2 200 OK"
+2025-01-23 01:26:03 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS June 2023.pdf
+2025-01-23 01:26:03,502 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS June 2023.pdf
+2025-01-23 01:26:03 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS June 2023.pdf
+2025-01-23 01:26:03,502 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS June 2023.pdf
+2025-01-23 01:26:03 - app.routers.models - INFO - Processing file: OS Jan 2024.pdf
+2025-01-23 01:26:03,502 - app.routers.models - INFO - Processing file: OS Jan 2024.pdf
+2025-01-23 01:26:03 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS Jan 2024.pdf?
+2025-01-23 01:26:03 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS Jan 2024.pdf?
+2025-01-23 01:26:03,519 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS Jan 2024.pdf?
+2025-01-23 01:26:03 - app.routers.models - DEBUG - Extracted bucket path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS Jan 2024.pdf?
+2025-01-23 01:26:03 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS Jan 2024.pdf
+2025-01-23 01:26:06,992 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/pyq/OS%20Jan%202024.pdf? "HTTP/2 200 OK"
+2025-01-23 01:26:07 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS Jan 2024.pdf
+2025-01-23 01:26:07,864 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS Jan 2024.pdf
+2025-01-23 01:26:07 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS Jan 2024.pdf
+2025-01-23 01:26:07,870 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\pyq\OS Jan 2024.pdf
+2025-01-23 01:26:07 - app.routers.models - INFO - Processing category: syllabus
+2025-01-23 01:26:07,870 - app.routers.models - INFO - Processing category: syllabus
+2025-01-23 01:26:07 - app.routers.models - DEBUG - Listing files from path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/syllabus
+2025-01-23 01:26:08,300 - httpx - INFO - HTTP Request: POST https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/list/study_materials "HTTP/2 200 OK"
+2025-01-23 01:26:08 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-23 01:26:08,300 - app.routers.models - INFO - Found 1 files in syllabus category
+2025-01-23 01:26:08 - app.routers.models - DEBUG - Created directory: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\syllabus
+2025-01-23 01:26:08 - app.routers.models - INFO - Processing file: OS Syllabus .pdf
+2025-01-23 01:26:08,300 - app.routers.models - INFO - Processing file: OS Syllabus .pdf
+2025-01-23 01:26:08 - app.routers.models - DEBUG - Generated public URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/syllabus/OS Syllabus .pdf?
+2025-01-23 01:26:08 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/syllabus/OS Syllabus .pdf?
+2025-01-23 01:26:08,312 - app.routers.models - INFO - Starting download of file from URL: https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/public/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/syllabus/OS Syllabus .pdf?
+2025-01-23 01:26:08 - app.routers.models - DEBUG - Extracted bucket path: ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/syllabus/OS Syllabus .pdf?
+2025-01-23 01:26:08 - app.routers.models - DEBUG - Downloading from Supabase storage to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\syllabus\OS Syllabus .pdf
+2025-01-23 01:26:11,822 - httpx - INFO - HTTP Request: GET https://bpvptmiuavdwtfumyurb.supabase.co/storage/v1/object/study_materials/ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c/ostest/syllabus/OS%20Syllabus%20.pdf? "HTTP/2 200 OK"
+2025-01-23 01:26:12 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\syllabus\OS Syllabus .pdf
+2025-01-23 01:26:12,338 - app.routers.models - INFO - Successfully downloaded and saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\syllabus\OS Syllabus .pdf
+2025-01-23 01:26:12 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\syllabus\OS Syllabus .pdf
+2025-01-23 01:26:12,353 - app.routers.models - INFO - Successfully saved file to: D:\college\S3\github_repos_2\studyGPT\server\model\data\pdf\ebf213b0-06b1-48b3-bbcd-dc92de0ecb9c\ostest\syllabus\OS Syllabus .pdf
+2025-01-23 01:26:12 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-23 01:26:12,353 - app.routers.models - INFO - === Starting PDF processing and content generation ===
+2025-01-23 01:26:12 - app.routers.models - INFO - Processing syllabus files...
+2025-01-23 01:26:12,361 - app.routers.models - INFO - Processing syllabus files...
+2025-01-23 01:26:12 - app.routers.models - INFO - Processing question papers...
+2025-01-23 01:26:12,648 - app.routers.models - INFO - Processing question papers...
+2025-01-23 01:26:13 - app.routers.models - INFO - Processing notes...
+2025-01-23 01:26:13,211 - app.routers.models - INFO - Processing notes...
+2025-01-23 01:26:13 - app.routers.models - ERROR - Failed to read any module notes
+2025-01-23 01:26:13,211 - app.routers.models - ERROR - Failed to read any module notes
+2025-01-23 01:26:13 - app.routers.models - ERROR - Error in content generation or storage: 500: Failed to process module notes
+2025-01-23 01:26:13,211 - app.routers.models - ERROR - Error in content generation or storage: 500: Failed to process module notes
+2025-01-23 01:26:13 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error in content generation: 500: Failed to process module notes
+2025-01-23 01:26:13,211 - app.routers.models - ERROR - HTTP Exception occurred: 500: Error in content generation: 500: Failed to process module notes
+2025-01-23 01:31:54,499 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:31:54,499 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:31:54,501 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:32:42,916 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:32:42,916 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:32:43,017 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:32:50,868 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:32:50,901 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:32:50,911 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 01:35:37,100 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 02:01:50,099 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 02:01:50,099 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 02:01:50,099 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 02:01:50,115 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 02:01:59,886 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 02:02:00,095 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 02:02:00,095 - app.routers.schedules - INFO - Logging initialized successfully
+2025-01-23 02:02:00,164 - app.routers.schedules - INFO - Logging initialized successfully

@@ -270,4 +270,3 @@ class ContentGenerator:
             "important_qna": {k: v['qa'][:self.max_qna] for k, v in results.items()},
             "flashcards": flashcards
         }
-'''

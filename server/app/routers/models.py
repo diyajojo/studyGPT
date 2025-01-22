@@ -433,7 +433,7 @@ async def process_files_background(request: PostRequest, user_id: str):
                 questions_texts=questions_texts,
                 notes_texts=module_notes
             )
-
+            
             # Save output to file
             output_dir = os.path.join(Config.DATA_DIR, current_user.id, request.subject)
             output_path = os.path.join(output_dir, "output.json")
