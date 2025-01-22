@@ -1,3 +1,5 @@
+
+# content_generator.py
 from typing import Dict, List
 import json
 from openai import OpenAI
@@ -142,8 +144,12 @@ class ContentGenerator:
             {json.dumps(existing_questions)}
             """
 
+        # Determine content source for the prompt
+        content_source = "module" if notes_text else "syllabus and question papers"
+        content_focus = f"Use content from the {content_source} to create comprehensive flashcards."
+
         prompt = f"""Generate exactly {self.flashcards_per_module} flashcard pairs for module {module_key}. 
-        Use only the content and topics from this specific module.
+        {content_focus}
         Make sure each flashcard tests a different concept.
         Focus on key terminology, definitions, and core concepts.
         {existing_qa_prompt}
@@ -169,7 +175,7 @@ class ContentGenerator:
             try:
                 # Create a different prompt focusing on terminology and basic concepts
                 backup_prompt = f"""Generate exactly {self.flashcards_per_module} basic terminology flashcards for module {module_key}.
-                Focus on definitions, key terms, and fundamental concepts.
+                Focus on definitions, key terms, and fundamental concepts from the available content.
                 Ensure these are different from any existing Q&A pairs.
                 {existing_qa_prompt}
                 Content: {module_content}
@@ -202,16 +208,21 @@ class ContentGenerator:
                 'result': [] if chunk_data['type'] == 'topics' else [{"question": "", "answer": ""}]
             }
 
-    def generate_all_content(self, syllabus_text: str, questions_texts: List[str], notes_texts: Dict[str, str]) -> Dict:
+    def generate_all_content(self, syllabus_text: str, questions_texts: List[str], module_notes: Dict[str, str]) -> Dict:
         """Generate complete content using optimized parallel processing"""
         # Initialize vector store with module-specific organization
+        all_texts = [syllabus_text] + questions_texts + list(module_notes.values())
         self.vector_store.initialize(
-            texts=[syllabus_text] + list(questions_texts) + list(notes_texts.values()),
-            sources=["syllabus"] + ["questions"] * len(questions_texts) + ["notes"] * len(notes_texts)
+            texts=all_texts,
+            sources=["syllabus"] + ["questions"] * len(questions_texts) + ["notes"] * len(module_notes)
         )
 
-        # Extract modules
+        # Extract modules from syllabus
         modules = extract_modules(syllabus_text)
+
+        # If no modules extracted, create a single module from the entire content
+        if not modules:
+            modules = {"complete_content": syllabus_text}
 
         # Prepare chunks for parallel processing
         all_chunks = []
@@ -242,7 +253,7 @@ class ContentGenerator:
                 except Exception as e:
                     print(f"Error processing future: {str(e)}")
 
-        # Generate module-specific flashcards in parallel with existing QA reference
+        # Generate module-specific flashcards in parallel
         flashcards = {}
         with ThreadPoolExecutor(max_workers=5) as executor:
             future_to_module = {
@@ -250,7 +261,7 @@ class ContentGenerator:
                     self.generate_module_flashcards,
                     module_key,
                     module_content,
-                    notes_texts.get(module_key, ""),
+                    module_notes.get(module_key, ""),  # Pass empty string if no notes found
                     results[module_key]['qa'] if module_key in results else None
                 ): module_key
                 for module_key, module_content in modules.items()
@@ -268,5 +279,4 @@ class ContentGenerator:
         return {
             "important_topics": {k: list(v['topics'])[:self.max_topics] for k, v in results.items()},
             "important_qna": {k: v['qa'][:self.max_qna] for k, v in results.items()},
-            "flashcards": flashcards
-        }
+            "flashcards":flashcards}
