@@ -1,5 +1,7 @@
+# content_generator.py
 from typing import Dict, List
 import json
+import logging
 from openai import OpenAI
 import tiktoken
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -9,18 +11,34 @@ from model.src.rag.vector_store import VectorStore
 from .prompts import TOPIC_PROMPT, QA_PROMPT, FLASHCARD_PROMPT
 
 class ContentGenerator:
-    def __init__(self):
-        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
-        self.model = Config.MODEL_NAME
-        self.encoding = tiktoken.encoding_for_model(self.model)
-        self.vector_store = VectorStore()
-        self.max_context_length = 7000
-        self.max_chunk_size = 3000
-        self.max_topics = 5
-        self.max_qna = 5
-        self.flashcards_per_module = 5
-        self._token_count_cache = {}
-        self._context_cache = {}
+    def __init__(self):  # Fixed method name
+        try:
+            # Initialize OpenAI client
+            self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+            
+            # Set model configuration
+            self.model = Config.MODEL_NAME
+            self.encoding = tiktoken.encoding_for_model(self.model)
+            
+            # Initialize vector store
+            self.vector_store = VectorStore()
+            
+            # Set configuration parameters
+            self.max_context_length = 7000
+            self.max_chunk_size = 3000
+            self.max_topics = 5
+            self.max_qna = 5
+            self.flashcards_per_module = 5
+            
+            # Initialize caches
+            self._token_count_cache = {}
+            self._context_cache = {}
+            
+            logging.info("ContentGenerator initialized successfully")
+            
+        except Exception as e:
+            logging.error(f"Error initializing ContentGenerator: {str(e)}")
+            raise
         
     def count_tokens(self, text: str) -> int:
         if text not in self._token_count_cache:
@@ -126,144 +144,10 @@ class ContentGenerator:
                 'module_key': module_key,
                 'result': [] if chunk_type == 'topics' else [{"question": "", "answer": ""}]
             }
-    def generate_module_flashcards(self, module_key: str, module_content: str, notes_text: str) -> List[Dict[str, str]]:
-        """Generate flashcards specific to a module"""
-        context = self.get_cached_context(module_content, notes_text)
-        context = self.truncate_text(context, self.max_chunk_size)
-        
-        module_no = module_key.replace('mod', '')
-        
-        prompt = FLASHCARD_PROMPT.format(
-            num_cards=self.flashcards_per_module,
-            module_no=module_no,
-            content=module_content,
-            context=context
-        )
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": "You are an expert in creating educational flashcards."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.7,
-                max_tokens=1000
-            )
-            
-            # Parse the response and ensure the correct structure
-            try:
-                flashcards = json.loads(response.choices[0].message.content)
-                # Ensure flashcards is a list
-                if isinstance(flashcards, dict) and 'flashcards' in flashcards:
-                    flashcards = flashcards['flashcards']
-                elif not isinstance(flashcards, list):
-                    flashcards = []
-                    
-                # Add module_no to each flashcard and ensure correct structure
-                formatted_flashcards = []
-                for card in flashcards:
-                    if isinstance(card, dict):
-                        formatted_card = {
-                            "question": str(card.get("question", "")),
-                            "answer": str(card.get("answer", "")),
-                            "module_no": str(module_no)
-                        }
-                        formatted_flashcards.append(formatted_card)
-                        
-                return formatted_flashcards
-                
-            except json.JSONDecodeError:
-                print(f"Error parsing JSON response for module {module_key}")
-                return []
-                
-        except Exception as e:
-            print(f"Error generating flashcards for module {module_key}: {str(e)}")
-            return []
-
-    def process_content_parallel(self, chunk_data: Dict) -> Dict:
-        """Process content chunks in parallel"""
-        try:
-            return self.process_chunk(chunk_data)
-        except Exception as e:
-            print(f"Error in parallel processing: {str(e)}")
-            return {
-                'type': chunk_data['type'],
-                'module_key': chunk_data['module_key'],
-                'result': [] if chunk_data['type'] == 'topics' else [{"question": "", "answer": ""}]
-            }
-
-
-    def generate_all_content(self, syllabus_text: str, questions_texts: List[str], notes_texts: Dict[str, str]) -> Dict:
-        """Generate complete content using optimized parallel processing"""
-        # Initialize vector store with module-specific organization
-        self.vector_store.initialize(
-            texts=[syllabus_text] + list(questions_texts) + list(notes_texts.values()),
-            sources=["syllabus"] + ["questions"] * len(questions_texts) + ["notes"] * len(notes_texts)
-        )
-
-        # Extract modules
-        modules = extract_modules(syllabus_text)
-
-        # Prepare chunks for parallel processing
-        all_chunks = []
-        for module_key, module_content in modules.items():
-            chunks = self.chunk_content(module_content, self.max_chunk_size)
-            for chunk in chunks:
-                all_chunks.extend([
-                    {'chunk': chunk, 'type': 'topics', 'module_key': module_key},
-                    {'chunk': chunk, 'type': 'qa', 'module_key': module_key, 'num_pairs': self.max_qna}
-                ])
-
-        # Process content in parallel with improved error handling
-        results = {}
-        with ThreadPoolExecutor(max_workers=10) as executor:
-            future_to_chunk = {executor.submit(self.process_content_parallel, chunk): chunk 
-                            for chunk in all_chunks}
-            
-            for future in as_completed(future_to_chunk):
-                try:
-                    result = future.result()
-                    if result['module_key'] not in results:
-                        results[result['module_key']] = {'topics': set(), 'qa': []}
-                    
-                    if result['type'] == 'topics':
-                        results[result['module_key']]['topics'].update(result['result'])
-                    else:  # qa
-                        results[result['module_key']]['qa'].extend(result['result'])
-                except Exception as e:
-                    print(f"Error processing future: {str(e)}")
-
-        # Generate module-specific flashcards in parallel
-        all_flashcards = []
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            future_to_module = {
-                executor.submit(
-                    self.generate_module_flashcards,
-                    module_key,
-                    module_content,
-                    notes_texts.get(module_key, "")
-                ): module_key
-                for module_key, module_content in modules.items()
-            }
-            
-            for future in as_completed(future_to_module):
-                try:
-                    module_flashcards = future.result()
-                    if isinstance(module_flashcards, list):
-                        all_flashcards.extend(module_flashcards)
-                except Exception as e:
-                    print(f"Error collecting flashcards results: {str(e)}")
-
-        # Format final results
-        return {
-            "important_topics": {k: list(v['topics'])[:self.max_topics] for k, v in results.items()},
-            "important_qna": {k: v['qa'][:self.max_qna] for k, v in results.items()},
-            "flashcards": all_flashcards  # Now a flat list with properly structured flashcards
-        }
-'''
-    def generate_module_flashcards(self, module_key: str, module_content: str, notes_text: str) -> List[Dict[str, str]]:
-        """Generate flashcards specific to a module"""
+    def generate_module_flashcards(self, module_key: str, module_content: str, notes_text: str, 
+                                 existing_qa: List[Dict[str, str]] = None) -> List[Dict[str, str]]:
+        """Generate flashcards specific to a module, ensuring they're different from existing QA pairs"""
         context = self.get_cached_context(module_content, notes_text)
         context = self.truncate_text(context, self.max_chunk_size)
         
@@ -276,8 +160,12 @@ class ContentGenerator:
             {json.dumps(existing_questions)}
             """
 
+        # Determine content source for the prompt
+        content_source = "module" if notes_text else "syllabus and question papers"
+        content_focus = f"Use content from the {content_source} to create comprehensive flashcards."
+
         prompt = f"""Generate exactly {self.flashcards_per_module} flashcard pairs for module {module_key}. 
-        Use only the content and topics from this specific module.
+        {content_focus}
         Make sure each flashcard tests a different concept.
         Focus on key terminology, definitions, and core concepts.
         {existing_qa_prompt}
@@ -299,22 +187,58 @@ class ContentGenerator:
             return json.loads(response.choices[0].message.content)
         except Exception as e:
             print(f"Error generating flashcards for module {module_key}: {str(e)}")
-            return []
-'''
+            # Generate alternative flashcards from module content
+            try:
+                # Create a different prompt focusing on terminology and basic concepts
+                backup_prompt = f"""Generate exactly {self.flashcards_per_module} basic terminology flashcards for module {module_key}.
+                Focus on definitions, key terms, and fundamental concepts from the available content.
+                Ensure these are different from any existing Q&A pairs.
+                {existing_qa_prompt}
+                Content: {module_content}
+                
+                Return the flashcards in JSON format with 'question' and 'answer' fields."""
+                
+                backup_response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": "You are an expert in creating terminology-focused flashcards."},
+                        {"role": "user", "content": backup_prompt}
+                    ],
+                    temperature=0.8,  # Slightly higher temperature for more variety
+                    max_tokens=1000
+                )
+                return json.loads(backup_response.choices[0].message.content)
+            except Exception as backup_error:
+                print(f"Backup flashcard generation failed for module {module_key}: {str(backup_error)}")
+                return []
 
+    def process_content_parallel(self, chunk_data: Dict) -> Dict:
+        """Process content chunks in parallel"""
+        try:
+            return self.process_chunk(chunk_data)
+        except Exception as e:
+            print(f"Error in parallel processing: {str(e)}")
+            return {
+                'type': chunk_data['type'],
+                'module_key': chunk_data['module_key'],
+                'result': [] if chunk_data['type'] == 'topics' else [{"question": "", "answer": ""}]
+            }
 
-
-'''
-    def generate_all_content(self, syllabus_text: str, questions_texts: List[str], notes_texts: Dict[str, str]) -> Dict:
+    def generate_all_content(self, syllabus_text: str, questions_texts: List[str], module_notes: Dict[str, str]) -> Dict:
         """Generate complete content using optimized parallel processing"""
         # Initialize vector store with module-specific organization
+        all_texts = [syllabus_text] + questions_texts + list(module_notes.values())
         self.vector_store.initialize(
-            texts=[syllabus_text] + list(questions_texts) + list(notes_texts.values()),
-            sources=["syllabus"] + ["questions"] * len(questions_texts) + ["notes"] * len(notes_texts)
+            texts=all_texts,
+            sources=["syllabus"] + ["questions"] * len(questions_texts) + ["notes"] * len(module_notes)
         )
 
-        # Extract modules
+        # Extract modules from syllabus
         modules = extract_modules(syllabus_text)
+
+        # If no modules extracted, create a single module from the entire content
+        if not modules:
+            modules = {"complete_content": syllabus_text}
 
         # Prepare chunks for parallel processing
         all_chunks = []
@@ -345,7 +269,7 @@ class ContentGenerator:
                 except Exception as e:
                     print(f"Error processing future: {str(e)}")
 
-        # Generate module-specific flashcards in parallel with existing QA reference
+        # Generate module-specific flashcards in parallel
         flashcards = {}
         with ThreadPoolExecutor(max_workers=5) as executor:
             future_to_module = {
@@ -353,7 +277,7 @@ class ContentGenerator:
                     self.generate_module_flashcards,
                     module_key,
                     module_content,
-                    notes_texts.get(module_key, ""),
+                    module_notes.get(module_key, ""),  # Pass empty string if no notes found
                     results[module_key]['qa'] if module_key in results else None
                 ): module_key
                 for module_key, module_content in modules.items()
@@ -371,6 +295,4 @@ class ContentGenerator:
         return {
             "important_topics": {k: list(v['topics'])[:self.max_topics] for k, v in results.items()},
             "important_qna": {k: v['qa'][:self.max_qna] for k, v in results.items()},
-            "flashcards": flashcards
-        }
-'''
+            "flashcards":flashcards}

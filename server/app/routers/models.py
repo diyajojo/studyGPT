@@ -421,9 +421,21 @@ async def process_files_background(request: PostRequest, user_id: str):
                 logger.error("Failed to read syllabus file")
                 raise HTTPException(status_code=500, detail="Failed to process syllabus file")
 
+            # If module notes are empty, create fallback notes from syllabus and questions
             if not module_notes:
-                logger.error("Failed to read any module notes")
-                raise HTTPException(status_code=500, detail="Failed to process module notes")
+                logger.warning("Failed to read module notes, using syllabus and questions as fallback")
+                # Combine all question texts
+                combined_questions = "\n\n".join(qt for qt in questions_texts if qt)
+                
+                # Create a fallback module notes dictionary using syllabus text and questions
+                module_notes = {
+                    "syllabus_content": syllabus_text,
+                    "questions_content": combined_questions
+                }
+                
+            #if not module_notes:
+                #logger.error("Failed to read any module notes")
+                #raise HTTPException(status_code=500, detail="Failed to process module notes")
 
             # Generate content
             logger.info("Generating content from processed PDFs")
@@ -431,7 +443,7 @@ async def process_files_background(request: PostRequest, user_id: str):
             content = generator.generate_all_content(
                 syllabus_text=syllabus_text,
                 questions_texts=questions_texts,
-                notes_texts=module_notes
+                module_notes=module_notes  # Changed from notes_texts to module_notes
             )
 
             # Save output to file
