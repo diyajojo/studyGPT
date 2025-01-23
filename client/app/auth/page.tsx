@@ -1,6 +1,5 @@
 'use client';
-
-import Image from 'next/image';
+import { HashLoader } from 'react-spinners';
 import { useRouter } from 'next/navigation';
 import { Book } from 'lucide-react';
 import { supabase } from '../utils/supabase';
@@ -8,8 +7,7 @@ import { useState } from 'react';
 
 const SignUp = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  
 
   // Colors from landing page
   const primaryColor = "rgba(255, 140, 90, 1)";
@@ -37,7 +35,7 @@ const SignUp = () => {
           <div className="absolute inset-0 rounded-full">
             <img
               className="object-cover w-full h-full rounded-r-xl"
-              src="assets/authpage.jpg"
+              src="https://i.pinimg.com/736x/ee/e5/47/eee5478efb6b88e83aa554c82716d99f.jpg"
               alt="Authentication background"
             />
           </div>
@@ -46,7 +44,11 @@ const SignUp = () => {
 
         <div 
   className="flex items-center justify-center px-4 py-10 sm:px-6 lg:px-8 sm:py-16 lg:py-24"
-  style={{ backgroundColor: backgroundColor }}
+  style={{ backgroundColor: backgroundColor, 
+    backgroundImage:'url("/assets/authpage.png")',
+    backgroundSize:'cover',
+    backgroundPosition: 'center',
+  }}
 >
   <div className="w-full xl:max-w-md xl:mx-auto bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl overflow-hidden p-8">
     <div className="flex flex-col items-center space-y-6">
