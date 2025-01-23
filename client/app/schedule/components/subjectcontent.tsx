@@ -206,75 +206,79 @@ useEffect(() => {
         }
       }
 
-      const fetchCalendarEvents = async () => {
-        try {
-          const { data: { user } } = await supabase.auth.getUser();
-          if (!user) return;
-      
-          // Fetch schedules and assignments
-          const [scheduleResponse, assignmentResponse] = await Promise.all([
-            supabase
-              .from('schedules')
-              .select('*')
-              .eq('subject_id', selectedSubject.id)
-              .eq('created_by', user.id)
-              .abortSignal(controller.signal),
-            supabase
-              .from('assignments')
-              .select('*')
-              .eq('subject_id', selectedSubject.id)
-              .eq('created_by', user.id)
-              .abortSignal(controller.signal)
-          ]);
-      
-          if (scheduleResponse.error || assignmentResponse.error) {
-            console.error(
-              'Calendar event fetch errors:', 
-              scheduleResponse.error, 
-              assignmentResponse.error
-            );
-            return;
-          }
-      
-          const eventsByDate: { [key: string]: any[] } = {};
-      
-          // Precise date key creation function
-          const createDateKey = (dateString: string) => {
-            // Create a date object at midnight in the local timezone
-            const date = new Date(dateString);
-            return date.toISOString().split('T')[0];
-          };
-      
-          // Process schedule events
-          scheduleResponse.data?.forEach(schedule => {
-            if (schedule.date) {
-              const dateKey = createDateKey(schedule.date);
-              eventsByDate[dateKey] = [
-                ...(eventsByDate[dateKey] || []), 
-                { type: 'schedule', ...schedule }
-              ];
-            }
-          });
-      
-          // Process assignment events
-          assignmentResponse.data?.forEach(assignment => {
-            if (assignment.date) {
-              const dateKey = createDateKey(assignment.date);
-              eventsByDate[dateKey] = [
-                ...(eventsByDate[dateKey] || []), 
-                { type: 'assignment', ...assignment }
-              ];
-            }
-          });
-      
-          // Debugging: Log the exact events and their dates
-          console.log('Calendar Events:', eventsByDate);
-      
-          setCalendarEvents(eventsByDate);
-        } catch (error) {
-          console.error('Comprehensive calendar events fetch error:', error);
-        }
-      };
+
+const fetchCalendarEvents = async () => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // Fetch schedules and assignments
+    const [scheduleResponse, assignmentResponse] = await Promise.all([
+      supabase
+        .from('schedules')
+        .select('*')
+        .eq('subject_id', selectedSubject.id)
+        .eq('created_by', user.id)
+        .abortSignal(controller.signal),
+      supabase
+        .from('assignments')
+        .select('*')
+        .eq('subject_id', selectedSubject.id)
+        .eq('created_by', user.id)
+        .abortSignal(controller.signal)
+    ]);
+
+    if (scheduleResponse.error || assignmentResponse.error) {
+      console.error(
+        'Calendar event fetch errors:', 
+        scheduleResponse.error, 
+        assignmentResponse.error
+      );
+      return;
+    }
+
+    const eventsByDate: { [key: string]: any[] } = {};
+
+    // Convert UTC to IST when creating date key
+    const createDateKey = (dateString: string) => {
+      const utcDate = new Date(dateString);
+      // Add IST offset (5 hours and 30 minutes)
+      const istDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
+      return istDate.toISOString().split('T')[0];
+    };
+
+    // Process schedule events
+    scheduleResponse.data?.forEach(schedule => {
+      if (schedule.date) {
+        const dateKey = createDateKey(schedule.date);
+        eventsByDate[dateKey] = [
+          ...(eventsByDate[dateKey] || []), 
+          { type: 'schedule', ...schedule }
+        ];
+      }
+    });
+
+    // Process assignment events
+    assignmentResponse.data?.forEach(assignment => {
+      if (assignment.date) {
+        const dateKey = createDateKey(assignment.date);
+        eventsByDate[dateKey] = [
+          ...(eventsByDate[dateKey] || []), 
+          { type: 'assignment', ...assignment }
+        ];
+      }
+    });
+
+    // Debugging: Log the exact events and their dates
+    console.log('Calendar Events:', eventsByDate);
+
+    setCalendarEvents(eventsByDate);
+  } catch (error) {
+    console.error('Comprehensive calendar events fetch error:', error);
+  }
+};
+
+
        // Call fetchCalendarEvents after other data fetching
        await fetchCalendarEvents();
 
@@ -363,29 +367,29 @@ useEffect(() => {
   };
   
   const renderCalendar = () => {
-    const year = new Date().getFullYear();
-    const firstDay = new Date(year, currentMonth, 1).getDay();
-    const daysInMonth = new Date(year, currentMonth + 1, 0).getDate();
+  const year = new Date().getFullYear();
+  const firstDay = new Date(year, currentMonth, 1);
+  const daysInMonth = new Date(year, currentMonth + 1, 0).getDate();
+
+  // Get day of week in IST
+  const istFirstDay = new Date(firstDay.getTime() + (5.5 * 60 * 60 * 1000));
+  const adjustedFirstDay = istFirstDay.getDay() === 0 ? 6 : istFirstDay.getDay() - 1;
+
+  const calendarDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const paddingDays = Array(adjustedFirstDay).fill(null);
+
+  return [...paddingDays, ...calendarDays].map((day, index) => {
+    if (day === null) {
+      return <div key={`empty-${index}`} />;
+    }
   
-    // Adjust for Sunday being 0 in JavaScript
-    const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
-  
-    const calendarDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-    const paddingDays = Array(adjustedFirstDay).fill(null);
-  
-    return [...paddingDays, ...calendarDays].map((day, index) => {
-      if (day === null) {
-        return <div key={`empty-${index}`} />;
-      }
-  
-      const currentDate = new Date(year, currentMonth, day);
-      const dateKey = currentDate.toISOString().split('T')[0];
-      
-      // Strict comparison of events
-      const hasEvents = !!calendarEvents[dateKey] && calendarEvents[dateKey].length > 0;
-  
-      // Filter out unwanted predefined dates
-      const isValidDay = day !== null;
+    const currentDate = new Date(year, currentMonth, day);
+    // Convert to IST for comparison
+    const istDate = new Date(currentDate.getTime() + (5.5 * 60 * 60 * 1000));
+    const dateKey = istDate.toISOString().split('T')[0];
+    
+    const hasEvents = !!calendarEvents[dateKey] && calendarEvents[dateKey].length > 0;
+    const isValidDay = day !== null;
   
       const buttonClasses = isValidDay && hasEvents
         ? "text-center p-2 rounded-full bg-green-100 text-green-600 hover:bg-green-200"
@@ -409,7 +413,7 @@ useEffect(() => {
     }).filter(Boolean); // Remove any null entries
   };
   
-
+ 
 
   return (
     <div>
@@ -603,6 +607,21 @@ useEffect(() => {
 />
     </div>
   );
+};
+
+// Convert IST to UTC before saving to database
+const convertISTtoUTC = (istDateString: string): string => {
+  const istDate = new Date(istDateString);
+  // Subtract 5 hours and 30 minutes to convert IST to UTC
+  const utcDate = new Date(istDate.getTime() - (5.5 * 60 * 60 * 1000));
+  return utcDate.toISOString();
+};
+
+// Convert UTC to IST when displaying from database
+const convertUTCtoIST = (utcDateString: string): Date => {
+  const utcDate = new Date(utcDateString);
+  // Add 5 hours and 30 minutes to convert UTC to IST
+  return new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
 };
 
 export default SubjectContent;
