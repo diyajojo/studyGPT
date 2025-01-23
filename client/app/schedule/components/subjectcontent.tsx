@@ -78,6 +78,10 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
   const [scheduleActivities, setScheduleActivities] = useState<ScheduleActivity[]>([]);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [showScheduleAlert, setShowScheduleAlert] = useState(false);
+  const [calendarEvents, setCalendarEvents] = useState<{[key: string]: any[]}>({});
+  const [selectedDateEvents, setSelectedDateEvents] = useState<any[]>([]);
+  const [isDateEventsModalOpen, setIsDateEventsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
 
@@ -85,9 +89,6 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-
-
-
 
 
 useEffect(() => {
@@ -135,8 +136,7 @@ useEffect(() => {
         signal: controller.signal,
       });
 
-      if (!response.ok) 
-      {
+      if (!response.ok) {
         const errorData = await response.json();
         console.error('FastAPI response error:', errorData);
         throw new Error('Network response was not ok');
@@ -205,21 +205,96 @@ useEffect(() => {
           setFlashcards(flashcardsData || []);
         }
       }
-    } catch (error) {
-      if (error instanceof Error && error.name !== 'AbortError') {
-        console.error('Unexpected error fetching data:', error);
+
+      const fetchCalendarEvents = async () => {
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) return;
+      
+          // Fetch schedules and assignments
+          const [scheduleResponse, assignmentResponse] = await Promise.all([
+            supabase
+              .from('schedules')
+              .select('*')
+              .eq('subject_id', selectedSubject.id)
+              .eq('created_by', user.id)
+              .abortSignal(controller.signal),
+            supabase
+              .from('assignments')
+              .select('*')
+              .eq('subject_id', selectedSubject.id)
+              .eq('created_by', user.id)
+              .abortSignal(controller.signal)
+          ]);
+      
+          if (scheduleResponse.error || assignmentResponse.error) {
+            console.error(
+              'Calendar event fetch errors:', 
+              scheduleResponse.error, 
+              assignmentResponse.error
+            );
+            return;
+          }
+      
+          const eventsByDate: { [key: string]: any[] } = {};
+      
+          // Precise date key creation function
+          const createDateKey = (dateString: string) => {
+            // Create a date object at midnight in the local timezone
+            const date = new Date(dateString);
+            return date.toISOString().split('T')[0];
+          };
+      
+          // Process schedule events
+          scheduleResponse.data?.forEach(schedule => {
+            if (schedule.date) {
+              const dateKey = createDateKey(schedule.date);
+              eventsByDate[dateKey] = [
+                ...(eventsByDate[dateKey] || []), 
+                { type: 'schedule', ...schedule }
+              ];
+            }
+          });
+      
+          // Process assignment events
+          assignmentResponse.data?.forEach(assignment => {
+            if (assignment.date) {
+              const dateKey = createDateKey(assignment.date);
+              eventsByDate[dateKey] = [
+                ...(eventsByDate[dateKey] || []), 
+                { type: 'assignment', ...assignment }
+              ];
+            }
+          });
+      
+          // Debugging: Log the exact events and their dates
+          console.log('Calendar Events:', eventsByDate);
+      
+          setCalendarEvents(eventsByDate);
+        } catch (error) {
+          console.error('Comprehensive calendar events fetch error:', error);
+        }
+      };
+       // Call fetchCalendarEvents after other data fetching
+       await fetchCalendarEvents();
+
+      } catch (error) {
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Unexpected error fetching data:', error);
+        }
       }
-    }
-  };
+    };
+  
+    fetchData();
+  
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, [selectedSubject.id]);
+     
 
-  fetchData();
-
-  return () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-  };
-}, [selectedSubject.id]);
 
 
   const getTopicsForModule = (moduleNumber: string): Topic[] => {
@@ -286,6 +361,54 @@ useEffect(() => {
       console.error('Error updating assignment status:', error);
     }
   };
+  
+  const renderCalendar = () => {
+    const year = new Date().getFullYear();
+    const firstDay = new Date(year, currentMonth, 1).getDay();
+    const daysInMonth = new Date(year, currentMonth + 1, 0).getDate();
+  
+    // Adjust for Sunday being 0 in JavaScript
+    const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
+  
+    const calendarDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+    const paddingDays = Array(adjustedFirstDay).fill(null);
+  
+    return [...paddingDays, ...calendarDays].map((day, index) => {
+      if (day === null) {
+        return <div key={`empty-${index}`} />;
+      }
+  
+      const currentDate = new Date(year, currentMonth, day);
+      const dateKey = currentDate.toISOString().split('T')[0];
+      
+      // Strict comparison of events
+      const hasEvents = !!calendarEvents[dateKey] && calendarEvents[dateKey].length > 0;
+  
+      // Filter out unwanted predefined dates
+      const isValidDay = day !== null;
+  
+      const buttonClasses = isValidDay && hasEvents
+        ? "text-center p-2 rounded-full bg-green-100 text-green-600 hover:bg-green-200"
+        : "text-center p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200";
+  
+      return isValidDay ? (
+        <button
+          key={dateKey}
+          className={buttonClasses}
+          onClick={() => {
+            if (hasEvents) {
+              setSelectedDate(currentDate);
+              setSelectedDateEvents(calendarEvents[dateKey]);
+              setIsDateEventsModalOpen(true);
+            }
+          }}
+        >
+          {day}
+        </button>
+      ) : null;
+    }).filter(Boolean); // Remove any null entries
+  };
+  
 
 
   return (
@@ -402,19 +525,12 @@ useEffect(() => {
               </button>
             </div>
             <div className="grid grid-cols-7 gap-2">
-              {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day) => (
-                <div key={day} className="text-center text-sm text-black">{day}</div>
-              ))}
-              {Array.from({ length: 31 }, (_, i) => (
-                <button
-                  key={i}
-                  className="text-center p-2 rounded-full bg-red-100 text-red-600"
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
-          </div>
+  {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day) => (
+    <div key={day} className="text-center text-sm text-black">{day}</div>
+  ))}
+  {renderCalendar()}
+</div>
+</div>
 
           {/* Assignments */}
            {/* Assignments Section - Modified with scrolling */}
@@ -488,6 +604,5 @@ useEffect(() => {
     </div>
   );
 };
-
 
 export default SubjectContent;
