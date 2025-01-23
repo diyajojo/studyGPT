@@ -103,13 +103,13 @@ const StudyPrepHub = () => {
       </nav>
       <div className="max-w-6xl mx-auto">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8">
-          <h1 className="text-3xl font-bold text-white mb-8 text-center">
-            Prepare for Success
+          <h1 className="font-noto text-3xl font-bold text-white mb-8 text-center">
+            ARE U READY TO SUCCEED 🚀
           </h1>
 
           {/* Navigation Tabs */}
           <div className="flex justify-center mb-8 ">
-            <div className="bg-white/20 rounded-xl p-2 flex gap-2">
+            <div className="font-noto bg-white/20 rounded-xl p-2 flex gap-2">
             <button
                 onClick={() => setActiveTab('games')}
                 className={`px-6 py-3 rounded-lg flex items-center gap-2 transition-all ${
@@ -163,7 +163,7 @@ const StudyPrepHub = () => {
   }}
   onClick={handleButtonClick}
 >
-  <span className="text-white font-semibold">Organize Your Study Patterns 💡</span>
+  <span className="font-roboto text-white font-semibold">Organize Your Study Patterns 💡</span>
 </button>
         </div>
         
