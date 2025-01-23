@@ -1,4 +1,4 @@
-openai
+openai==1.59.9
 python-dotenv
 PyPDF2
 langchain
@@ -8,7 +8,7 @@ faiss-cpu
 python-dotenv
 langchain_community
 
-
+aiofiles
 
 aiohappyeyeballs
 aiohttp
@@ -73,7 +73,7 @@ mypy-extensions
 numpy
 oauthlib
 onnxruntime
-openai
+openai==1.59.9
 opentelemetry-api
 opentelemetry-exporter-otlp-proto-common
 opentelemetry-exporter-otlp-proto-grpc
@@ -141,3 +141,34 @@ zipp
 
 faiss-cpu
 
+
+#server
+fastapi==0.115.6
+uvicorn==0.34.0
+pydantic==2.10.4
+
+PyJWT==2.10.1
+python-dotenv==1.0.1
+
+supabase==2.11.0
+storage3==0.11.0
+
+aiohttp==3.11.11
+aiofiles==23.2.1
+
+PyPDF2==3.0.1
+
+tiktoken==0.8.0
+
+typing_extensions==4.12.2
+
+pytest==8.3.4
+
+# google calendar api
+
+fastapi 
+google-auth-oauthlib 
+google-auth-httplib2 
+google-api-python-client 
+#python-supabase 
+openai==1.59.9
