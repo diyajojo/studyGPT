@@ -4,9 +4,31 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import FeatureCard from './components/featurecard';
 import { Book } from 'lucide-react';
+import Loader from './components/loader';
+import { useState, useEffect } from 'react';
 
 const Home = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate initial page loading with a delay
+  useEffect(() => {
+    const initializePage = async () => {
+      try {
+        // Simulate some initialization tasks
+        await new Promise(resolve => setTimeout(resolve, 3000)); // 3-second delay
+        
+        // You can add any additional initialization logic here
+        // For example, prefetching data, checking authentication, etc.
+      } catch (error) {
+        console.error('Page initialization error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializePage();
+  }, []);
 
   const handleSignupClick = () => {
     router.push('/auth');
@@ -15,11 +37,17 @@ const Home = () => {
   const primaryColor = "rgba(255, 140, 90, 1)";
   const backgroundColor = "rgba(18, 87, 116, 1)";
 
+  // Show loader during initial loading
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <main
       className="min-h-screen relative"
       style={{ background: backgroundColor }}
     >
+      {/* Rest of the existing component remains the same */}
       {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <Image
