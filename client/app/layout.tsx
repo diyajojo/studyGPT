@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {  Montserrat} from "next/font/google";
+import { Montserrat,Josefin_Sans,Urbanist,Oswald,Roboto} from "next/font/google";
 import "./globals.css";
 
 
@@ -10,6 +10,29 @@ const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"], // Include desired font weights
 });
 
+const josefinSans=Josefin_Sans({
+  variable: "--font-josefinsans",
+  subsets: ["latin"],
+  weight: ["100","200","300","400", "500", "600", "700"], 
+});
+
+const urbanist=Urbanist({
+  variable: "--font-urbanist",
+  subsets: ["latin"],
+  weight: ["100","200","300","400", "500", "600", "700","800","900"], 
+});
+
+const oswald=Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["200","300","400", "500", "600", "700"], 
+});
+
+const roboto=Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: [ "700","400"], 
+});
 
 export const metadata: Metadata = {
   title: "studyGPT",
@@ -24,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${montserrat.variable} antialiased`}
+        className={` ${montserrat.variable} ${josefinSans.variable} ${urbanist.variable} ${oswald.variable} ${roboto.variable}antialiased`}
       >
         {children}
       </body>
