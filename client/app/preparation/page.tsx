@@ -11,7 +11,7 @@ import RenderGames from './features/games';
 
 const StudyPrepHub = () => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('preferences');
+  const [activeTab, setActiveTab] = useState('games');
   const [subjectId, setSubjectId] = useState<string>('');
 
   const handleButtonClick = () => {
@@ -110,6 +110,17 @@ const StudyPrepHub = () => {
           {/* Navigation Tabs */}
           <div className="flex justify-center mb-8 ">
             <div className="bg-white/20 rounded-xl p-2 flex gap-2">
+            <button
+                onClick={() => setActiveTab('games')}
+                className={`px-6 py-3 rounded-lg flex items-center gap-2 transition-all ${
+                  activeTab === 'games'
+                    ? 'bg-[#FF8C5A] text-white'
+                    : 'text-white hover:bg-white/10'
+                }`}
+              >
+                <Gamepad2 />
+                BRAIN TRAINING
+              </button>
               <button
                 onClick={() => setActiveTab('preferences')}
                 className={`px-6 py-3 rounded-lg flex items-center gap-2 transition-all ${
@@ -132,25 +143,15 @@ const StudyPrepHub = () => {
                 <Target />
                 GOALS
               </button>
-              <button
-                onClick={() => setActiveTab('games')}
-                className={`px-6 py-3 rounded-lg flex items-center gap-2 transition-all ${
-                  activeTab === 'games'
-                    ? 'bg-[#FF8C5A] text-white'
-                    : 'text-white hover:bg-white/10'
-                }`}
-              >
-                <Gamepad2 />
-                BRAIN TRAINING
-              </button>
             </div>
           </div>
 
           {/* Content */}
           <div className="mt-8">
+            {activeTab === 'games' && <RenderGames />}
             {activeTab === 'preferences' && <RenderPreferences subjectId={subjectId} />}
             {activeTab === 'goals' && <RenderGoals subjectId={subjectId}/>}
-            {activeTab === 'games' && <RenderGames />}
+            
           </div>
       </div>
       <button

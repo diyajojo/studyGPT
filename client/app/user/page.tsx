@@ -137,25 +137,41 @@ const UserPage = () => {
  
 
   const uploadToSupabase = async (file: File, type: keyof SelectedFiles) => {
-
-    if (!subject.trim())
-       {
+    if (!subject.trim()) {
       alert('Please enter a subject before uploading files');
-      return;
+      return false;
     }
   
     try {
-      
       const { data: { user } } = await supabase.auth.getUser();
   
-      if (!user) 
-      {
+      if (!user) {
         console.log("No active session or user found");
         return false;
       }
   
-  
       setUploadLoading(prev => ({ ...prev, [type]: true }));
+  
+      // IMPORTANT MODIFICATION: Clear existing files for this subject and type before uploading
+      const existingFiles = await supabase.storage
+        .from('study_materials')
+        .list(`${user.id}/${subject}/${type}/`);
+  
+      // Delete all existing files in this specific subject and type folder
+      if (existingFiles.data?.length) {
+        const filesToDelete = existingFiles.data.map(
+          file => `${user.id}/${subject}/${type}/${file.name}`
+        );
+        
+        const { error: deleteError } = await supabase.storage
+          .from('study_materials')
+          .remove(filesToDelete);
+  
+        if (deleteError) {
+          console.error('Error clearing existing files:', deleteError);
+          // Optionally, you might want to handle this error more robustly
+        }
+      }
   
       const timestamp = new Date().getTime();
       const fileName = `${user.id}/${subject}/${type}/${file.name}`;

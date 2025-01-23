@@ -33,76 +33,138 @@ const RenderGoals: React.FC<RenderGoalsProps> = ({ subjectId }) => {
   // State to track if a record exists and store its ID
   const [existingRecord, setExistingRecord] = useState<GoalsData | null>(null);
 
-  // Load existing goals when component mounts
   useEffect(() => {
     const loadExistingGoals = async () => {
+      // Early return if no subject ID
+      if (!subjectId) {
+        console.warn('No subject ID provided');
+        return;
+      }
+  
       try {
-        // First, verify the subject exists (important for referential integrity)
+        // Subject validation with more detailed error handling
         const { data: subjectExists, error: subjectError } = await supabase
           .from('subjects')
           .select('id')
           .eq('id', subjectId)
           .single();
-
-        if (subjectError || !subjectExists) {
-          console.error('Subject not found:', subjectError);
+  
+        if (subjectError) {
+          // Differentiate between different types of errors
+          if (subjectError.code === 'PGRST116') {
+            console.error(`Subject with ID ${subjectId} does not exist`);
+          } else {
+            console.error('Unexpected error validating subject:', subjectError);
+          }
           return;
         }
-
-        // Load existing goals for this subject
+  
+        // Fetch goals with more comprehensive query
         const { data, error } = await supabase
           .from('user_goals')
           .select('*')
           .eq('subject_id', subjectId)
+          .limit(1)  // Explicitly limit to one record
           .single();
-
+  
         if (error) {
-          // Only log error if it's not a "not found" error
-          if (error.code !== 'PGRST116') {
-            console.error('Error loading goals:', error);
-          }
-          
-          // If no record exists, create one
           if (error.code === 'PGRST116') {
-            const { data: newRecord, error: insertError } = await supabase
-              .from('user_goals')
-              .insert([{
-                subject_id: subjectId,
-                daily_goals: null,
-                weekly_goals: null,
-                long_term_goals: null
-              }])
-              .select()
-              .single();
-
-            if (insertError) {
-              console.error('Error creating initial record:', insertError);
-              return;
-            }
-
-            setExistingRecord(newRecord);
+            // No existing goals - initialize with empty state
+            setGoals({
+              shortTerm: '',
+              longTerm: '',
+              todayFocus: ''
+            });
+            console.info(`No existing goals found for subject ${subjectId}. Ready to create new goals.`);
+            return;
           }
+  
+          // Log other potential errors
+          console.error('Error fetching user goals:', {
+            code: error.code,
+            message: error.message,
+            details: error.details
+          });
           return;
         }
-
-        // If we found existing data, store it and populate the form
+  
+        // Populate existing goals
         if (data) {
-          setExistingRecord(data);
           setGoals({
             shortTerm: data.weekly_goals || '',
             longTerm: data.long_term_goals || '',
             todayFocus: data.daily_goals || ''
           });
+          setExistingRecord(data);
         }
+  
       } catch (error) {
-        console.error('Error in loading operation:', error);
+        // Catch-all for unexpected errors
+        console.error('Unexpected error in goal loading process:', error);
       }
     };
-
+  
+    // Trigger goal loading when subject ID is available
     if (subjectId) {
       loadExistingGoals();
     }
   }, [subjectId]);
+  
+  const saveGoals = async () => {
+    // Prevent saving if no subject ID
+    if (!subjectId) {
+      console.error('Cannot save goals: No subject ID');
+      setSaveStatus('error');
+      return;
+    }
+  
+    setSaveStatus('saving');
+  
+    try {
+      // Validate input before saving
+      const sanitizedGoals = {
+        daily_goals: goals.todayFocus?.trim() || null,
+        weekly_goals: goals.shortTerm?.trim() || null,
+        long_term_goals: goals.longTerm?.trim() || null
+      };
+  
+      // Upsert with explicit error handling
+      const { data, error } = await supabase
+        .from('user_goals')
+        .upsert({
+          subject_id: subjectId,
+          ...sanitizedGoals
+        })
+        .select()
+        .single();
+  
+      if (error) {
+        // Detailed error logging
+        console.error('Goal save error:', {
+          code: error.code,
+          message: error.message,
+          details: error.details
+        });
+  
+        // User-friendly error status
+        setSaveStatus('error');
+        return;
+      }
+  
+      // Successful save
+      setExistingRecord(data);
+      setSaveStatus('success');
+      setIsDirty(false);
+  
+      // Optional: Log successful save
+      console.info('Goals saved successfully for subject', subjectId);
+  
+    } catch (error) {
+      // Unexpected error handling
+      console.error('Unexpected error during goal save:', error);
+      setSaveStatus('error');
+    }
+  };
 
   const handleInputChange = (field: string, value: string) => {
     setGoals((prevGoals) => ({
@@ -110,33 +172,6 @@ const RenderGoals: React.FC<RenderGoalsProps> = ({ subjectId }) => {
       [field]: value
     }));
     setIsDirty(true);
-  };
-
-  const saveGoals = async () => {
-    setSaveStatus('saving');
-    try {
-      const { error } = await supabase
-        .from('user_goals')
-        .upsert({
-          id: existingRecord?.id,
-          subject_id: subjectId,
-          daily_goals: goals.todayFocus,
-          weekly_goals: goals.shortTerm,
-          long_term_goals: goals.longTerm
-        });
-
-      if (error) {
-        console.error('Error saving goals:', error);
-        setSaveStatus('error');
-        return;
-      }
-
-      setSaveStatus('success');
-      setIsDirty(false);
-    } catch (error) {
-      console.error('Error in save operation:', error);
-      setSaveStatus('error');
-    }
   };
 
   return (
