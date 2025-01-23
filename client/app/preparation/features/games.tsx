@@ -128,7 +128,7 @@ const RenderGames = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6">
+    <div className="font-noto grid grid-cols-1 md:grid-cols-3 gap-8 p-6">
       {/* Memory Game */}
       <div className="bg-white/20 rounded-xl p-6 transform transition-all duration-300 hover:scale-[1.02]">
         <h3 className="text-xl font-semibold text-white mb-4 flex items-center">

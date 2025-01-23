@@ -53,7 +53,7 @@ const ModuleTopicsModal: React.FC<ModuleTopicsModalProps> = ({
       >
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-semibold text-gray-800">
+            <h2 className="font-noto text-2xl font-semibold text-gray-800">
               Important Topics - {module}
             </h2>
             <button
@@ -77,7 +77,7 @@ const ModuleTopicsModal: React.FC<ModuleTopicsModalProps> = ({
                       <BookMarked className="h-5 w-5 text-purple-600" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-medium text-gray-800">
+                      <h3 className="font-noto text-lg font-medium text-gray-800">
                         {topic.topic_name}
                       </h3>
                     </div>

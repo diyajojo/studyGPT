@@ -73,7 +73,7 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment, onStatusUpd
   return (
     <div className={`flex items-center justify-between p-4 ${config.color} rounded-lg border ${config.borderColor} transition-all duration-200`}>
       <div className="flex-1">
-        <h4 className="font-medium text-gray-800">{assignment.title}</h4>
+        <h4 className="font-noto font-medium text-gray-800">{assignment.title}</h4>
         <p className="text-sm text-gray-500">{assignment.date}</p>
        {/*<p className="text-sm text-gray-600 mt-1">{assignment.description}</p> */}
       </div>

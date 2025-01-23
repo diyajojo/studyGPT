@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '../utils/supabase';
 import EmptyState from './components/emptystate';
 import SubjectContent from './components/subjectcontent';
+import Loader from '../components/loader';
 
 interface Profile {
   full_name: string;
@@ -23,6 +24,7 @@ const Schedule = () => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
 
@@ -39,6 +41,9 @@ const Schedule = () => {
     const fetchUserProfile = async () => {
       try 
       {
+        // Simulate initial loading delay
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
         // Get the user data with the signal from AbortController
         const { data: { user }, error: userError } = await supabase.auth.getUser();
 
@@ -48,6 +53,7 @@ const Schedule = () => {
         if (userError)
         {
           console.error('Error fetching user:', userError);
+          setIsLoading(false);
           return;
         }
 
@@ -86,12 +92,16 @@ const Schedule = () => {
             setSubjects(subjectsResponse.data || []);
             console.log("fetched subjects:",subjectsResponse.data);
           }
+
+          // Set loading to false after data fetching
+          setIsLoading(false);
         }
       } catch (error) 
       {
         // Only log errors if the component is still mounted and the request wasn't aborted
         if (isMounted && error !== 'AbortError') {
           console.error('Unexpected error:', error);
+          setIsLoading(false);
         }
       }
     };
@@ -112,6 +122,11 @@ const Schedule = () => {
     router.push('/');
   };
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
+
   return (
     <div className="flex h-minscreen bg-[#125774]">
       {/* Sidebar */}
@@ -119,9 +134,9 @@ const Schedule = () => {
         <div className="p-4" style={{ background: primaryColor }}>
           <div className="flex items-center gap-2 mb-8">
             <Book className="h-6 w-6 text-gray-800" />
-            <div className="text-2xl font-bold">
-              <span className="font-montserrat">Study</span>
-              <span className="font-montserrat" style={{ color: backgroundColor }}>GPT</span>
+            <div className="font-josefinSans text-2xl font-bold">
+              <span >Study</span>
+              <span  style={{ color: backgroundColor }}>GPT</span>
             </div>
           </div>
 
@@ -136,12 +151,12 @@ const Schedule = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="font-bold text-gray-800 text-xl">{profile?.full_name}</h3>
+            <h3 className="font-noto font-bold text-gray-800 text-xl">{profile?.full_name}</h3>
           </div>
           <div className="flex flex-col justify-center items-center font-semibold text-sm text-gray-800 text-center mt-3">
             <p>{profile?.college_name}</p>
-            <p className="mt-2">{profile?.branch}</p>
-            <p className="mt-2">{profile?.year}nd year</p>
+            <p className="font-noto mt-2">{profile?.branch}</p>
+            <p className="font-noto mt-2">{profile?.year}nd year</p>
           </div>
         </div>
 
@@ -152,7 +167,7 @@ const Schedule = () => {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="w-full flex items-center justify-between gap-3 px-4 py-2 text-left rounded-lg bg-blue-50 text-blue-900"
             >
-              <div className="flex items-center gap-3">
+              <div className="font-roboto flex items-center gap-3">
                 <Book className="h-5 w-5" />
                 <span>My Courses</span>
               </div>

@@ -414,15 +414,15 @@ useEffect(() => {
   return (
     <div>
       <header className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-semibold text-white">
+        <h1 className="font-noto text-2xl font-semibold text-white">
           {selectedSubject.subject_name.toUpperCase()} - OVERVIEW 📚
         </h1>
         <button
   onClick={() => setIsScheduleModalOpen(true)}
-  className="px-4 py-2 rounded-lg text-white"
+  className="font-noto px-4 py-2 rounded-lg text-white"
   style={{ backgroundColor: "rgba(255, 140, 90, 1)" }}
 >
-  Create schedule
+  Create/View schedule
 </button>
       </header>
 
@@ -431,7 +431,7 @@ useEffect(() => {
         {/* Important Topics */}
                 <div className="bg-white p-6 rounded-xl shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">📚 IMPORTANT TOPICS</h2>
+            <h2 className="font-noto text-lg font-semibold text-gray-800">📚 IMPORTANT TOPICS</h2>
             <ChevronRight className="h-5 w-5 text-gray-400" />
           </div>
           <div className="grid grid-cols-3 gap-3">
@@ -460,7 +460,7 @@ useEffect(() => {
               {/* Previous Year Questions Section */}
               <div className="bg-white p-6 rounded-xl shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">❓ REPEATED PREVIOUS YEAR QUESTIONS</h2>
+            <h2 className="font-noto text-lg font-semibold text-gray-800">❓ REPEATED PREVIOUS YEAR QUESTIONS</h2>
             <ChevronRight className="h-5 w-5 text-gray-400" />
           </div>
           <div className="grid grid-cols-3 gap-3">
@@ -488,7 +488,7 @@ useEffect(() => {
         {/* Flashcards */}
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">📝 FLASHCARDS</h2>
+            <h2 className="font-noto text-lg font-semibold text-gray-800">📝 FLASHCARDS</h2>
             <ChevronRight className="h-5 w-5 text-gray-400" />
           </div>
           <div className="grid grid-cols-3 gap-3">
@@ -519,7 +519,7 @@ useEffect(() => {
               <button onClick={handlePreviousMonth} className="text-gray-600 font-semibold hover:text-gray-800">
                 &lt;
               </button>
-              <h3 className="font-semibold text-gray-800">{months[currentMonth].toLocaleUpperCase()}</h3>
+              <h3 className="font-roboto font-semibold text-gray-800">{months[currentMonth].toLocaleUpperCase()}</h3>
               <button onClick={handleNextMonth} className="text-gray-600 font-semibold hover:text-gray-800">
                 &gt;
               </button>
@@ -532,10 +532,10 @@ useEffect(() => {
 </div>
 </div>
 
-          {/* Assignments */}
+         
            {/* Assignments Section - Modified with scrolling */}
            <div className="bg-white p-6 rounded-xl shadow-sm max-h-[400px] flex flex-col">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Assignments</h2>
+            <h2 className="font-noto text-lg font-semibold text-gray-800 mb-4">Assignments</h2>
             {/* Scrollable container */}
             <div className="flex-1 overflow-y-auto">
               <div className="space-y-3 pr-2"> {/* Added right padding for scrollbar spacing */}
