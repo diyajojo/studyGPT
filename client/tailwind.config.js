@@ -24,6 +24,7 @@ module.exports = {
         urbanist:"var(--font-urbanist)",
         noto:"var(--font-noto)",
         roboto:"var(--font-roboto)",
+        oswald:"var(--font-oswald)",
       },
       colors: {
         border: "hsl(var(--border))",

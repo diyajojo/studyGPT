@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Montserrat,Josefin_Sans,Urbanist,Oswald,Roboto,Noto_Sans_Cuneiform} from "next/font/google";
+import {Josefin_Sans,Urbanist,Oswald,Roboto,Noto_Sans_Cuneiform} from "next/font/google";
 import "./globals.css";
 
-
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const oswald=Oswald({
+  variable: "--font-oswald",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], // Include desired font weights
+  weight: ["200","300","400", "500", "600", "700"], 
 });
+
 
 const josefinSans=Josefin_Sans({
   variable: "--font-josefinsans",
@@ -47,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${montserrat.variable} ${josefinSans.variable} ${urbanist.variable} ${noto.variable} ${roboto.variable}antialiased`}
+        className={`  ${josefinSans.variable} ${urbanist.variable} ${noto.variable} ${roboto.variable} ${oswald.variable}antialiased`}
       >
         {children}
       </body>

@@ -69,7 +69,7 @@ const Home = () => {
             <Book className="h-6 w-6 text-gray-800" />
             <div className=" font-josefinSans text-2xl font-bold">
               <span className=" text-white">Study</span>
-              <span className="font-montserrat" style={{ color: backgroundColor }}>GPT</span>
+              <span  style={{ color: backgroundColor }}>GPT</span>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@ const Home = () => {
 
       {/* Hero Section */}
       <div className="relative z-10 flex flex-col items-center justify-center px-4 pt-32 pb-32 text-center">
-        <h1 className="font-oswald text-4xl md:text-6xl font-extrabold text-white mb-12 tracking-tight">
+        <h1 className="font-noto text-4xl md:text-6xl font-extrabold text-white mb-12 tracking-tight">
           Your AI Study Assistant
         </h1>
         <p className=" font-roboto text-xl text-white mb-16 max-w-2xl font-medium leading-relaxed">
