@@ -1,9 +1,8 @@
 'use client';
+
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Book } from 'lucide-react';
-import { Card, CardContent } from '../components/ui/card';
-import { Button } from '../components/ui/button';
 import { supabase } from '../utils/supabase';
 import { useState } from 'react';
 
@@ -12,6 +11,9 @@ const SignUp = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
+  // Colors from landing page
+  const primaryColor = "rgba(255, 140, 90, 1)";
+  const backgroundColor = "rgba(18, 87, 116, 1)";
 
   const handleGoogleAuth = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -21,103 +23,85 @@ const SignUp = () => {
       }
     });
 
-    if (error)
-    {
+    if (error) {
       console.log("user not authenticated with google");
-    } 
-    else
-    {
+    } else {
       console.log("user authenticated with google");
     }
   };
 
-  const handleHomeClick = () => {
-    router.push('/');
-  };
-
   return (
-    <main
-      className="min-h-screen flex justify-center items-center relative"
-      style={{ background: "rgba(18, 87, 116, 1)" }}
-    >
-      {/* Background image with overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/assets/bgimg.jpg"
-          alt="Background"
-          fill
-          className="object-cover opacity-10"
-          priority
-        />
-        <div className="absolute inset-0 mix-blend-multiply" />
-      </div>
-
-      {/* Navbar */}
-      <nav className="absolute top-0 left-0 right-0 z-10 flex items-center h-20">
-        <div
-          className="w-1/2 h-full flex items-center pl-8 cursor-pointer"
-          style={{ background: "rgba(255, 140, 90, 1)" }}
-          onClick={handleHomeClick}
-        >
-          <div className="flex items-center gap-2">
-            <Book className="h-6 w-6 text-gray-800" />
-            <div className="text-2xl font-bold">
-              <span className="font-montserrat text-white">Study</span>
-              <span className="font-montserrat" style={{ color: "rgba(18, 87, 116, 1)" }}>GPT</span>
-            </div>
+    <section className="bg-white">
+      <div className="grid grid-cols-1 lg:grid-cols-2 h-screen">
+        <div className="relative flex items-end rounded-full px-4 pb-10 pt-60 sm:pb-16 md:justify-center lg:pb-24 bg-green-50 sm:px-6 lg:px-8">
+          <div className="absolute inset-0 rounded-full">
+            <img
+              className="object-cover w-full h-full rounded-r-xl"
+              src="assets/authpage.jpg"
+              alt="Authentication background"
+            />
           </div>
+          <div className="relative flex justify-center items-center"></div>
         </div>
-        <div className="w-1/2 h-full bg-white" />
-      </nav>
 
-      {/* Centered Sign Up Card */}
-      <div className="relative z-10">
-        <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm shadow-2xl">
-          <CardContent className="pt-6">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>
-              <p className="text-gray-600 mt-2">Join StudyGPT and unlock your learning potential</p>
-            </div>
-
-            {error && (
-              <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                {error}
-              </div>
-            )}
-
-            <div className="space-y-6">
-              <Button
-                onClick={handleGoogleAuth}
-                className="w-full h-12 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all duration-300"
-                variant="outline"
-                disabled={loading}
-              >
-                <Image
-                  src="/assets/google.png"
-                  alt="Google"
-                  width={20}
-                  height={20}
-                  className="object-contain"
-                />
-                <span className="font-medium">Continue with Google</span>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <div 
+  className="flex items-center justify-center px-4 py-10 sm:px-6 lg:px-8 sm:py-16 lg:py-24"
+  style={{ backgroundColor: backgroundColor }}
+>
+  <div className="w-full xl:max-w-md xl:mx-auto bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl overflow-hidden p-8">
+    <div className="flex flex-col items-center space-y-6">
+      {/* Logo Section */}
+      <div className="flex items-center justify-center gap-2 mb-4">
+        <Book className="h-8 w-8 text-white" />
+        <div className="font-josefinSans text-3xl font-bold">
+          <span className="text-white">Study</span>
+          <span className="font-montserrat" style={{ color: primaryColor }}>GPT</span>
+        </div>
       </div>
 
-      {/* Robot Image */}
-      <div className="absolute bottom-0 right-0 z-10 w-32 h-32 md:w-48 md:h-48">
-        <Image
-          src="/assets/robot.png"
-          alt="AI Robot"
-          width={600}
-          height={600}
-          className="object-contain filter hue-rotate-180 brightness-95"
-        />
+      {/* Welcome Header */}
+      <div className="text-center">
+        <h2 className="font-oswald text-4xl font-extrabold text-white mb-3">
+          Welcome Back, Learner
+        </h2>
+        <p className="font-roboto text-gray-300 text-center max-w-sm mx-auto">
+          Unlock your study potential with StudyGPT
+          <span className="text-sm mt-1 block text-gray-400">
+            Your personalized AI-powered learning companion for academic excellence
+          </span>
+        </p>
       </div>
-    </main>
+
+      {/* Authentication Button */}
+      <div className="w-full max-w-xs">
+        <button
+          type="button"
+          onClick={handleGoogleAuth}
+          className="w-full flex items-center justify-center relative p-4 rounded-full text-white text-lg font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+          style={{
+            background: `linear-gradient(135deg, ${primaryColor}, ${backgroundColor})`,
+            boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+          }}
+        >
+          <div className="absolute left-4">
+            <svg
+              className="w-7 h-7"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.453-4.792 3.453a5.27 5.27 0 0 1-5.279-5.28 5.27 5.27 0 0 1 5.279-5.279c1.259 0 2.397.447 3.29 1.178l2.6-2.599c-1.584-1.381-3.615-2.233-5.89-2.233a8.908 8.908 0 0 0-8.934 8.934 8.907 8.907 0 0 0 8.934 8.934c4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625z"></path>
+            </svg>
+          </div>
+          Continue with Google
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+    </section>
   );
-};
+}
 
 export default SignUp;
