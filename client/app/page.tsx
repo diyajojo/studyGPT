@@ -37,10 +37,10 @@ const Home = () => {
           className="w-1/2 h-full flex items-center pl-8"
           style={{ background: primaryColor }}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-center gap-2">
             <Book className="h-6 w-6 text-gray-800" />
-            <div className="text-2xl font-bold">
-              <span className="font-montserrat text-white">Study</span>
+            <div className=" font-josefinSans text-2xl font-bold">
+              <span className=" text-white">Study</span>
               <span className="font-montserrat" style={{ color: backgroundColor }}>GPT</span>
             </div>
           </div>
@@ -48,7 +48,7 @@ const Home = () => {
         <div className="w-1/2 h-full bg-white flex items-center justify-end pr-8">
           <button
             onClick={handleSignupClick}
-            className="text-white px-8 py-2 transition-all duration-300 font-semibold rounded-lg"
+            className="font-josefinSans text-white text-2xl px-8 py-2 transition-all duration-300 font-semibold rounded-lg"
             style={{
               backgroundColor: primaryColor,
             }}
@@ -60,10 +60,10 @@ const Home = () => {
 
       {/* Hero Section */}
       <div className="relative z-10 flex flex-col items-center justify-center px-4 pt-32 pb-32 text-center">
-        <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-12 tracking-tight">
+        <h1 className="font-oswald text-4xl md:text-6xl font-extrabold text-white mb-12 tracking-tight">
           Your AI Study Assistant
         </h1>
-        <p className="text-xl text-white mb-16 max-w-2xl font-medium leading-relaxed">
+        <p className=" font-roboto text-xl text-white mb-16 max-w-2xl font-medium leading-relaxed">
           Transform your study routine with personalized learning schedules, smart analysis, and integrated calendar management
         </p>
 
