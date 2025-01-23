@@ -422,7 +422,7 @@ useEffect(() => {
   className="px-4 py-2 rounded-lg text-white"
   style={{ backgroundColor: "rgba(255, 140, 90, 1)" }}
 >
-  Create schedule
+  Create/View schedule
 </button>
       </header>
 
@@ -532,7 +532,7 @@ useEffect(() => {
 </div>
 </div>
 
-          {/* Assignments */}
+         
            {/* Assignments Section - Modified with scrolling */}
            <div className="bg-white p-6 rounded-xl shadow-sm max-h-[400px] flex flex-col">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Assignments</h2>
