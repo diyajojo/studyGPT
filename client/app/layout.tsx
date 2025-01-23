@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat,Josefin_Sans,Urbanist,Oswald,Roboto} from "next/font/google";
+import { Montserrat,Josefin_Sans,Urbanist,Oswald,Roboto,Noto_Sans_Cuneiform} from "next/font/google";
 import "./globals.css";
 
 
@@ -22,16 +22,16 @@ const urbanist=Urbanist({
   weight: ["100","200","300","400", "500", "600", "700","800","900"], 
 });
 
-const oswald=Oswald({
-  variable: "--font-oswald",
-  subsets: ["latin"],
-  weight: ["200","300","400", "500", "600", "700"], 
-});
-
 const roboto=Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
   weight: [ "700","400"], 
+});
+
+const noto=Noto_Sans_Cuneiform({
+  variable: "--font-noto",
+  subsets: ["latin"],
+  weight: ["400"], 
 });
 
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${montserrat.variable} ${josefinSans.variable} ${urbanist.variable} ${oswald.variable} ${roboto.variable}antialiased`}
+        className={` ${montserrat.variable} ${josefinSans.variable} ${urbanist.variable} ${noto.variable} ${roboto.variable}antialiased`}
       >
         {children}
       </body>

@@ -1,9 +1,10 @@
 'use client';
-import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
+import Loader from '../components/loader';
 import { supabase } from '../utils/supabase';
 import { Upload, Book, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+
 
 type SelectedFiles = {
   syllabus: File[];
@@ -49,27 +50,53 @@ const UserPage = () => {
   };
 
   useEffect(() => {
-    fetchProfile();
+    const initializeUserData = async () => {
+      try {
+        // Simulate some initialization tasks
+        await new Promise(resolve => setTimeout(resolve, 3000)); // 3-second delay
+
+        // Fetch multiple data points to simulate more complex initialization
+        const [userData, profileData] = await Promise.all([
+          supabase.auth.getUser(),
+          fetchExtendedProfile()
+        ]);
+
+        if (userData.data.user) {
+          setProfile(profileData);
+        }
+      } catch (error) {
+        console.error('Initialization error:', error);
+        // Handle initialization errors
+        setErrorMessage('Failed to load user data. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeUserData();
   }, []);
 
 
-  const fetchProfile = async () => {
+  const fetchExtendedProfile = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        // Fetch more detailed profile information
         const { data: profile } = await supabase
           .from('profiles')
           .select('full_name')
           .eq('id', user.id)
           .single();
-        setProfile(profile);
+        
+        return profile;
       }
+      return null;
     } catch (error) {
-      console.log('Error fetching profile:', error);
-    } finally {
-      setLoading(false);
+      console.error('Extended profile fetch error:', error);
+      return null;
     }
   };
+
 
   const validateUploads = (selectedFiles: SelectedFiles, subject: string): ValidationResult => {
     const errors: string[] = [];
@@ -310,14 +337,7 @@ const handleUploadButton = async () => {
   }
 };
 
-const LoadingOverlay = () => (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-lg shadow-xl">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FF8C5A]"></div>
-      <p className="mt-4 text-gray-700">Processing your uploads...</p>
-    </div>
-  </div>
-);
+
 
   const uploadTypes: UploadType[] = [
     { type: 'syllabus', title: "Syllabus", desc: "Upload your syllabus pdf" },
@@ -325,6 +345,12 @@ const LoadingOverlay = () => (
     { type: 'notes', title: "Notes", desc: "Upload all module's study notes pdf" }
   ];
 
+  if(loading)
+  {
+    return (
+<Loader/>
+    );
+  }
   
   return (
     <div className="min-h-screen bg-[#125774] relative overflow-hidden">
@@ -334,8 +360,8 @@ const LoadingOverlay = () => (
         <div className="flex items-center gap-2">
           <Book className="h-6 w-6 text-gray-800" />
           <div className="text-2xl font-bold">
-            <span className="font-montserrat text-white">Study</span>
-            <span className="font-montserrat" style={{ color: "rgba(18, 87, 116, 1)" }}>GPT</span>
+            <span className="font-josefinSans text-white">Study</span>
+            <span className="font-josefinSans" style={{ color: "rgba(18, 87, 116, 1)" }}>GPT</span>
           </div>
         </div>
       </div>
@@ -360,11 +386,11 @@ const LoadingOverlay = () => (
           <div>
             <div className="w-[568px] h-[130px] rounded-[30px_0_0_0] p-6"
               style={{ background: "rgba(218, 236, 244, 0.49)" }}>
-              <h2 className="text-4xl font-bold text-white mb-2">
+              <h2 className="font-noto text-4xl font-bold text-white mb-2">
                 HEY {profile?.full_name?.toLocaleUpperCase()}👋
               </h2>
             </div>
-            <p className="text-white/90 mt-2 text-lg font-semibold">
+            <p className="font-noto text-white/90 mt-2 text-lg font-semibold">
               Organize, share, and succeed — all in one place!
             </p>
           </div>
@@ -379,7 +405,7 @@ const LoadingOverlay = () => (
               onClick={handleUploadButton}
               disabled={Object.values(uploadLoading).some(loading => loading)}
             >
-              <span className="text-white text-2xl font-semibold">
+              <span className="font-noto text-white text-2xl font-semibold">
                 {Object.values(uploadLoading).some(loading => loading) 
                   ? "Processing..." 
                   : "Done Uploading? Let's Proceed"}
@@ -393,7 +419,7 @@ const LoadingOverlay = () => (
               }}
               onClick={() => router.push('/schedule')}
             >
-              <span className="text-white text-2xl font-semibold">
+              <span className="font-noto text-white text-2xl font-semibold">
                 Continue to Dashboard 🚀
               </span>
             </button>
@@ -403,7 +429,7 @@ const LoadingOverlay = () => (
 
       {/* Upload Section - Centered */}
       <div className="mt-16 flex flex-col items-center">
-        <h3 className="text-[#FF8C5A] text-2xl font-bold mb-6">
+        <h3 className="font-noto text-[#FF8C5A] text-2xl font-bold mb-6">
           Upload your essentials:
         </h3>
 
@@ -464,10 +490,10 @@ const LoadingOverlay = () => (
                     handleUploadClick(type);
                   }}
                 >
-                  <h4 className="text-white text-2xl font-semibold mb-2 mt-5">
+                  <h4 className="font-noto text-white text-2xl font-semibold mb-2 mt-5">
                     {title}
                   </h4>
-                  <p className="text-white/80 text-lg font-medium mb-4 mt-5">
+                  <p className="font-noto text-white/80 text-lg font-medium mb-4 mt-5">
                     {desc}
                   </p>
 

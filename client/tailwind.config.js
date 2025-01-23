@@ -22,7 +22,7 @@ module.exports = {
       fontFamily:{
         josefinSans:"var(--font-josefinsans)",
         urbanist:"var(--font-urbanist)",
-        oswald:"var(--font-oswald)",
+        noto:"var(--font-noto)",
         roboto:"var(--font-roboto)",
       },
       colors: {

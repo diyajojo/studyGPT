@@ -77,7 +77,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
     >
       <div className="bg-white rounded-xl p-6 w-full max-w-2xl" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-gray-800">
+          <h2 className="font-noto text-xl font-semibold text-gray-800">
             Flashcards - {module}
           </h2>
           <button
@@ -103,8 +103,8 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
                 <div 
                   className="absolute inset-0 bg-white border-2 border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center [backface-visibility:hidden]"
                 >
-                  <h3 className="text-lg font-medium text-gray-600 mb-4">Question:</h3>
-                  <p className="text-xl text-center text-gray-800">
+                  <h3 className="font-roboto text-lg font-bold text-gray-600  mb-4">Question:</h3>
+                  <p className="font-noto text-xl text-center text-gray-800">
                     {flashcards[currentCardIndex].question_text}
                   </p>
                   <div className="absolute bottom-4 text-sm text-blue-600 flex items-center gap-2">
@@ -117,8 +117,8 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
                 <div 
                   className="absolute inset-0 bg-white border-2 border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center [backface-visibility:hidden] [transform:rotateY(180deg)]"
                 >
-                  <h3 className="text-lg font-medium text-gray-600 mb-4">Answer:</h3>
-                  <p className="text-xl text-center text-gray-800">
+                  <h3 className="font-roboto text-lg font-bold  text-gray-600 mb-4">Answer:</h3>
+                  <p className="font-noto text-xl text-center text-gray-800">
                     {flashcards[currentCardIndex].answer_text}
                   </p>
                   <div className="absolute bottom-4 text-sm text-blue-600 flex items-center gap-2">

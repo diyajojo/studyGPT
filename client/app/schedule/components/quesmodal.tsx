@@ -56,7 +56,7 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
       >
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-semibold text-gray-800">
+            <h2 className="font-noto text-2xl font-semibold text-gray-800">
               Previous Year Questions - {module}
             </h2>
             <button
@@ -83,7 +83,7 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
                     onClick={() => setSelectedQuestion(question)}
                   >
                     <div className="flex-1 pr-4">
-                      <p className="text-gray-800 font-medium line-clamp-2">
+                      <p className="font-noto text-gray-800 font-medium line-clamp-2">
                         {question.question_text}
                       </p>
                     </div>
@@ -100,12 +100,12 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
               <div className="w-1/2 bg-white rounded-lg p-6 overflow-y-auto border border-gray-200">
                 <div className="space-y-4">
                   <div className="pb-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Question</h3>
-                    <p className="text-gray-700">{selectedQuestion.question_text}</p>
+                    <h3 className="font-roboto text-lg font-semibold text-gray-800 mb-2">Question</h3>
+                    <p className="font-noto text-gray-700">{selectedQuestion.question_text}</p>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Answer</h3>
-                    <p className="text-gray-700 whitespace-pre-wrap">{selectedQuestion.answer_text}</p>
+                    <h3 className="font-roboto text-lg font-semibold text-gray-800 mb-2">Answer</h3>
+                    <p className="font-noto text-gray-700 whitespace-pre-wrap">{selectedQuestion.answer_text}</p>
                   </div>
                 </div>
               </div>
