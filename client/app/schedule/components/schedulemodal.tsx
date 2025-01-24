@@ -238,34 +238,49 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
           learning_style: preferences.learning_style
         },
         goals: {
-          daily: goals.daily_goals,
-          weekly: goals.weekly_goals,
-          longTerm: goals.long_term_goals
+          daily: goals.daily_goals || [],
+          weekly: goals.weekly_goals || [],
+          longTerm: goals.long_term_goals || []
         },
         content: {
           subject: subjectName,
           topics: topics,
-          questions: questions,
-          flashcards: flashcards
+          questions: questions || [],
+          flashcards: flashcards || []
         }
       };
 
       const response = await fetch('/api/generate-schedule', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify(requestData)
       });
 
+      const data = await response.json();
+
+      // More robust error checking
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to generate schedule');
+        console.error('Schedule generation error:', data);
+        throw new Error(data.error || 'Failed to generate schedule');
       }
 
-      const data = await response.json();
+      // Additional validation
+      if (!data.schedule || !data.assignments) {
+        throw new Error('Invalid schedule response');
+      }
+
       console.log('Generated schedule:', data);
       setScheduleData(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate schedule');
+      const errorMessage = err instanceof Error 
+        ? err.message 
+        : 'An unexpected error occurred while generating the schedule';
+      
+      setError(errorMessage);
+      console.error('Full error:', err);
     } finally {
       setLoading(false);
     }

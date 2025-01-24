@@ -69,33 +69,38 @@ export async function POST(req: Request) {
     Student Preferences:
     - Study time: ${preferences.study_time}
     - Study environment: ${preferences.study_environment}
-    - Break interval: ${preferences.break_interval}
+    - Break interval: ${preferences.break_interval} minutes
     - Learning style: ${preferences.learning_style}
 
     Goals:
-    - Daily: ${goals.daily}
-    - Weekly: ${goals.weekly}
-    - Long term: ${goals.longTerm}
+    - Daily: ${goals.daily.join(', ')}
+    - Weekly: ${goals.weekly.join(', ')}
+    - Long term: ${goals.longTerm.join(', ')}
 
     Content to cover:
-    Topics: ${JSON.stringify(content.topics)}
-    Questions: ${JSON.stringify(content.questions)}
-    Flashcards: ${JSON.stringify(content.flashcards)}
+    Topics: ${content.topics.map((t: { topic_name: string }) => t.topic_name).join(', ')}
+    Questions: ${content.questions.length} practice questions
+    Flashcards: ${content.flashcards.length} review cards
 
-    Create a ${studyDays}-day study plan with separate schedules and assignments.
-    Assignments should be given every 2-3 days, not daily.
+    IMPORTANT INSTRUCTIONS:
+    1. Create a ${studyDays}-day study plan
+    2. Schedule activities between 8:00 AM - 8:00 PM
+    3. Include 15-30 minute breaks between study sessions
+    4. Vary study methods (reading, practice, review)
+    5. Align activities with learning style
+    6. Assignments every 2-3 days
     
-    Return ONLY a JSON object with this exact structure:
+    Respond ONLY with a JSON object matching this structure:
     {
       "schedule": [
         {
-          "date": "${dates[0].full}",
-          "display_date": "${dates[0].display}",
+          "date": "YYYY-MM-DD",
+          "display_date": "Day, Month Date",
           "activities": [
             {
-              "time": "9:00 AM - 10:30 AM",
-              "topic": "topic name",
-              "description": "what to study",
+              "time": "Start Time - End Time",
+              "topic": "Topic Name",
+              "description": "Detailed study description",
               "type": "study|practice|review"
             }
           ]
@@ -103,50 +108,82 @@ export async function POST(req: Request) {
       ],
       "assignments": [
         {
-          "date": "${dates[0].full}",
-          "display_date": "${dates[0].display}",
-          "title": "Assignment title",
-          "description": "Specific tasks to complete",
-          "duration": "1 hour"
+          "date": "YYYY-MM-DD",
+          "display_date": "Day, Month Date",
+          "title": "Assignment Title",
+          "description": "Specific tasks",
+          "duration": "Duration in hours"
         }
       ]
-    }
-    `;
+    }`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 seconds timeout
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 seconds timeout
 
-    const completion = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: "You are a study schedule creator that returns only valid JSON. Create engaging schedules with clear assignments spaced appropriately."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      model: "gpt-4-turbo-preview",
+    try {
+      const completion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "system", 
+            content: "You are an AI study schedule generator. Produce precise, JSON-formatted study schedules with clear, actionable activities."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        model: "gpt-4-turbo-preview",
         response_format: { type: "json_object" }
-      }, 
-      {
+      }, {
         signal: controller.signal
-    });
+      });
 
-    clearTimeout(timeoutId);
+      clearTimeout(timeoutId);
 
-    const responseText = completion.choices[0].message.content;
-    if (!responseText) {
-      throw new Error('Empty response from OpenAI');
+      const responseText = completion.choices[0].message.content;
+      
+      if (!responseText) {
+        throw new Error('Empty response from OpenAI');
+      }
+
+      try {
+        const parsedResponse = JSON.parse(responseText);
+        
+        // Validate response structure
+        if (!parsedResponse.schedule || !parsedResponse.assignments) {
+          throw new Error('Invalid schedule response structure');
+        }
+
+        return NextResponse.json(parsedResponse);
+      } catch (parseError) {
+        console.error('JSON Parsing Error:', parseError);
+        return NextResponse.json(
+          { 
+            error: 'Failed to parse schedule JSON',
+            rawResponse: responseText 
+          },
+          { status: 500 }
+        );
+      }
+
+    } catch (openaiError) {
+      console.error('OpenAI API Error:', openaiError);
+      return NextResponse.json(
+        { 
+          error: openaiError instanceof Error ? openaiError.message : 'OpenAI API request failed',
+          details: JSON.stringify(openaiError)
+        },
+        { status: 500 }
+      );
     }
-
-    return NextResponse.json(JSON.parse(responseText));
 
   } catch (error) {
     console.error('Schedule generation error:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to generate schedule' },
+      { 
+        error: error instanceof Error ? error.message : 'Failed to generate schedule',
+        type: 'general_error'
+      },
       { status: 500 }
     );
   }
