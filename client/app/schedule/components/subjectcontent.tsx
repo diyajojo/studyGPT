@@ -103,70 +103,264 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
   ];
 
   useEffect(() => {
-    const fetchNotifications = async () => {
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+   
+    // Function to fetch data from FastAPI and Supabase
+    const fetchData = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        const today = new Date();
-        const fiveDaysLater = new Date();
-        fiveDaysLater.setDate(today.getDate() + 5);
-
-        const [assignmentsResponse, schedulesResponse] = await Promise.all([
-          supabase
-            .from('assignments')
-            .select('*')
-            .eq('created_by', user.id)
-            .eq('subject_id', selectedSubject.id)
-            .gte('date', today.toISOString())
-            .lte('date', fiveDaysLater.toISOString()),
-          supabase
-            .from('schedules')
-            .select('*')
-            .eq('created_by', user.id)
-            .eq('subject_id', selectedSubject.id)
-            .gte('date', today.toISOString())
-            .lte('date', fiveDaysLater.toISOString())
-        ]);
-
-        if (assignmentsResponse.error || schedulesResponse.error) {
-          console.error('Error fetching notifications', assignmentsResponse.error || schedulesResponse.error);
+        // Get user session from Supabase
+        const { data: { session }, error: userError } = await supabase.auth.getSession();
+   
+        if (userError) {
+          console.error('Error fetching user session:', userError);
           return;
         }
-
-        const formattedNotifications: Notification[] = [
-          ...assignmentsResponse.data.map(assignment => ({
-            id: assignment.id,
-            title: assignment.title,
-            description: assignment.description,
-            date: assignment.date,
-            daysLeft: Math.ceil((new Date(assignment.date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
-            type: 'assignment' as 'assignment'
-          })),
-          ...schedulesResponse.data.map(schedule => ({
-            id: schedule.id,
-            title: schedule.title,
-            description: schedule.description,
-            date: schedule.date,
-            daysLeft: Math.ceil((new Date(schedule.date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
-            type: 'schedule' as 'schedule'
-          }))
-        ].sort((a, b) => a.daysLeft - b.daysLeft);
-
-        setNotifications(formattedNotifications);
+   
+        const accessToken = session?.access_token;
+        const refreshToken = session?.refresh_token;
+   
+        if (!accessToken || !refreshToken) {
+          console.error('Access or refresh token not available');
+          return;
+        }
+   
+        // Prepare request body
+        const requestBody = {
+          user_id: selectedSubject.id,
+          subject: selectedSubject.subject_name,
+          token: {
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          },
+        };
+   
+        console.log('Request Body:', requestBody);
+   
+        // Fetch from FastAPI
+        const response = await fetch('https://studygpt-z5rq.onrender.com/models/get-output-json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+          signal: controller.signal,
+        });
+   
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('FastAPI response error:', errorData);
+          throw new Error('Network response was not ok');
+        }
+   
+        const fastApiData = await response.json();
+        console.log('FastAPI data:', fastApiData);
+   
+        // Fetch topics
+        const { data: topicsData, error: topicsError } = await supabase
+          .from('topics')
+          .select('*')
+          .eq('subject_id', selectedSubject.id)
+          .abortSignal(controller.signal);
+   
+        // Fetch questions
+        const { data: questionsData, error: questionsError } = await supabase
+          .from('questions')
+          .select('*')
+          .eq('subject_id', selectedSubject.id)
+          .abortSignal(controller.signal);
+   
+        // Fetch flashcards
+        const { data: flashcardsData, error: flashcardsError } = await supabase
+          .from('flashcards')
+          .select('*')
+          .eq('subject_id', selectedSubject.id)
+          .abortSignal(controller.signal);
+   
+        // Add assignments fetching
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data: assignmentsData, error: assignmentsError } = await supabase
+            .from('assignments')
+            .select('*')
+            .eq('subject_id', selectedSubject.id)
+            .eq('created_by', user.id)
+            .order('date', { ascending: true })
+            .abortSignal(controller.signal);
+   
+          if (!controller.signal.aborted) {
+            if (assignmentsError) {
+              console.error('Error fetching assignments:', assignmentsError);
+            } else {
+              setAssignments(assignmentsData || []);
+            }
+          }
+        }
+   
+        // Notifications fetching
+        if (user) {
+          const today = new Date();
+          const fiveDaysLater = new Date();
+          fiveDaysLater.setDate(today.getDate() + 5);
+   
+          const [assignmentsResponse, schedulesResponse] = await Promise.all([
+            supabase
+              .from('assignments')
+              .select('*')
+              .eq('created_by', user.id)
+              .eq('subject_id', selectedSubject.id)
+              .gte('date', today.toISOString())
+              .lte('date', fiveDaysLater.toISOString()),
+            supabase
+              .from('schedules')
+              .select('*')
+              .eq('created_by', user.id)
+              .eq('subject_id', selectedSubject.id)
+              .gte('date', today.toISOString())
+              .lte('date', fiveDaysLater.toISOString())
+          ]);
+   
+          if (assignmentsResponse.error || schedulesResponse.error) {
+            console.error('Error fetching notifications', assignmentsResponse.error || schedulesResponse.error);
+          } else {
+            const formattedNotifications: Notification[] = [
+              ...assignmentsResponse.data.map(assignment => ({
+                id: assignment.id,
+                title: assignment.title,
+                description: assignment.description,
+                date: assignment.date,
+                daysLeft: Math.ceil((new Date(assignment.date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
+                type: 'assignment' as 'assignment'
+              })),
+              ...schedulesResponse.data.map(schedule => ({
+                id: schedule.id,
+                title: schedule.title,
+                description: schedule.description,
+                date: schedule.date,
+                daysLeft: Math.ceil((new Date(schedule.date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
+                type: 'schedule' as 'schedule'
+              }))
+            ].sort((a, b) => a.daysLeft - b.daysLeft);
+   
+            setNotifications(formattedNotifications);
+          }
+        }
+   
+        // Open notifications modal if flag is set
+        if (selectedSubject.openNotifications) {
+          setIsNotificationsModalOpen(true);
+        }
+   
+        if (!controller.signal.aborted) {
+          if (topicsError) {
+            console.error('Error fetching topics:', topicsError);
+          } else {
+            setTopics(topicsData || []);
+          }
+   
+          if (questionsError) {
+            console.error('Error fetching questions:', questionsError);
+          } else {
+            setQuestions(questionsData || []);
+          }
+   
+          if (flashcardsError) {
+            console.error('Error fetching flashcards:', flashcardsError);
+          } else {
+            setFlashcards(flashcardsData || []);
+          }
+        }
+   
+        // Calendar events fetching
+        const fetchCalendarEvents = async () => {
+          try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+   
+            // Fetch schedules and assignments
+            const [scheduleResponse, assignmentResponse] = await Promise.all([
+              supabase
+                .from('schedules')
+                .select('*')
+                .eq('subject_id', selectedSubject.id)
+                .eq('created_by', user.id)
+                .abortSignal(controller.signal),
+              supabase
+                .from('assignments')
+                .select('*')
+                .eq('subject_id', selectedSubject.id)
+                .eq('created_by', user.id)
+                .abortSignal(controller.signal)
+            ]);
+   
+            if (scheduleResponse.error || assignmentResponse.error) {
+              console.error(
+                'Calendar event fetch errors:', 
+                scheduleResponse.error, 
+                assignmentResponse.error
+              );
+              return;
+            }
+   
+            const eventsByDate: { [key: string]: any[] } = {};
+   
+            // Convert UTC to IST when creating date key
+            const createDateKey = (dateString: string) => {
+              const utcDate = new Date(dateString);
+              // Add IST offset (5 hours and 30 minutes)
+              const istDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
+              return istDate.toISOString().split('T')[0];
+            };
+   
+            // Process schedule events
+            scheduleResponse.data?.forEach(schedule => {
+              if (schedule.date) {
+                const dateKey = createDateKey(schedule.date);
+                eventsByDate[dateKey] = [
+                  ...(eventsByDate[dateKey] || []), 
+                  { type: 'schedule', ...schedule }
+                ];
+              }
+            });
+   
+            // Process assignment events
+            assignmentResponse.data?.forEach(assignment => {
+              if (assignment.date) {
+                const dateKey = createDateKey(assignment.date);
+                eventsByDate[dateKey] = [
+                  ...(eventsByDate[dateKey] || []), 
+                  { type: 'assignment', ...assignment }
+                ];
+              }
+            });
+   
+            // Debugging: Log the exact events and their dates
+            console.log('Calendar Events:', eventsByDate);
+   
+            setCalendarEvents(eventsByDate);
+          } catch (error) {
+            console.error('Comprehensive calendar events fetch error:', error);
+          }
+        };
+   
+        // Call fetchCalendarEvents after other data fetching
+        await fetchCalendarEvents();
+   
       } catch (error) {
-        console.error('Unexpected error fetching notifications', error);
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Unexpected error fetching data:', error);
+        }
       }
     };
-
-    fetchNotifications();
-  }, [selectedSubject.id]);
-
-  useEffect(() => {
-    if (selectedSubject.openNotifications) {
-      setIsNotificationsModalOpen(true);
-    }
-  }, [selectedSubject])
+    
+    fetchData();
+    
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+   }, [selectedSubject.id, selectedSubject.openNotifications]);
      
 
 
