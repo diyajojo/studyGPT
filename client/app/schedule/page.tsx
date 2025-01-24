@@ -7,6 +7,7 @@ import EmptyState from './components/emptystate';
 import SubjectContent from './components/subjectcontent';
 import Loader from '../components/loader';
 
+
 interface Profile {
   full_name: string;
   college_name: string;
@@ -25,6 +26,8 @@ const Schedule = () => {
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNotificationsModalOpen, setIsNotificationsModalOpen] = useState(false);
+const [notifications, setNotifications] = useState<Notification[]>([])
 
   const router = useRouter();
 
@@ -198,14 +201,23 @@ const Schedule = () => {
             )}
           </div>
 
-          <button className="w-full flex items-center gap-3 px-4 py-2 text-left rounded-lg text-gray-700 hover:bg-gray-50">
-            <Bell className="h-5 w-5" />
-            <span>Notifications</span>
-          </button>
-         {/* <button className="w-full flex items-center gap-3 px-4 py-2 text-left rounded-lg text-gray-700 hover:bg-gray-50">
-            <Calendar className="h-5 w-5" />
-            <span>Schedule</span>
-          </button> */}
+          <button 
+  onClick={() => {
+    // This will pass the state up to SubjectContent
+    setSelectedSubject(prevSubject => prevSubject ? 
+      { ...prevSubject, openNotifications: true } : null);
+  }}
+  className="w-full flex items-center gap-3 px-4 py-2 text-left rounded-lg text-gray-700 hover:bg-gray-50"
+>
+  <Bell className="h-5 w-5" />
+  <span>Notifications</span>
+  {notifications.length > 0 && (
+    <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-1">
+      {notifications.length}
+    </span>
+  )}
+</button>
+         
         </nav>
       
         <div className="mb-5 p-6">

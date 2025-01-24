@@ -6,6 +6,7 @@ import QuestionAnswerModal from './quesmodal';
 import FlashcardModal from './flashcardmodal';
 import ScheduleModal from './schedulemodal';
 import AssignmentCard from './assignmentcard';
+import NotificationsModal from './notificationsmodal';
 
 interface Flashcard {
   id: string;
@@ -29,6 +30,7 @@ interface Question {
   subject_id: string;
   module_no: number | string;
 }
+
 interface Schedule {
   id: string;
   title: string;
@@ -56,11 +58,20 @@ interface Assignment {
   date: string;
 }
 
-interface SubjectContentProps
- {
+interface Notification {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  daysLeft: number;
+  type: 'assignment' | 'schedule';
+}
+
+interface SubjectContentProps {
   selectedSubject: {
     id: string;
     subject_name: string;
+    openNotifications?: boolean;
   };
 }
 
@@ -68,7 +79,7 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
-   const [isFlashcardsModalOpen, setIsFlashcardsModalOpen] = useState(false);
+  const [isFlashcardsModalOpen, setIsFlashcardsModalOpen] = useState(false);
   const [isTopicsModalOpen, setIsTopicsModalOpen] = useState(false);
   const [isQuestionsModalOpen, setIsQuestionsModalOpen] = useState(false);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
@@ -82,221 +93,80 @@ const SubjectContent: React.FC<SubjectContentProps> = ({ selectedSubject }) => {
   const [selectedDateEvents, setSelectedDateEvents] = useState<any[]>([]);
   const [isDateEventsModalOpen, setIsDateEventsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isNotificationsModalOpen, setIsNotificationsModalOpen] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
-
 
   const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
 
-useEffect(() => {
-  const controller = new AbortController();
-  abortControllerRef.current = controller;
+        const today = new Date();
+        const fiveDaysLater = new Date();
+        fiveDaysLater.setDate(today.getDate() + 5);
 
-  // Function to fetch data from FastAPI and Supabase
-  const fetchData = async () => {
-    try {
-      // Get user session from Supabase
-      const { data: { session }, error: userError } = await supabase.auth.getSession();
+        const [assignmentsResponse, schedulesResponse] = await Promise.all([
+          supabase
+            .from('assignments')
+            .select('*')
+            .eq('created_by', user.id)
+            .eq('subject_id', selectedSubject.id)
+            .gte('date', today.toISOString())
+            .lte('date', fiveDaysLater.toISOString()),
+          supabase
+            .from('schedules')
+            .select('*')
+            .eq('created_by', user.id)
+            .eq('subject_id', selectedSubject.id)
+            .gte('date', today.toISOString())
+            .lte('date', fiveDaysLater.toISOString())
+        ]);
 
-      if (userError) {
-        console.error('Error fetching user session:', userError);
-        return;
-      }
-
-      const accessToken = session?.access_token;
-      const refreshToken = session?.refresh_token;
-
-      if (!accessToken || !refreshToken) {
-        console.error('Access or refresh token not available');
-        return;
-      }
-
-      // Prepare request body
-      const requestBody = {
-        user_id: selectedSubject.id,
-        subject: selectedSubject.subject_name,
-        token: {
-          access_token: accessToken,
-          refresh_token: refreshToken,
-        },
-      };
-
-      console.log('Request Body:', requestBody);
-
-      // Fetch from FastAPI
-      const response = await fetch('https://studygpt-z5rq.onrender.com/models/get-output-json', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-        signal: controller.signal,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('FastAPI response error:', errorData);
-        throw new Error('Network response was not ok');
-      }
-
-      const fastApiData = await response.json();
-      console.log('FastAPI data:', fastApiData);
-
-      // Fetch topics
-      const { data: topicsData, error: topicsError } = await supabase
-        .from('topics')
-        .select('*')
-        .eq('subject_id', selectedSubject.id)
-        .abortSignal(controller.signal);
-
-      // Fetch questions
-      const { data: questionsData, error: questionsError } = await supabase
-        .from('questions')
-        .select('*')
-        .eq('subject_id', selectedSubject.id)
-        .abortSignal(controller.signal);
-
-      // Fetch flashcards
-      const { data: flashcardsData, error: flashcardsError } = await supabase
-        .from('flashcards')
-        .select('*')
-        .eq('subject_id', selectedSubject.id)
-        .abortSignal(controller.signal);
-
-      // Add assignments fetching
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: assignmentsData, error: assignmentsError } = await supabase
-          .from('assignments')
-          .select('*')
-          .eq('subject_id', selectedSubject.id)
-          .eq('created_by', user.id)
-          .order('date', { ascending: true })
-          .abortSignal(controller.signal);
-
-        if (!controller.signal.aborted) {
-          if (assignmentsError) {
-            console.error('Error fetching assignments:', assignmentsError);
-          } else {
-            setAssignments(assignmentsData || []);
-          }
-        }
-      }
-
-      if (!controller.signal.aborted) {
-        if (topicsError) {
-          console.error('Error fetching topics:', topicsError);
-        } else {
-          setTopics(topicsData || []);
+        if (assignmentsResponse.error || schedulesResponse.error) {
+          console.error('Error fetching notifications', assignmentsResponse.error || schedulesResponse.error);
+          return;
         }
 
-        if (questionsError) {
-          console.error('Error fetching questions:', questionsError);
-        } else {
-          setQuestions(questionsData || []);
-        }
+        const formattedNotifications: Notification[] = [
+          ...assignmentsResponse.data.map(assignment => ({
+            id: assignment.id,
+            title: assignment.title,
+            description: assignment.description,
+            date: assignment.date,
+            daysLeft: Math.ceil((new Date(assignment.date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
+            type: 'assignment' as 'assignment'
+          })),
+          ...schedulesResponse.data.map(schedule => ({
+            id: schedule.id,
+            title: schedule.title,
+            description: schedule.description,
+            date: schedule.date,
+            daysLeft: Math.ceil((new Date(schedule.date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
+            type: 'schedule' as 'schedule'
+          }))
+        ].sort((a, b) => a.daysLeft - b.daysLeft);
 
-        if (flashcardsError) {
-          console.error('Error fetching flashcards:', flashcardsError);
-        } else {
-          setFlashcards(flashcardsData || []);
-        }
-      }
-
-
-const fetchCalendarEvents = async () => {
-  try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    // Fetch schedules and assignments
-    const [scheduleResponse, assignmentResponse] = await Promise.all([
-      supabase
-        .from('schedules')
-        .select('*')
-        .eq('subject_id', selectedSubject.id)
-        .eq('created_by', user.id)
-        .abortSignal(controller.signal),
-      supabase
-        .from('assignments')
-        .select('*')
-        .eq('subject_id', selectedSubject.id)
-        .eq('created_by', user.id)
-        .abortSignal(controller.signal)
-    ]);
-
-    if (scheduleResponse.error || assignmentResponse.error) {
-      console.error(
-        'Calendar event fetch errors:', 
-        scheduleResponse.error, 
-        assignmentResponse.error
-      );
-      return;
-    }
-
-    const eventsByDate: { [key: string]: any[] } = {};
-
-    // Convert UTC to IST when creating date key
-    const createDateKey = (dateString: string) => {
-      const utcDate = new Date(dateString);
-      // Add IST offset (5 hours and 30 minutes)
-      const istDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
-      return istDate.toISOString().split('T')[0];
-    };
-
-    // Process schedule events
-    scheduleResponse.data?.forEach(schedule => {
-      if (schedule.date) {
-        const dateKey = createDateKey(schedule.date);
-        eventsByDate[dateKey] = [
-          ...(eventsByDate[dateKey] || []), 
-          { type: 'schedule', ...schedule }
-        ];
-      }
-    });
-
-    // Process assignment events
-    assignmentResponse.data?.forEach(assignment => {
-      if (assignment.date) {
-        const dateKey = createDateKey(assignment.date);
-        eventsByDate[dateKey] = [
-          ...(eventsByDate[dateKey] || []), 
-          { type: 'assignment', ...assignment }
-        ];
-      }
-    });
-
-    // Debugging: Log the exact events and their dates
-    console.log('Calendar Events:', eventsByDate);
-
-    setCalendarEvents(eventsByDate);
-  } catch (error) {
-    console.error('Comprehensive calendar events fetch error:', error);
-  }
-};
-
-
-       // Call fetchCalendarEvents after other data fetching
-       await fetchCalendarEvents();
-
+        setNotifications(formattedNotifications);
       } catch (error) {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          console.error('Unexpected error fetching data:', error);
-        }
+        console.error('Unexpected error fetching notifications', error);
       }
     };
-  
-    fetchData();
-  
-    return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-    };
+
+    fetchNotifications();
   }, [selectedSubject.id]);
+
+  useEffect(() => {
+    if (selectedSubject.openNotifications) {
+      setIsNotificationsModalOpen(true);
+    }
+  }, [selectedSubject])
      
 
 
@@ -559,6 +429,12 @@ const fetchCalendarEvents = async () => {
           </div>
         </div>
       </div>
+
+      <NotificationsModal 
+        isOpen={isNotificationsModalOpen}
+        onClose={() => setIsNotificationsModalOpen(false)}
+        notifications={notifications}
+      />
 
       <ModuleTopicsModal
         isOpen={isTopicsModalOpen}
