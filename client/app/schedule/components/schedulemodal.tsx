@@ -262,7 +262,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
       }
 
       const data = await response.json();
-      console.log('Generated schedule:',data);
+      console.log('Generated schedule:', data);
       setScheduleData(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate schedule');

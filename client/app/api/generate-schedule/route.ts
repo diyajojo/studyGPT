@@ -113,6 +113,9 @@ export async function POST(req: Request) {
     }
     `;
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 seconds timeout
+
     const completion = await openai.chat.completions.create({
       messages: [
         {
@@ -125,8 +128,13 @@ export async function POST(req: Request) {
         }
       ],
       model: "gpt-4-turbo-preview",
-      response_format: { type: "json_object" }
+        response_format: { type: "json_object" }
+      }, 
+      {
+        signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     const responseText = completion.choices[0].message.content;
     if (!responseText) {
