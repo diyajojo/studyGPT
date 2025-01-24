@@ -1,5 +1,5 @@
-import React, { useState ,useEffect} from 'react';
-import { Loader2, Calendar, CheckCircle, X ,Eye} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Loader2, Calendar, CheckCircle, X, Eye } from 'lucide-react';
 import { Alert, AlertDescription } from '../../components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Button } from '../../components/ui/button';
@@ -73,6 +73,28 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
   const [hasExistingSchedule, setHasExistingSchedule] = useState(false);
   const [existingScheduleData, setExistingScheduleData] = useState<ScheduleResponse | null>(null);
 
+  // Time Zone Conversion Utility Functions
+  const convertISTtoUTC = (istDateString: string): string => {
+    const istDate = new Date(istDateString);
+    const utcDate = new Date(istDate.getTime() - (5 * 60 + 30) * 60 * 1000);
+    return utcDate.toISOString();
+  };
+
+  const convertUTCtoIST = (utcDateString: string): Date => {
+    const utcDate = new Date(utcDateString);
+    return new Date(utcDate.getTime() + (5 * 60 + 30) * 60 * 1000);
+  };
+
+  // Existing methods remain the same
+  const formatTime = (timeString: string) => {
+    const date = new Date(`2000-01-01T${timeString}`);
+    return date.toLocaleTimeString('en-US', { 
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true 
+    });
+  };
+
   // Check for existing schedule on component mount
   useEffect(() => {
     if (isOpen) {
@@ -80,34 +102,29 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
     }
   }, [isOpen, subjectId]);
 
-  // Function to check if schedule exists in database
+  // Modify existing methods to use time zone conversion
   const checkExistingSchedule = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Fetch existing schedule
       const { data: scheduleData, error: scheduleError } = await supabase
         .from('schedules')
         .select('*')
         .eq('subject_id', subjectId)
         .eq('created_by', user.id);
 
-      if (scheduleError) throw scheduleError;
-
-      // Fetch existing assignments
       const { data: assignmentData, error: assignmentError } = await supabase
         .from('assignments')
         .select('*')
         .eq('subject_id', subjectId)
         .eq('created_by', user.id);
 
-      if (assignmentError) throw assignmentError;
+      if (scheduleError || assignmentError) throw scheduleError || assignmentError;
 
       if (scheduleData?.length > 0 || assignmentData?.length > 0) {
         setHasExistingSchedule(true);
         
-        // Transform the data into ScheduleResponse format
         const formattedSchedule = formatDatabaseDataToScheduleResponse(scheduleData, assignmentData);
         setExistingScheduleData(formattedSchedule);
       }
@@ -117,15 +134,15 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
     }
   };
 
-  // Helper function to format database data into ScheduleResponse format
   const formatDatabaseDataToScheduleResponse = (scheduleData: any[], assignmentData: any[]): ScheduleResponse => {
-    // Group schedule activities by date
     const scheduleByDate = scheduleData.reduce((acc: any, activity: any) => {
-      const date = activity.date;
-      if (!acc[date]) {
-        acc[date] = {
-          date: date,
-          display_date: new Date(date).toLocaleDateString('en-US', { 
+      const istDate = convertUTCtoIST(activity.date);
+      const dateKey = istDate.toISOString().split('T')[0];
+
+      if (!acc[dateKey]) {
+        acc[dateKey] = {
+          date: dateKey,
+          display_date: istDate.toLocaleDateString('en-US', { 
             weekday: 'long', 
             year: 'numeric', 
             month: 'long', 
@@ -135,7 +152,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
         };
       }
       
-      acc[date].activities.push({
+      acc[dateKey].activities.push({
         time: `${formatTime(activity.start_time)} - ${formatTime(activity.end_time)}`,
         topic: activity.title,
         description: activity.description,
@@ -145,10 +162,9 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
       return acc;
     }, {});
 
-    // Format assignments
     const formattedAssignments = assignmentData.map(assignment => ({
-      date: assignment.date,
-      display_date: new Date(assignment.date).toLocaleDateString('en-US', {
+      date: convertUTCtoIST(assignment.date).toISOString().split('T')[0],
+      display_date: convertUTCtoIST(assignment.date).toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
@@ -165,64 +181,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
     };
   };
 
-  // Helper function to format time
-  const formatTime = (timeString: string) => {
-    const date = new Date(`2000-01-01T${timeString}`);
-    return date.toLocaleTimeString('en-US', { 
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true 
-    });
-  };
-
-  // Render schedule content
-  const renderScheduleContent = (data: ScheduleResponse) => (
-    <div className="space-y-4">
-      {data.schedule.map((day, index) => (
-        <div key={index} className="bg-gray-50 rounded-lg p-4">
-          <h3 className="font-semibold text-lg text-gray-800 mb-2">
-            {day.display_date}
-          </h3>
-          <div className="space-y-2">
-            {day.activities.map((activity, actIndex) => (
-              <div key={actIndex} className="flex items-center p-3 bg-white rounded-lg shadow-sm">
-                <div className="flex-1">
-                  <p className="font-medium text-gray-700">{activity.time}</p>
-                  <p className="text-gray-600">{activity.topic}</p>
-                  <p className="text-sm text-gray-500">{activity.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
-  // Render assignments content
-  const renderAssignmentsContent = (data: ScheduleResponse) => (
-    <div className="space-y-4">
-      {data.assignments.map((assignment, index) => (
-        <div key={index} className="bg-gray-50 rounded-lg p-4">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="font-semibold text-lg text-gray-800">
-              {assignment.display_date}
-            </h3>
-            <span className="text-sm font-medium text-gray-600">
-              {assignment.duration}
-            </span>
-          </div>
-          <div className="bg-white rounded-lg p-3 shadow-sm">
-            <h4 className="font-medium text-gray-700">{assignment.title}</h4>
-            <p className="text-gray-600 mt-1">{assignment.description}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
-
-  // Fetch user preferences from Supabase
+  // Fetch user preferences and goals (methods remain the same)
   const fetchUserPreferences = async (): Promise<UserPreferences | null> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
@@ -241,7 +200,6 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
     return data;
   };
 
-  // Fetch user goals from Supabase
   const fetchUserGoals = async (): Promise<UserGoals | null> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
@@ -260,7 +218,6 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
     return data;
   };
 
-  // Generate study schedule based on user preferences and goals
   const generateSchedule = async () => {
     setLoading(true);
     setError(null);
@@ -307,13 +264,9 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
       const data = await response.json();
       console.log('Generated schedule:',data);
       setScheduleData(data);
-    } 
-    catch (err)
-     {
+    } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate schedule');
-    } 
-    finally 
-    {
+    } finally {
       setLoading(false);
     }
   };
@@ -325,29 +278,22 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('No authenticated user');
   
-      // Helper function to parse time string and convert to 24-hour format
       const parseTimeRange = (timeString: string) => {
-        // Split the time range into start and end times
         const [startStr, endStr] = timeString.split(' - ');
         
-        // Convert 12-hour format to 24-hour format
         const convertTo24Hour = (timeStr: string) => {
           const [time, modifier] = timeStr.split(' ');
           let [hours, minutes] = time.split(':');
           
-          // Convert hours to number for manipulation
           let hour = parseInt(hours, 10);
           
-          // Handle PM conversion
           if (modifier === 'PM' && hour < 12) {
             hour += 12;
           }
-          // Handle midnight (12 AM)
           if (modifier === 'AM' && hour === 12) {
             hour = 0;
           }
           
-          // Format back to string with leading zeros
           const formattedHour = hour.toString().padStart(2, '0');
           return `${formattedHour}:${minutes}:00`;
         };
@@ -358,13 +304,12 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
         };
       };
   
-      // Insert schedule activities with properly formatted times
       const scheduleActivities = scheduleData.schedule.flatMap(day => 
         day.activities.map(activity => {
           const { start_time, end_time } = parseTimeRange(activity.time);
           return {
             subject_id: subjectId,
-            date: day.date,
+            date: convertISTtoUTC(day.date),
             start_time,
             end_time,
             title: activity.topic,
@@ -373,6 +318,16 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
           };
         })
       );
+  
+      const assignmentsToInsert = scheduleData.assignments.map(assignment => ({
+        subject_id: subjectId,
+        date: convertISTtoUTC(assignment.date),
+        title: assignment.title,
+        description: assignment.description,
+        duration: assignment.duration,
+        status: 'pending',
+        created_by: user.id
+      }));
   
       if (scheduleActivities.length > 0) {
         const { error: scheduleError } = await supabase
@@ -384,17 +339,6 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
           throw new Error('Failed to create schedule activities');
         }
       }
-  
-      // Insert assignments (this part remains unchanged)
-      const assignmentsToInsert = scheduleData.assignments.map(assignment => ({
-        subject_id: subjectId,
-        date: assignment.date,
-        title: assignment.title,
-        description: assignment.description,
-        duration: assignment.duration,
-        status: 'pending',
-        created_by: user.id
-      }));
   
       if (assignmentsToInsert.length > 0) {
         const { error: assignmentError } = await supabase
@@ -416,23 +360,52 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
     }
   };
   
-  const handleReschedule = async () => {
-    // Reset states before generating new schedule
-    setScheduleData(null);
-    setError(null);
-    setSaved(false);
-    
-    // Call the generate schedule function
-    await generateSchedule();
-  };
-  
-  // Handle modal close with cleanup
-  const handleClose = () => {
-    setScheduleData(null);
-    setError(null);
-    setSaved(false);
-    onClose();
-  };
+  // Render methods remain the same as in the original implementation
+  const renderScheduleContent = (data: ScheduleResponse) => (
+    <div className="space-y-4">
+      {data.schedule.map((day, index) => (
+        <div key={index} className="bg-gray-50 rounded-lg p-4">
+          <h3 className="font-noto font-semibold text-lg text-gray-800 mb-2">
+            {day.display_date}
+          </h3>
+          <div className="space-y-2">
+            {day.activities.map((activity, actIndex) => (
+              <div key={actIndex} className="flex items-center p-3 bg-white rounded-lg shadow-sm">
+                <div className="flex-1">
+                  <p className="font-noto font-medium text-gray-700">{activity.time}</p>
+                  <p className="font-noto text-gray-600">{activity.topic}</p>
+                  <p className="font-noto text-sm text-gray-500">{activity.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const renderAssignmentsContent = (data: ScheduleResponse) => (
+    <div className="space-y-4">
+      {data.assignments.map((assignment, index) => (
+        <div key={index} className="bg-gray-50 rounded-lg p-4">
+          <div className="font-noto flex justify-between items-start mb-2">
+            <h3 className="font-noto font-semibold text-lg text-gray-800">
+              {assignment.display_date}
+            </h3>
+            <span className="font-noto text-sm font-medium text-gray-600">
+              {assignment.duration}
+            </span>
+          </div>
+          <div className="bg-white rounded-lg p-3 shadow-sm">
+            <h4 className="font-noto font-medium text-gray-700">{assignment.title}</h4>
+            <p className="fonto-noto text-gray-600 mt-1">{assignment.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+ 
 
   if (!isOpen) return null;
 
@@ -537,10 +510,10 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
                 <>
                   <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabsList className="grid grid-cols-2 w-full max-w-md mx-auto mb-6">
-                      <TabsTrigger value="schedule" className="text-lg py-3">
+                      <TabsTrigger value="schedule" className="font-noto text-lg py-3">
                         Schedule
                       </TabsTrigger>
-                      <TabsTrigger value="assignments" className="text-lg py-3">
+                      <TabsTrigger value="assignments" className="font-noto text-lg py-3">
                         Assignments
                       </TabsTrigger>
                     </TabsList>
