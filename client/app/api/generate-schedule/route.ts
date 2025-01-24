@@ -57,6 +57,12 @@ export async function POST(req: Request) {
       throw new Error('Missing required data');
     }
 
+    const safeGoals = {
+      daily: Array.isArray(goals.daily) ? goals.daily : [],
+      weekly: Array.isArray(goals.weekly) ? goals.weekly : [],
+      longTerm: Array.isArray(goals.longTerm) ? goals.longTerm : []
+    };
+
     const studyDays = calculateStudyDays(content);
     const dates = generateDates(studyDays);
 

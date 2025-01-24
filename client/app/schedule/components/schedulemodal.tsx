@@ -221,15 +221,21 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
   const generateSchedule = async () => {
     setLoading(true);
     setError(null);
-
+  
     try {
       const preferences = await fetchUserPreferences();
       const goals = await fetchUserGoals();
-
+  
       if (!preferences || !goals) {
         throw new Error('Please set up your preferences and goals first');
       }
-
+  
+      // Ensure goals are arrays, even if they might be strings or undefined
+      const ensureArray = (input: string | string[] | undefined): string[] => {
+        if (!input) return [];
+        return Array.isArray(input) ? input : [input];
+      };
+  
       const requestData = {
         preferences: {
           study_time: preferences.study_time,
@@ -238,9 +244,9 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
           learning_style: preferences.learning_style
         },
         goals: {
-          daily: goals.daily_goals || [],
-          weekly: goals.weekly_goals || [],
-          longTerm: goals.long_term_goals || []
+          daily: ensureArray(goals.daily_goals),
+          weekly: ensureArray(goals.weekly_goals),
+          longTerm: ensureArray(goals.long_term_goals)
         },
         content: {
           subject: subjectName,
@@ -249,7 +255,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
           flashcards: flashcards || []
         }
       };
-
+  
       const response = await fetch('/api/generate-schedule', {
         method: 'POST',
         headers: { 
@@ -258,20 +264,20 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({
         },
         body: JSON.stringify(requestData)
       });
-
+  
       const data = await response.json();
-
+  
       // More robust error checking
       if (!response.ok) {
         console.error('Schedule generation error:', data);
         throw new Error(data.error || 'Failed to generate schedule');
       }
-
+  
       // Additional validation
       if (!data.schedule || !data.assignments) {
         throw new Error('Invalid schedule response');
       }
-
+  
       console.log('Generated schedule:', data);
       setScheduleData(data);
     } catch (err) {
